@@ -6,7 +6,7 @@
 #    By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/28 15:46:22 by huidris           #+#    #+#              #
-#    Updated: 2025/04/18 18:42:02 by huidris          ###   ########.fr        #
+#    Updated: 2025/04/20 05:30:59 by huidris          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRC	= $(wildcard $(SRC_DIR)/*.c)
 LIBFT	= ../libft
 LIBFT_A	= ../libft/libft.a
 
-OBJ_DIR	= obj
+OBJ_DIR	= ../obj
 OBJS	= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
 LINKS	= -lft -L $(LIBFT)
