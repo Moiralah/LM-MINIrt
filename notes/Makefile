@@ -6,7 +6,7 @@
 #    By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/28 15:46:22 by huidris           #+#    #+#              #
-#    Updated: 2025/04/20 05:30:59 by huidris          ###   ########.fr        #
+#    Updated: 2025/04/21 02:46:53 by huidris          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ OBJS	= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 LINKS	= -lft -L $(LIBFT)
 
 $(NAME): $(OBJS) $(LIBFT_A)
-	$(CC) $(FLAGS) $(OBJS) $(LINKS) -o $@
+	$(CC) $(FLAGS) $(OBJS) $(LINKS) -o $@ -lm
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(OBJ_DIR)
