@@ -9,7 +9,7 @@ typedef struct	s_img
 {
 	void	*img;
 	char	*addr;
-	int	bpi;
+	int	bpp;
 	int	len;
 	int	endian;
 }	t_img;
@@ -38,6 +38,10 @@ double	*add(double *vector1, double *vector2, int size);
 double	magnitude(double *vector, int size);
 
 int		dot(double *vector1, double *vector2, int size);
+
+int		rgbToHex(double red, double green, double blue);
+
+void		renderPixel(t_img *img, int x, int y, int color);
 
 void		printVector(double *vector, int size);
 
