@@ -5,6 +5,15 @@
 # include "../minilibx-linux/mlx.h"
 # include "../libft/libft.h"
 
+typedef struct	s_img
+{
+	void	*img;
+	char	*addr;
+	int	bpi;
+	int	len;
+	int	endian;
+}	t_img;
+
 typedef struct	s_tuple
 {
 	float	w;
@@ -13,5 +22,23 @@ typedef struct	s_tuple
 	float	z;
 	struct s_tuple	*next;
 }	t_tuple;
+
+double	*cross(double *vector1, double *vector2, int size);
+
+double	*schur(double *vector1, double *vector2, int size);
+
+double	*norm(double *vector, int size);
+
+double	*mult(double *vector, double value, int size);
+
+double	*sub(double *vector1, double *vector2, int size);
+
+double	*add(double *vector1, double *vector2, int size);
+
+double	magnitude(double *vector, int size);
+
+int		dot(double *vector1, double *vector2, int size);
+
+void		printVector(double *vector, int size);
 
 #endif

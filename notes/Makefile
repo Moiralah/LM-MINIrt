@@ -21,13 +21,16 @@ SRC	= $(wildcard $(SRC_DIR)/*.c)
 LIBFT	= ../libft
 LIBFT_A	= ../libft/libft.a
 
+MLX	= ../minilibx-linux
+MLX_A	= ../minilibx-linux/libmlx.a
+
 OBJ_DIR	= ../obj
 OBJS	= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
-LINKS	= -lft -L $(LIBFT)
+LINKS	= -lft -L $(LIBFT) -lft -L $(MLX) -lm
 
-$(NAME): $(OBJS) $(LIBFT_A)
-	$(CC) $(FLAGS) $(OBJS) $(LINKS) -o $@ -lm
+$(NAME): $(OBJS) $(LIBFT_A) $(MLX_A)
+	$(CC) $(FLAGS) $(OBJS) $(LINKS) -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(OBJ_DIR)
@@ -36,12 +39,16 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 $(LIBFT_A):
 	make -C $(LIBFT)
 
+$(MLX_A):
+	make -C $(MLX)
+
 all: $(NAME)
 
 clean:
 	rm -f $(OBJ)
 	rm -rf $(OBJ_DIR)
 	make -C $(LIBFT) clean
+	make -C $(MLX) clean
 
 fclean: clean
 	rm -rf $(NAME)
