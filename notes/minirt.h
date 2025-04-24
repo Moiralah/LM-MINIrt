@@ -16,12 +16,12 @@ typedef struct	s_img
 
 typedef struct	s_tuple
 {
-	float	w;
-	float	x;
-	float	y;
-	float	z;
+	double		*val;
+	int		size;
 	struct s_tuple	*next;
 }	t_tuple;
+
+t_tuple	*tuple(int size, ...);
 
 double	*cross(double *vector1, double *vector2, int size);
 
@@ -37,7 +37,7 @@ double	*add(double *vector1, double *vector2, int size);
 
 double	magnitude(double *vector, int size);
 
-int		dot(double *vector1, double *vector2, int size);
+double	dot(double *vector1, double *vector2, int size);
 
 int		rgbToHex(double red, double green, double blue);
 

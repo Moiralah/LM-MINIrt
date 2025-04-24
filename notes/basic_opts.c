@@ -45,5 +45,4 @@ void	printVector(double *vector, int size)
 	while (++i < (size - 1))
 		printf("%f ", vector[i]);
 	printf("%f]\n", vector[i]);
-	free(vector);
 }

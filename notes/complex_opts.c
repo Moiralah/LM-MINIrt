@@ -49,9 +49,9 @@ double	magnitude(double *vector, int size)
 	return (sqrt(mag));
 }
 
-int	dot(double *vector1, double *vector2, int size)
+double	dot(double *vector1, double *vector2, int size)
 {
-	int	product;
+	double	product;
 	int	i;
 
 	product = 0;
