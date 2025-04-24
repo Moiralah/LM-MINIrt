@@ -24,7 +24,7 @@ LIBFT_A	= ../libft/libft.a
 MLX	= ../minilibx-linux
 MLX_A	= ../minilibx-linux/libmlx.a
 
-OBJ_DIR	= ../obj
+OBJ_DIR	= obj
 OBJS	= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
 LINKS	= -L $(LIBFT) -lft -L $(MLX) -lmlx -lXext -lX11 -lm
