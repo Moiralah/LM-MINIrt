@@ -1,33 +1,12 @@
 #include <stdio.h>
 #include "minirt.h"
 
-t_tuple	*tuple(int size, ...)
-{
-	t_tuple	*newTuple;
-	va_list	doubles;
-	int	i;
-
-	newTuple = calloc(1, sizeof(t_tuple));
-	if (!newTuple)
-		return (NULL);
-	newTuple->val = calloc(size, sizeof(double));
-	if (!newTuple->val)
-		return (NULL);
-	va_start(doubles, size);
-	i = -1;
-	while (++i < size)
-		newTuple->val[i] = va_arg(doubles, double);
-	newTuple->size = size;
-	newTuple->next = NULL;
-	return (newTuple);
-}
-
 float	ft_atof(const char *str)
 {
-	int		i;
+	char	**numint;
 	float	num;
 	float	fraction;
-	char	**numint;
+	int		i;
 
 	numint = ft_split(str, '.');
 	num = 0.0f + ft_atoi(numint[0]);
@@ -42,35 +21,41 @@ float	ft_atof(const char *str)
 	}
 	return (num);
 }
-/*
-int main(int ac, char **av)
+
+t_tuple	*tuple(int size, ...)
 {
-	t_tuple tuple;
+	t_tuple	*new_t;
+	va_list	doubles;
+	int		i;
 
-	if (ac < 5)
-		return (0);
-
-	tuple = (t_tuple){0};
-	tuple.w = ft_atof(av[1]);
-	tuple.x = ft_atof(av[2]);
-	tuple.y = ft_atof(av[3]);
-	tuple.z = ft_atof(av[4]);
-	printf("Tuple (%f %f %f %f)\n", tuple.w, tuple.x, tuple.y, tuple.z);
+	new_t = calloc(1, sizeof(t_tuple));
+	if (!new_t)
+		return (NULL);
+	new_t->val = calloc(size, sizeof(double));
+	if (!new_t->val)
+		return (NULL);
+	va_start(doubles, size);
+	i = -1;
+	while (++i < size)
+		new_t->val[i] = va_arg(doubles, double);
+	new_t->size = size;
+	new_t->next = NULL;
+	return (new_t);
 }
-*/
 
-// int main()
-// {
-// 	char x[] = "34.89";
-// 	char y[] = "34.0000";
-// 	char z[] = "34.9789";
-// 	char w[] = "1.yuag";
-// 	float tuplex, tupley, tuplez, tuplew;
+void	free_t(t_tuple *tuple)
+{
+	free(tuple->val);
+	free(tuple);
+}
 
-// 	tuplew = ft_atof(w);
-// 	tuplex = ft_atof(x);
-// 	tupley = ft_atof(y);
-// 	tuplez = ft_atof(z);
+void	print_t(double *vector, int size)
+{
+	int	i;
 
-// 	printf("Tuple (%f %f %f %f)\n", tuplew, tuplex, tupley, tuplez);
-// }
+	i = -1;
+	printf("[");
+	while (++i < (size - 1))
+		printf("%f ", vector[i]);
+	printf("%f]\n", vector[i]);
+}

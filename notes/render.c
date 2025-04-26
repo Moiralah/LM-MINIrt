@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-int	rgbToHex(double red, double green, double blue)
+int	rgb_hex(double red, double green, double blue)
 {
 	int	hex;
 
@@ -11,7 +11,7 @@ int	rgbToHex(double red, double green, double blue)
 	return (hex);
 }
 
-void	renderPixel(t_img *img, int x, int y, int color)
+void	render_p(t_img *img, int x, int y, int color)
 {
 	char	*pixel;
 
