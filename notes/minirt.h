@@ -23,9 +23,11 @@ typedef struct s_tuple
 
 t_tuple	**matrix(int size, ...);
 
-t_tuple	**submatrix(t_tuple **m, int row, int col);
+t_tuple	**subm(t_tuple **m, int row, int col);
 
-t_tuple	**mult_m(t_tuple **m1, t_tuple **m2);
+t_tuple	**inverse(t_tuple **m);
+
+t_tuple	**mxm(t_tuple **m1, t_tuple **m2);
 
 t_tuple	*tuple(int size, ...);
 
@@ -49,13 +51,17 @@ double	dot(double *tuple1, double *tuple2, int size);
 
 int		rgb_hex(double red, double green, double blue);
 
+int		len_m(t_tuple **m);
+
 int		equal_m(t_tuple **m1, t_tuple **m2);
 
 void	transpose(t_tuple **m);
 
+void	mult_m(t_tuple **m, double val);
+
 void	render_p(t_img *img, int x, int y, int color);
 
-void	free_m(t_tuple **matrix);
+void	free_m(t_tuple **matrix, int stop);
 
 void	free_t(t_tuple *tuple);
 

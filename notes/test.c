@@ -4,8 +4,7 @@ int	main(void)
 {
 	t_tuple	**m1;
 	t_tuple	**m2;
-	// t_tuple	**m3;
-	t_tuple	**minor;
+	t_tuple	**m3;
 	t_tuple	*t1;
 	t_tuple	*t2;
 	t_tuple	*t3;
@@ -25,13 +24,10 @@ int	main(void)
 	t7 = tuple(4, 5.0, 4.0, 3.0, 3.0);
 	t8 = tuple(4, 9.0, 3.0, 8.0, 6.0);
 	m2 = matrix(5, t5, t6, t7, t8);
-	minor = submatrix(m1, 3, 3);
-	print_m(minor);
-	printf("%f\n", det(m1, 4));
-	/* m3 = mult_m(m1, m2);
-	print_m(m3); */
-	free_m(m1);
-	free_m(m2);
-	// free_m(m3);
+	m3 = inverse(m1);
+	print_m(m3);
+	free_m(m1, len_m(m1));
+	free_m(m2, len_m(m2));
+	free_m(m3, len_m(m3));
 	return (0);
 }

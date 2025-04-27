@@ -1,15 +1,12 @@
 #include "minirt.h"
 
-t_tuple	**mult_m(t_tuple **m1, t_tuple **m2)
+t_tuple	**mxm(t_tuple **m1, t_tuple **m2)
 {
 	t_tuple	**new_m;
 	int		h;
 	int		w;
-	int		i;
 
-	h = 0;
-	while (m1[h])
-		h++;
+	h = len_m(m1);
 	w = m2[0]->size;
 	new_m = matrix(h);
 	if (!new_m)
@@ -19,15 +16,43 @@ t_tuple	**mult_m(t_tuple **m1, t_tuple **m2)
 	{
 		new_m[h] = tuple(w);
 		if (!new_m[h])
-			return (NULL);
-		i = -1;
-		while (++i < w)
-			new_m[h]->val[i] = dot(m1[h]->val, m2[i]->val, m1[0]->size);
+			return (free_m(new_m, h), NULL);
+		w = m2[0]->size;
+		while (--w >= 0)
+			new_m[h]->val[w] = dot(m1[h]->val, m2[w]->val, m1[0]->size);
 	}
 	return (new_m);
 }
 
-t_tuple	**submatrix(t_tuple **m, int row, int col)
+t_tuple	**inverse(t_tuple **m)
+{
+	t_tuple	**minors;
+	t_tuple	**minor;
+	int		row;
+	int		col;
+
+	printf("Start\n");
+	if (!det(m, len_m(m)))
+		return (NULL);
+	row = -1;
+	minors = matrix(len_m(m));
+	while (m[++row])
+	{
+		minors[row] = tuple(m[row]->size);
+		col = -1;
+		while (++col < m[row]->size)
+		{
+			minor = subm(m, row, col);
+			minors[row]->val[col] = det(minor, len_m(minor)) * pow(-1, row  + col);
+			free_m(minor, len_m(minor));
+		}
+	}
+	transpose(minors);
+	mult_m(minors, 1 / det(m, len_m(m)));
+	return (minors);
+}
+
+t_tuple	**subm(t_tuple **m, int row, int col)
 {
 	t_tuple	**new_m;
 	int		i[4];
@@ -54,7 +79,7 @@ t_tuple	**submatrix(t_tuple **m, int row, int col)
 	return (new_m);
 }
 
-double	det(t_tuple **m, int size)
+double	det(t_tuple **m, int ori_size)
 {
 	double	total;
 	double	ad;
@@ -63,13 +88,30 @@ double	det(t_tuple **m, int size)
 
 	total = 0;
 	col = -1;
-	while ((size > 2) && (++col < size))
-		total += m[0]->val[col] * det(submatrix(m, 0, col), size - 1);
-	if (size > 2)
+	while ((len_m(m) > 2) && (++col < len_m(m)))
+		total += m[0]->val[col] * det(subm(m, 0, col), ori_size) * pow(-1, col);
+	if (len_m(m) == ori_size)
 		return (total);
+	else if (len_m(m) > 2)
+		return (free_m(m, len_m(m)), total);
 	ad = m[0]->val[0] * m[1]->val[1];
 	bc = m[0]->val[1] * m[1]->val[0];
+	free_m(m, len_m(m));
 	return (ad - bc);
+}
+
+void	mult_m(t_tuple **m, double value)
+{
+	double	*product;
+	int	row;
+
+	row = -1;
+	while (m[++row])
+	{
+		product = mult(m[row]->val, value, m[row]->size);
+		free(m[row]->val);
+		m[row]->val = product;
+	}
 }
 
 void	transpose(t_tuple **m)

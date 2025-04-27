@@ -15,39 +15,43 @@ t_tuple	**matrix(int size, ...)
 	return (matrix);
 }
 
+int	len_m(t_tuple **m)
+{
+	int	h;
+
+	h = 0;
+	while (m[h])
+		h++;
+	return (h);
+}
+
 int	equal_m(t_tuple **m1, t_tuple **m2)
 {
-	int	width;
-	int	height;
-	int	i;
+	int	w;
+	int	h;
 
-	height = 0;
-	width = m1[0]->size;
-	while (m1[height] && m2[height])
-	{
-		if ((m1[height]->size != width) || (m2[height]->size != width))
-			return (0);
-		height++;
-	}
-	if (m1[height] != m2[height])
+	if (len_m(m1) != len_m(m2))
 		return (0);
-	while (--height >= 0)
+	if (m1[0]->size != m2[0]->size)
+		return (0);
+	h = len_m(m1);
+	while (--h >= 0)
 	{
-		i = width - 1;
-		while ((i >= 0) && (m1[height]->val[i] == m2[height]->val[i]))
-			i--;
-		if (i < 0)
+		w = m1[0]->size - 1;
+		while ((w >= 0) && (m1[h]->val[w] == m2[h]->val[w]))
+			w--;
+		if (w < 0)
 			return (0);
 	}
 	return (1);
 }
 
-void	free_m(t_tuple **matrix)
+void	free_m(t_tuple **matrix, int stop)
 {
 	int	i;
 
 	i = -1;
-	while (matrix[++i])
+	while ((matrix[++i]) && (i < stop))
 		free_t(matrix[i]);
 	free(matrix);
 }
