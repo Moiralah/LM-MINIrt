@@ -26,8 +26,8 @@ t_tuple	**mxm(t_tuple **m1, t_tuple **m2)
 
 t_tuple	**inverse(t_tuple **m)
 {
-	t_tuple	**minors;
-	t_tuple	**minor;
+	t_tuple	**mnrs;
+	t_tuple	**mnr;
 	int		row;
 	int		col;
 
@@ -35,21 +35,21 @@ t_tuple	**inverse(t_tuple **m)
 	if (!det(m, len_m(m)))
 		return (NULL);
 	row = -1;
-	minors = matrix(len_m(m));
+	mnrs = matrix(len_m(m));
 	while (m[++row])
 	{
-		minors[row] = tuple(m[row]->size);
+		mnrs[row] = tuple(m[row]->size);
 		col = -1;
 		while (++col < m[row]->size)
 		{
-			minor = subm(m, row, col);
-			minors[row]->val[col] = det(minor, len_m(minor)) * pow(-1, row  + col);
-			free_m(minor, len_m(minor));
+			mnr = subm(m, row, col);
+			mnrs[row]->val[col] = det(mnr, len_m(mnr)) * pow(-1, row + col);
+			free_m(mnr, len_m(mnr));
 		}
 	}
-	transpose(minors);
-	mult_m(minors, 1 / det(m, len_m(m)));
-	return (minors);
+	transpose(mnrs);
+	mult_m(mnrs, 1 / det(m, len_m(m)));
+	return (mnrs);
 }
 
 t_tuple	**subm(t_tuple **m, int row, int col)
@@ -103,7 +103,7 @@ double	det(t_tuple **m, int ori_size)
 void	mult_m(t_tuple **m, double value)
 {
 	double	*product;
-	int	row;
+	int		row;
 
 	row = -1;
 	while (m[++row])
