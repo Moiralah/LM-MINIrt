@@ -31,6 +31,14 @@ t_tuple	**mxm(t_tuple **m1, t_tuple **m2);
 
 t_tuple	*tuple(int size, ...);
 
+t_tuple	**identity(int size);
+
+t_tuple	**translate(int m_size, ...);
+
+t_tuple	**scale(int m_size, ...);
+
+t_tuple	**rotate(int m_size, int axis, double degree)
+
 double	*cross(double *tuple1, double *tuple2, int size);
 
 double	*schur(double *tuple1, double *tuple2, int size);
