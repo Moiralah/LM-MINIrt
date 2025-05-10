@@ -6,21 +6,21 @@ t_tuple	**mxm(t_tuple **m1, t_tuple **m2)
 	int		h;
 	int		w;
 
-	h = len_m(m1);
-	w = m2[0]->size;
-	new_m = matrix(h);
+	new_m = matrix(len_m(m1));
 	if (!new_m)
 		return (NULL);
 	transpose(m2);
-	while (--h >= 0)
+	h = -1;
+	while (++h >= 0)
 	{
+		w = m2[0]->size;
 		new_m[h] = tuple(w);
 		if (!new_m[h])
 			return (free_m(new_m, h), NULL);
-		w = m2[0]->size;
 		while (--w >= 0)
 			new_m[h]->val[w] = dot(m1[h]->val, m2[w]->val, m1[0]->size);
 	}
+	transpose(m2);
 	return (new_m);
 }
 
