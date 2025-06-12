@@ -68,3 +68,26 @@ t_tuple	**rotate(int m_size, int axis, double degree)
 	}
 	return (r);
 }
+
+t_tuple	**shear(t_tuple **ori_matrix, int axis, ...)
+{
+	t_tuple	**sheared;
+	t_tuple	**id;
+	va_list	vals;
+	int	size;
+	int	i;
+
+	i = -1;
+	size = ori_matrix[0]->size;
+	id = identity(size);
+	va_start(vals, axis);
+	while (++i < (size - 1))
+	{
+		if (i == axis)
+			continue;
+		id[axis]->val[i] = va_arg(vals, double);
+	}
+	sheared = mxm(ori_matrix, id);
+	free_m(id, size);
+	return (sheared);
+}
