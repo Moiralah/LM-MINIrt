@@ -37,7 +37,9 @@ t_tuple	**translate(int m_size, ...);
 
 t_tuple	**scale(int m_size, ...);
 
-t_tuple	**rotate(int m_size, int axis, double degree)
+t_tuple	**rotate(int m_size, int axis, double degree);
+
+t_tuple	**shear(t_tuple **ori_matrix, int axis, ...);
 
 double	*cross(double *tuple1, double *tuple2, int size);
 
