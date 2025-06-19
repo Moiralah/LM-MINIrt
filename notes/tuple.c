@@ -31,9 +31,9 @@ t_tuple	*tuple(int size, ...)
 	new_t = calloc(1, sizeof(t_tuple));
 	if (!new_t)
 		return (NULL);
-	new_t->val = calloc(size, sizeof(double));
-	if (!new_t->val)
-		return (NULL);
+	new_t->val = NULL;
+	if (size)
+		new_t->val = calloc(size, sizeof(double));
 	va_start(doubles, size);
 	i = -1;
 	while (++i < size)
@@ -54,6 +54,11 @@ void	print_t(double *vector, int size)
 	int	i;
 
 	i = -1;
+	if (!vector)
+	{
+		printf("(null)\n");
+		return ;
+	}
 	printf("[");
 	while (++i < (size - 1))
 		printf("%f ", vector[i]);
