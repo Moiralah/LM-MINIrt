@@ -21,6 +21,30 @@ typedef struct s_tuple
 	struct s_tuple	*next;
 }	t_tuple;
 
+typedef struct s_ray
+{
+	t_tuple	*ori;
+	t_tuple	*dir;
+}	t_ray;
+
+typedef struct s_sphere
+{
+	t_tuple	*ori;
+	double	rad;
+}	t_sphere;
+
+typedef union u_obj
+{
+	t_sphere	*sphere;
+}	t_obj;
+
+typedef struct s_its
+{
+	t_obj	*obj;
+	double	*len;
+	int		cnt;
+}	t_its;
+
 t_tuple	**matrix(int size, ...);
 
 t_tuple	**subm(t_tuple **m, int row, int col);
@@ -41,6 +65,20 @@ t_tuple	**rotate(int m_size, int axis, double degree);
 
 t_tuple	**shear(t_tuple **ori_matrix, int axis, ...);
 
+t_tuple	*travel(t_ray *ray, double time);
+
+t_its	**its_s(int size, ...);
+
+t_its	**merge(t_its **ori, int size);
+
+t_its	*its(t_obj *obj, double *len_from_ori, int cnt);
+
+t_its	*hit(t_its **its_s);
+
+t_its	*sphere_its(t_ray *r, t_sphere *sphere);
+
+t_ray	*ray(t_tuple *origin, t_tuple *direction);
+
 double	*cross(double *tuple1, double *tuple2, int size);
 
 double	*schur(double *tuple1, double *tuple2, int size);
@@ -55,7 +93,7 @@ double	*add(double *tuple1, double *tuple2, int size);
 
 double	det(t_tuple **m, int size);
 
-double	magnitude(double *tuple, int size);
+double	mag(double *tuple, int size);
 
 double	dot(double *tuple1, double *tuple2, int size);
 
@@ -74,6 +112,12 @@ void	render_p(t_img *img, int x, int y, int color);
 void	free_m(t_tuple **matrix, int stop);
 
 void	free_t(t_tuple *tuple);
+
+void	free_ray(t_ray *ray);
+
+void	free_its(t_its *its);
+
+void	free_its_s(t_its **its_s);
 
 void	print_m(t_tuple **matrix);
 
