@@ -31,11 +31,12 @@ t_tuple	**inverse(t_tuple **m)
 	int		row;
 	int		col;
 
-	printf("Start\n");
 	if (!det(m, len_m(m)))
 		return (NULL);
 	row = -1;
 	mnrs = matrix(len_m(m));
+	if (!mnrs)
+		return (NULL);
 	while (m[++row])
 	{
 		mnrs[row] = tuple(m[row]->size);
@@ -67,6 +68,8 @@ t_tuple	**subm(t_tuple **m, int row, int col)
 		if (i[0] == row)
 			continue ;
 		new_m[--i[1]] = tuple(m[0]->size - 1);
+		if (!new_m[i[1]])
+			return (free_m(new_m, i[1]), NULL);
 		i[2] = -1;
 		i[3] = -1;
 		while (++i[2] < m[0]->size)
