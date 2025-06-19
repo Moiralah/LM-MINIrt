@@ -8,6 +8,8 @@ t_tuple	**matrix(int size, ...)
 
 	i = -1;
 	matrix = calloc(size, sizeof(t_tuple *));
+	if (!matrix)
+		return (NULL);
 	va_start(tuples, size);
 	while (++i < (size - 1))
 		matrix[i] = va_arg(tuples, t_tuple *);
@@ -61,6 +63,11 @@ void	print_m(t_tuple **matrix)
 	int	i;
 
 	i = -1;
+	if (!matrix)
+	{
+		printf("(null)\n");
+		return ;
+	}
 	while (matrix[++i])
 		print_t(matrix[i]->val, matrix[i]->size);
 }
