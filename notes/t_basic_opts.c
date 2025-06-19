@@ -7,6 +7,8 @@ double	*mult(double *tuple, double value, int size)
 
 	i = -1;
 	new_v = calloc(size, sizeof(double));
+	if (!new_v)
+		return (NULL);
 	while (++i < size)
 		new_v[i] = tuple[i] * value;
 	return (new_v);
@@ -19,6 +21,8 @@ double	*sub(double *tuple1, double *tuple2, int size)
 
 	i = -1;
 	new_v = calloc(size, sizeof(double));
+	if (!new_v)
+		return (NULL);
 	while (++i < size)
 		new_v[i] = tuple1[i] - tuple2[i];
 	return (new_v);
@@ -31,6 +35,8 @@ double	*add(double *tuple1, double *tuple2, int size)
 
 	i = -1;
 	new_v = calloc(size, sizeof(double));
+	if (!new_v)
+		return (NULL);
 	while (++i < size)
 		new_v[i] = tuple1[i] + tuple2[i];
 	return (new_v);

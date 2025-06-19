@@ -5,6 +5,8 @@ double	*cross(double *tuple1, double *tuple2, int size)
 	double	*new_v;
 
 	new_v = calloc(size, sizeof(double));
+	if (!new_v)
+		return (NULL);
 	new_v[0] = (tuple1[1] * tuple2[2]) - (tuple2[1] * tuple1[2]);
 	new_v[1] = (tuple2[0] * tuple1[2]) - (tuple1[0] * tuple2[2]);
 	new_v[2] = (tuple1[0] * tuple2[1]) - (tuple2[0] * tuple1[1]);
@@ -18,6 +20,8 @@ double	*schur(double *tuple1, double *tuple2, int size)
 
 	i = -1;
 	new_v = calloc(size, sizeof(double));
+	if (!new_v)
+		return (NULL);
 	while (++i < size)
 		new_v[i] = tuple1[i] * tuple2[i];
 	return (new_v);
@@ -26,18 +30,20 @@ double	*schur(double *tuple1, double *tuple2, int size)
 double	*norm(double *tuple, int size)
 {
 	double	*new_v;
-	double	mag;
+	double	magnitude;
 	int		i;
 
 	i = -1;
-	mag = magnitude(tuple, size);
+	magnitude = mag(tuple, size);
 	new_v = calloc(size, sizeof(double));
+	if (!new_v)
+		return (NULL);
 	while (++i < size)
-		new_v[i] = tuple[i] / mag;
+		new_v[i] = tuple[i] / magnitude;
 	return (new_v);
 }
 
-double	magnitude(double *tuple, int size)
+double	mag(double *tuple, int size)
 {
 	double	mag;
 	int		i;
