@@ -1,5 +1,6 @@
 #include "minirt.h"
 
+// Multiplies each element of a matrix by a scalar value.
 void	mult_m(t_tuple **m, double value)
 {
 	double	*product;

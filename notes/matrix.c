@@ -1,5 +1,6 @@
 #include "minirt.h"
 
+// Creates a matrix of tuples with a specified size.
 t_tuple	**matrix(int size, ...)
 {
 	t_tuple	**matrix;
@@ -17,6 +18,7 @@ t_tuple	**matrix(int size, ...)
 	return (matrix);
 }
 
+// Returns the number of rows in a matrix.
 int	len_m(t_tuple **m)
 {
 	int	h;
@@ -27,6 +29,7 @@ int	len_m(t_tuple **m)
 	return (h);
 }
 
+// Checks if two matrices are equal.
 int	equal_m(t_tuple **m1, t_tuple **m2)
 {
 	int	w;
@@ -48,6 +51,7 @@ int	equal_m(t_tuple **m1, t_tuple **m2)
 	return (1);
 }
 
+// Frees the memory allocated for a matrix.
 void	free_m(t_tuple **matrix, int stop)
 {
 	int	i;
@@ -58,6 +62,7 @@ void	free_m(t_tuple **matrix, int stop)
 	free(matrix);
 }
 
+// Prints the contents of a matrix.
 void	print_m(t_tuple **matrix)
 {
 	int	i;

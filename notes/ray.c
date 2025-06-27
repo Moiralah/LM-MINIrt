@@ -1,5 +1,6 @@
 #include "minirt.h"
 
+// Creates a ray with an origin and direction.
 t_ray	*ray(t_tuple *origin, t_tuple *direction)
 {
 	t_ray	*new_ray;
@@ -12,6 +13,7 @@ t_ray	*ray(t_tuple *origin, t_tuple *direction)
 	return (new_ray);
 }
 
+// Calculates the position of a ray at a given time.
 t_tuple	*travel(t_ray *ray, double time)
 {
 	t_tuple	*new_t_pos;
@@ -28,6 +30,7 @@ t_tuple	*travel(t_ray *ray, double time)
 	return (new_t_pos);
 }
 
+// Computes the intersections of a ray with a sphere.
 t_its	*sphere_its(t_ray *r, t_sphere *sphere)
 {
 	t_obj		*obj;
@@ -56,6 +59,7 @@ t_its	*sphere_its(t_ray *r, t_sphere *sphere)
 	return (free(rto), its(obj, result, 2));
 }
 
+// Frees the memory allocated for a ray.
 void	free_ray(t_ray *ray)
 {
 	free_t(ray->ori);

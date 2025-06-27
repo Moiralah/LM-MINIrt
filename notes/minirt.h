@@ -45,6 +45,21 @@ typedef struct s_its
 	int		cnt;
 }	t_its;
 
+typedef struct s_light
+{
+	t_tuple	*position;
+	int		intensity;
+}	t_light;
+
+typedef struct s_material
+{
+	int		color;
+	double	ambient;
+	double	diffuse;
+	double	specular;
+	double	shininess;
+}	t_material;
+
 t_tuple	**matrix(int size, ...);
 
 t_tuple	**subm(t_tuple **m, int row, int col);

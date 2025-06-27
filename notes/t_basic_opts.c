@@ -1,5 +1,6 @@
 #include "minirt.h"
 
+// Multiplies each element of a vector by a scalar value.
 double	*mult(double *tuple, double value, int size)
 {
 	double	*new_v;
@@ -14,6 +15,7 @@ double	*mult(double *tuple, double value, int size)
 	return (new_v);
 }
 
+// Subtracts one vector from another element-wise.
 double	*sub(double *tuple1, double *tuple2, int size)
 {
 	double	*new_v;
@@ -28,6 +30,7 @@ double	*sub(double *tuple1, double *tuple2, int size)
 	return (new_v);
 }
 
+// Adds two vectors element-wise.
 double	*add(double *tuple1, double *tuple2, int size)
 {
 	double	*new_v;

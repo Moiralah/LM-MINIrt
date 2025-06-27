@@ -1,5 +1,6 @@
 #include "minirt.h"
 
+// Merges two sorted arrays of intersections.
 void	sort(t_its **ori, t_its **l, t_its **r, int size)
 {
 	int	i;
@@ -28,6 +29,7 @@ void	sort(t_its **ori, t_its **l, t_its **r, int size)
 	}
 }
 
+// Recursively merges and sorts an array of intersections.
 t_its	**merge(t_its **ori, int size)
 {
 	t_its	**left;
