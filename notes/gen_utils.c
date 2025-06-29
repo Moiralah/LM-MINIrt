@@ -48,23 +48,10 @@ t_its	**merge(t_its **ori, int size)
 		return (NULL);
 	while (++mid <= size)
 		right[size - mid] = ori[((int)floor(mid / 2)) + size - mid];
-	/* int	x;
-	x = -1;
-	while (left[++x])
-		printf("L [%f]\n", left[x]->len[0]);
-	x = -1;
-	while (right[++x])
-		printf("R [%f]\n", right[x]->len[0]);
-	printf("Start merging\n"); */
 	left = merge(left, floor(size / 2));
 	right = merge(right, floor(size / 2));
-	/* printf("Start sorting\n"); */
 	sort(ori, left, right, size);
 	free(left);
 	free(right);
-	/* int	q;
-	q = -1;
-	while (ori[++q])
-		printf("%f\n", ori[q]->len[0]); */
 	return (ori);
 }
