@@ -29,13 +29,15 @@ typedef struct s_ray
 
 typedef struct s_sphere
 {
+	t_tuple	**t_matrix;
 	t_tuple	*ori;
 	double	rad;
 }	t_sphere;
 
 typedef union u_obj
 {
-	t_sphere	*sphere;
+	void	*data;
+	char	type;
 }	t_obj;
 
 typedef struct s_its
@@ -45,82 +47,88 @@ typedef struct s_its
 	int		cnt;
 }	t_its;
 
-t_tuple	**matrix(int size, ...);
+t_tuple		**matrix(int size, ...);
 
-t_tuple	**subm(t_tuple **m, int row, int col);
+t_tuple		**subm(t_tuple **m, int row, int col);
 
-t_tuple	**inverse(t_tuple **m);
+t_tuple		**inverse(t_tuple **m);
 
-t_tuple	**mxm(t_tuple **m1, t_tuple **m2);
+t_tuple		**mxm(t_tuple **m1, t_tuple **m2);
 
-t_tuple	*tuple(int size, ...);
+t_tuple		**identity(int size);
 
-t_tuple	**identity(int size);
+t_tuple		**translate(int m_size, ...);
 
-t_tuple	**translate(int m_size, ...);
+t_tuple		**scale(int m_size, ...);
 
-t_tuple	**scale(int m_size, ...);
+t_tuple		**rotate(int m_size, int axis, double degree);
 
-t_tuple	**rotate(int m_size, int axis, double degree);
+t_tuple		**shear(t_tuple **ori_matrix, int axis, ...);
 
-t_tuple	**shear(t_tuple **ori_matrix, int axis, ...);
+t_tuple		*travel(t_ray *ray, double time);
 
-t_tuple	*travel(t_ray *ray, double time);
+t_its		**its_s(int size, ...);
 
-t_its	**its_s(int size, ...);
+t_its		**merge(t_its **ori, int size);
 
-t_its	**merge(t_its **ori, int size);
+t_tuple		*tuple(int size, ...);
 
-t_its	*its(t_obj *obj, double *len_from_ori, int cnt);
+t_its		*its(t_obj *obj, double *len_from_ori, int cnt);
 
-t_its	*hit(t_its **its_s);
+t_its		*hit(t_its **its_s);
 
-t_its	*sphere_its(t_ray *r, t_sphere *sphere);
+t_its		*sphere_its(t_ray *r, t_sphere *sphere);
 
-t_ray	*ray(t_tuple *origin, t_tuple *direction);
+t_ray		*ray(t_tuple *origin, t_tuple *direction);
 
-double	*cross(double *tuple1, double *tuple2, int size);
+t_obj		*object(void *data, char type);
 
-double	*schur(double *tuple1, double *tuple2, int size);
+t_sphere	*sphere(t_tuple *origin, double radius);
 
-double	*norm(double *tuple, int size);
+double		*cross(double *tuple1, double *tuple2, int size);
 
-double	*mult(double *tuple, double value, int size);
+double		*schur(double *tuple1, double *tuple2, int size);
 
-double	*sub(double *tuple1, double *tuple2, int size);
+double		*norm(double *tuple, int size);
 
-double	*add(double *tuple1, double *tuple2, int size);
+double		*mult(double *tuple, double value, int size);
 
-double	det(t_tuple **m, int size);
+double		*sub(double *tuple1, double *tuple2, int size);
 
-double	mag(double *tuple, int size);
+double		*add(double *tuple1, double *tuple2, int size);
 
-double	dot(double *tuple1, double *tuple2, int size);
+double		det(t_tuple **m, int size);
 
-int		rgb_hex(double red, double green, double blue);
+double		mag(double *tuple, int size);
 
-int		len_m(t_tuple **m);
+double		dot(double *tuple1, double *tuple2, int size);
 
-int		equal_m(t_tuple **m1, t_tuple **m2);
+int			rgb_hex(double red, double green, double blue);
 
-void	transpose(t_tuple **m);
+int			len_m(t_tuple **m);
 
-void	mult_m(t_tuple **m, double val);
+int			equal_m(t_tuple **m1, t_tuple **m2);
 
-void	render_p(t_img *img, int x, int y, int color);
+void		transpose(t_tuple **m);
 
-void	free_m(t_tuple **matrix, int stop);
+void		transform(t_ray *ray, t_tuple **t_matrix);
 
-void	free_t(t_tuple *tuple);
+void		mult_m(t_tuple **m, double val);
 
-void	free_ray(t_ray *ray);
+void		render_p(t_img *img, int x, int y, int color);
 
-void	free_its(t_its *its);
+void		free_m(t_tuple **matrix, int stop);
 
-void	free_its_s(t_its **its_s);
+void		free_t(t_tuple *tuple);
 
-void	print_m(t_tuple **matrix);
+void		free_ray(t_ray *ray);
 
-void	print_t(double *tuple, int size);
+void		free_its(t_its *its);
+
+void		free_its_s(t_its **its_s);
+
+void		print_m(t_tuple **matrix);
+
+void		print_t(double *tuple, int size);
 
 #endif
