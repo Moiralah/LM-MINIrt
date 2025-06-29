@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "minirt.h"
 
+// Converts a string to a floating-point number.
 float	ft_atof(const char *str)
 {
 	char	**numint;
@@ -22,6 +23,7 @@ float	ft_atof(const char *str)
 	return (num);
 }
 
+// Creates a tuple with a specified size and values.
 t_tuple	*tuple(int size, ...)
 {
 	t_tuple	*new_t;
@@ -43,12 +45,14 @@ t_tuple	*tuple(int size, ...)
 	return (new_t);
 }
 
+// Frees the memory allocated for a tuple.
 void	free_t(t_tuple *tuple)
 {
 	free(tuple->val);
 	free(tuple);
 }
 
+// Prints the contents of a tuple.
 void	print_t(double *vector, int size)
 {
 	int	i;

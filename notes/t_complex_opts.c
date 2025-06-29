@@ -1,5 +1,6 @@
 #include "minirt.h"
 
+// Computes the cross product of two 3D vectors.
 double	*cross(double *tuple1, double *tuple2, int size)
 {
 	double	*new_v;
@@ -13,6 +14,7 @@ double	*cross(double *tuple1, double *tuple2, int size)
 	return (new_v);
 }
 
+// Computes the element-wise (Hadamard) product of two vectors.
 double	*schur(double *tuple1, double *tuple2, int size)
 {
 	double	*new_v;
@@ -27,6 +29,7 @@ double	*schur(double *tuple1, double *tuple2, int size)
 	return (new_v);
 }
 
+// Normalizes a vector to have a magnitude of 1.
 double	*norm(double *tuple, int size)
 {
 	double	*new_v;
@@ -43,6 +46,7 @@ double	*norm(double *tuple, int size)
 	return (new_v);
 }
 
+// Computes the magnitude (length) of a vector.
 double	mag(double *tuple, int size)
 {
 	double	mag;
@@ -55,6 +59,10 @@ double	mag(double *tuple, int size)
 	return (sqrt(mag));
 }
 
+// Computes the dot product of two vectors.
+// Dot product = cosine of angle between them.
+// Crucial for lighting, reflections, and refractions.
+// It compute how light rays interact with surfaces.
 double	dot(double *tuple1, double *tuple2, int size)
 {
 	double	product;

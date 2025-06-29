@@ -1,5 +1,6 @@
 #include "minirt.h"
 
+// Creates an identity matrix of a given size.
 t_tuple	**identity(int size)
 {
 	t_tuple	**id;
@@ -26,6 +27,7 @@ t_tuple	**identity(int size)
 	return (id);
 }
 
+// Creates a translation matrix.
 t_tuple	**translate(int m_size, ...)
 {
 	t_tuple	**m;
@@ -42,6 +44,7 @@ t_tuple	**translate(int m_size, ...)
 	return (m);
 }
 
+// Creates a scaling matrix.
 t_tuple	**scale(int m_size, ...)
 {
 	t_tuple	**s;
@@ -58,6 +61,7 @@ t_tuple	**scale(int m_size, ...)
 	return (s);
 }
 
+// Creates a rotation matrix for a given axis and angle.
 t_tuple	**rotate(int m_size, int axis, double degree)
 {
 	t_tuple	**r;
@@ -79,6 +83,7 @@ t_tuple	**rotate(int m_size, int axis, double degree)
 	return (r);
 }
 
+// Applies a shear transformation to a matrix.
 t_tuple	**shear(t_tuple **ori_matrix, int axis, ...)
 {
 	t_tuple	**id;

@@ -1,5 +1,6 @@
 #include "minirt.h"
 
+// Creates a list of intersections for a given size.
 t_its	**its_s(int size, ...)
 {
 	t_its	**its_list;
@@ -17,6 +18,7 @@ t_its	**its_s(int size, ...)
 	return (merge(its_list, i));
 }
 
+// Finds the first positive intersection (hit).
 t_its	*hit(t_its **its_s)
 {
 	int	i;
@@ -27,6 +29,7 @@ t_its	*hit(t_its **its_s)
 	return (its_s[i]);
 }
 
+// Creates a new intersection object.
 t_its	*its(t_obj *obj, double *len_from_ori, int cnt)
 {
 	t_its	*new_its;
@@ -38,6 +41,7 @@ t_its	*its(t_obj *obj, double *len_from_ori, int cnt)
 	return (new_its);
 }
 
+// Frees the memory allocated for a list of intersections.
 void	free_its_s(t_its **its_s)
 {
 	int	i;
@@ -48,6 +52,7 @@ void	free_its_s(t_its **its_s)
 	free(its_s);
 }
 
+// Frees the memory allocated for a single intersection.
 void	free_its(t_its *its)
 {
 	free(its->obj);

@@ -1,5 +1,6 @@
 #include "minirt.h"
 
+// Converts RGB values (0.0 to 1.0) to a hexadecimal color representation.
 int	rgb_hex(double red, double green, double blue)
 {
 	int	hex;
@@ -11,6 +12,7 @@ int	rgb_hex(double red, double green, double blue)
 	return (hex);
 }
 
+// Renders a pixel at the specified (x, y) position with the given color.
 void	render_p(t_img *img, int x, int y, int color)
 {
 	char	*pixel;

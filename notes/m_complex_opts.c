@@ -1,5 +1,6 @@
 #include "minirt.h"
 
+// Multiplies two matrices.
 t_tuple	**mxm(t_tuple **m1, t_tuple **m2)
 {
 	t_tuple	**new_m;
@@ -24,6 +25,7 @@ t_tuple	**mxm(t_tuple **m1, t_tuple **m2)
 	return (new_m);
 }
 
+// Calculates the inverse of a matrix.
 t_tuple	**inverse(t_tuple **m)
 {
 	t_tuple	**mnrs;
@@ -53,6 +55,7 @@ t_tuple	**inverse(t_tuple **m)
 	return (mnrs);
 }
 
+// Creates a submatrix by removing a specified row and column.
 t_tuple	**subm(t_tuple **m, int row, int col)
 {
 	t_tuple	**new_m;
@@ -82,6 +85,7 @@ t_tuple	**subm(t_tuple **m, int row, int col)
 	return (new_m);
 }
 
+// Calculates the determinant of a matrix.
 double	det(t_tuple **m, int ori_size)
 {
 	double	total;
@@ -103,6 +107,7 @@ double	det(t_tuple **m, int ori_size)
 	return (ad - bc);
 }
 
+// Transposes a matrix.
 void	transpose(t_tuple **m)
 {
 	double	prev;
