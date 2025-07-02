@@ -41,6 +41,7 @@ t_its	*sphere_its(t_ray *r, t_sphere *sphere)
 	obj = object(sphere, 's');
 	if (!obj)
 		return (NULL);
+	transform(r, sphere->transform);
 	rto = sub(sphere->ori->val, r->ori->val, r->ori->size);
 	rtc = dot(rto, r->dir->val, r->dir->size);
 	h = pow(mag(rto, r->ori->size), 2) - pow(rtc, 2);
@@ -55,23 +56,6 @@ t_its	*sphere_its(t_ray *r, t_sphere *sphere)
 	if (result[0] == result[1])
 		return (free(rto), its(obj, result, 1));
 	return (free(rto), its(obj, result, 2));
-}
-
-void	transform(t_ray *ray, t_tuple **t_matrix)
-{
-	t_tuple	**temp_m;
-	t_tuple	**result_m;
-
-	temp_m = matrix(2, ray->ori);
-	result_m = mxm(temp_m, inverse(t_matrix));
-	ray->ori = result_m[0];
-	free_m(temp_m, temp_m[0]->size);
-	free(result_m);
-	temp_m = matrix(2, ray->dir);
-	result_m = mxm(temp_m, inverse(t_matrix));
-	ray->dir = result_m[0];
-	free_m(temp_m, temp_m[0]->size);
-	free(result_m);
 }
 
 void	transform(t_ray *ray, t_tuple **t_matrix)
