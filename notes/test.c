@@ -5,7 +5,7 @@ void	cast_rays(t_img img, t_sphere *sphere, t_tuple *ori, int hit, int nohit, in
 	t_its	*its;
 	t_ray	*r;
 	t_tuple	*dir;
-	//t_tuple	*hit_loc;
+	t_tuple	*hit_loc;
 	double	*cords;
 	int		i[2];
 
@@ -25,20 +25,17 @@ void	cast_rays(t_img img, t_sphere *sphere, t_tuple *ori, int hit, int nohit, in
 			render_p(&img, i[0], i[1], nohit);
 		else
 		{
-			//hit_loc = travel(r, its->len[1]);
-			//printf("Hit at %f | %f with t: %f\n", hit_loc->val[1], hit_loc->val[2], its->len[1]);
+			hit_loc = travel(r, its->len[1]);
 			render_p(&img, i[0], i[1], hit);
 		}
-		printf("%d | %d\n", i[0], i[1]);
 		i[1]--;
 		if ((i[1] < 0) && (i[0]--))
 			i[1] = h;
-		//break;
-		/* if (!its->len)
+		if (!its->len)
 			free_t(hit_loc);
 		free_t(dir);
 		free(r);
-		free(its); */
+		free(its);
 	}
 }
 
