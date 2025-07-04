@@ -53,7 +53,7 @@ void	free_t(t_tuple *tuple)
 }
 
 // Prints the contents of a tuple.
-void	print_t(double *vector, int size)
+void	print_t(t_tuple *vector)
 {
 	int	i;
 
@@ -64,7 +64,7 @@ void	print_t(double *vector, int size)
 		return ;
 	}
 	printf("[");
-	while (++i < (size - 1))
-		printf("%f ", vector[i]);
-	printf("%f]\n", vector[i]);
+	while (++i < (vector->size - 1))
+		printf("%f ", vector->val[i]);
+	printf("%f]\n", vector->val[i]);
 }
