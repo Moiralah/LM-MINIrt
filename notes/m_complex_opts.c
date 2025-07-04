@@ -19,7 +19,7 @@ t_tuple	**mxm(t_tuple **m1, t_tuple **m2)
 			return (free_m(new_m, h), NULL);
 		w = m2[0]->size;
 		while (--w >= 0)
-			new_m[h]->val[w] = dot(m1[h]->val, m2[w]->val, m1[0]->size);
+			new_m[h]->val[w] = dot(m1[h], m2[w]);
 	}
 	transpose(m2);
 	return (new_m);
@@ -115,6 +115,8 @@ void	transpose(t_tuple **m)
 	int		q;
 
 	i = -1;
+	if (len_m(m) != m[0]->size)
+		return ;
 	while (m[++i])
 	{
 		q = i;
