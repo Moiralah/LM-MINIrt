@@ -74,5 +74,5 @@ void	print_m(t_tuple **matrix)
 		return ;
 	}
 	while (matrix[++i])
-		print_t(matrix[i]->val, matrix[i]->size);
+		print_t(matrix[i]);
 }
