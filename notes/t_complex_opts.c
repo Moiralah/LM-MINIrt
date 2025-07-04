@@ -1,61 +1,65 @@
 #include "minirt.h"
 
 // Computes the cross product of two 3D vectors.
-double	*cross(double *tuple1, double *tuple2, int size)
+t_tuple	*cross(t_tuple *t1, t_tuple *t2)
 {
-	double	*new_v;
+	t_tuple	*new_v;
 
-	new_v = calloc(size, sizeof(double));
+	if ((t1->size != 3) && (t2->size != 3))
+		return (NULL);
+	new_v = calloc(t1->size, sizeof(t_tuple));
 	if (!new_v)
 		return (NULL);
-	new_v[0] = (tuple1[1] * tuple2[2]) - (tuple2[1] * tuple1[2]);
-	new_v[1] = (tuple2[0] * tuple1[2]) - (tuple1[0] * tuple2[2]);
-	new_v[2] = (tuple1[0] * tuple2[1]) - (tuple2[0] * tuple1[1]);
+	new_v->val[0] = (t1->val[1] * t2->val[2]) - (t2->val[1] * t1->val[2]);
+	new_v->val[1] = (t2->val[0] * t1->val[2]) - (t1->val[0] * t2->val[2]);
+	new_v->val[2] = (t1->val[0] * t2->val[1]) - (t2->val[0] * t1->val[1]);
 	return (new_v);
 }
 
 // Computes the element-wise (Hadamard) product of two vectors.
-double	*schur(double *tuple1, double *tuple2, int size)
+t_tuple	*schur(t_tuple *tuple1, t_tuple *tuple2)
 {
-	double	*new_v;
+	t_tuple	*new_v;
 	int		i;
 
 	i = -1;
-	new_v = calloc(size, sizeof(double));
+	if (tuple1->size != tuple2->size)
+		return (NULL);
+	new_v = calloc(tuple1->size, sizeof(t_tuple));
 	if (!new_v)
 		return (NULL);
-	while (++i < size)
-		new_v[i] = tuple1[i] * tuple2[i];
+	while (++i < tuple1->size)
+		new_v->val[i] = tuple1->val[i] * tuple2->val[i];
 	return (new_v);
 }
 
 // Normalizes a vector to have a magnitude of 1.
-double	*norm(double *tuple, int size)
+t_tuple	*norm(t_tuple *tuple)
 {
-	double	*new_v;
+	t_tuple	*new_v;
 	double	magnitude;
 	int		i;
 
 	i = -1;
-	magnitude = mag(tuple, size);
-	new_v = calloc(size, sizeof(double));
+	magnitude = mag(tuple);
+	new_v = calloc(tuple->size, sizeof(t_tuple));
 	if (!new_v)
 		return (NULL);
-	while (++i < size)
-		new_v[i] = tuple[i] / magnitude;
+	while (++i < tuple->size)
+		new_v->val[i] = tuple->val[i] / magnitude;
 	return (new_v);
 }
 
 // Computes the magnitude (length) of a vector.
-double	mag(double *tuple, int size)
+double	mag(t_tuple *tuple)
 {
 	double	mag;
 	int		i;
 
 	mag = 0.0;
 	i = -1;
-	while (++i < size)
-		mag += (tuple[i] * tuple[i]);
+	while (++i < tuple->size)
+		mag += (tuple->val[i] * tuple->val[i]);
 	return (sqrt(mag));
 }
 
@@ -63,14 +67,14 @@ double	mag(double *tuple, int size)
 // Dot product = cosine of angle between them.
 // Crucial for lighting, reflections, and refractions.
 // It compute how light rays interact with surfaces.
-double	dot(double *tuple1, double *tuple2, int size)
+double	dot(t_tuple *tuple1, t_tuple *tuple2)
 {
 	double	product;
 	int		i;
 
 	product = 0;
 	i = -1;
-	while (++i < size)
-		product += (tuple1[i] * tuple2[i]);
+	while (++i < tuple1->size)
+		product += (tuple1->val[i] * tuple2->val[i]);
 	return (product);
 }
