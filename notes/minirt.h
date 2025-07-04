@@ -60,7 +60,7 @@ typedef struct s_material
 	double	diffuse;
 	double	specular;
 	double	shininess;
-}	t_material;
+}	t_mat;
 
 t_tuple		**matrix(int size, ...);
 
@@ -80,13 +80,17 @@ t_tuple		**rotate(int m_size, int axis, double degree);
 
 t_tuple		**shear(t_tuple **ori_matrix, int axis, ...);
 
+t_tuple		*tuple(int size, ...);
+
 t_tuple		*travel(t_ray *ray, double time);
+
+t_tuple		*normal_at(t_sphere *sphere, t_tuple *world_p);
+
+t_tuple		*reflect(t_tuple *in, t_tuple *normal);
 
 t_its		**its_s(int size, ...);
 
 t_its		**merge(t_its **ori, int size);
-
-t_tuple		*tuple(int size, ...);
 
 t_its		*its(t_obj *obj, double *len_from_ori, int cnt);
 
@@ -100,29 +104,37 @@ t_obj		*object(void *data, char type);
 
 t_sphere	*sphere(t_tuple *origin, double radius);
 
-double		*cross(double *tuple1, double *tuple2, int size);
+t_light		*light(t_tuple *position, int intensity);
 
-double		*schur(double *tuple1, double *tuple2, int size);
+t_mat		*material(int color, t_tuple *values);
 
-double		*norm(double *tuple, int size);
+t_tuple		*cross(t_tuple *tuple1, t_tuple *tuple2);
 
-double		*mult(double *tuple, double value, int size);
+t_tuple		*schur(t_tuple *tuple1, t_tuple *tuple2);
 
-double		*sub(double *tuple1, double *tuple2, int size);
+t_tuple		*norm(t_tuple *tuple);
 
-double		*add(double *tuple1, double *tuple2, int size);
+t_tuple		*mult(t_tuple *tuple, double value);
+
+t_tuple		*sub(t_tuple *tuple1, t_tuple *tuple2);
+
+t_tuple		*add(t_tuple *tuple1, t_tuple *tuple2);
 
 double		det(t_tuple **m, int size);
 
-double		mag(double *tuple, int size);
+double		mag(t_tuple *tuple);
 
-double		dot(double *tuple1, double *tuple2, int size);
+double		dot(t_tuple *tuple1, t_tuple *tuple2);
+
+double		spclr(t_tuple *r, t_tuple *eye, t_mat *mat, t_light *light);
 
 int			rgb_hex(double red, double green, double blue);
 
 int			len_m(t_tuple **m);
 
 int			equal_m(t_tuple **m1, t_tuple **m2);
+
+int			lighting(t_mat *mat, t_light *light, t_tuple **m);
 
 void		transpose(t_tuple **m);
 
@@ -144,6 +156,6 @@ void		free_its_s(t_its **its_s);
 
 void		print_m(t_tuple **matrix);
 
-void		print_t(double *tuple, int size);
+void		print_t(t_tuple *tuple);
 
 #endif
