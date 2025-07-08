@@ -18,17 +18,6 @@ t_its	**its_s(int size, ...)
 	return (merge(its_list, i));
 }
 
-// Finds the first positive intersection (hit).
-t_its	*hit(t_its **its_s)
-{
-	int	i;
-
-	i = 0;
-	while ((its_s[i]) && (its_s[i]->len[0] <= 0))
-		i++;
-	return (its_s[i]);
-}
-
 // Creates a new intersection object.
 t_its	*its(t_obj *obj, double *len_from_ori, int cnt)
 {
@@ -39,6 +28,17 @@ t_its	*its(t_obj *obj, double *len_from_ori, int cnt)
 	new_its->len = len_from_ori;
 	new_its->cnt = cnt;
 	return (new_its);
+}
+
+// Finds the first positive intersection (hit).
+t_its	*hit(t_its **its_s)
+{
+	int	i;
+
+	i = 0;
+	while ((its_s[i]) && (its_s[i]->len[0] <= 0))
+		i++;
+	return (its_s[i]);
 }
 
 // Frees the memory allocated for a list of intersections.
