@@ -12,46 +12,21 @@ typedef struct s_img
 	int		bpp;
 	int		len;
 	int		endian;
+	int		h;
+	int		w;
 }	t_img;
 
-typedef struct s_tuple
-{
-	double			*val;
-	int				size;
-	struct s_tuple	*next;
-}	t_tuple;
-
-typedef struct s_ray
-{
-	t_tuple	*ori;
-	t_tuple	*dir;
-}	t_ray;
-
-typedef struct s_sphere
-{
-	t_tuple	**t_matrix;
-	t_tuple	*ori;
-	double	rad;
-}	t_sphere;
-
-typedef union u_obj
+typedef struct s_obj
 {
 	void	*data;
 	char	type;
 }	t_obj;
 
-typedef struct s_its
+typedef struct s_tuple
 {
-	t_obj	*obj;
-	double	*len;
-	int		cnt;
-}	t_its;
-
-typedef struct s_light
-{
-	t_tuple	*position;
-	int		intensity;
-}	t_light;
+	double			*val;
+	int				size;
+}	t_tuple;
 
 typedef struct s_material
 {
@@ -61,6 +36,45 @@ typedef struct s_material
 	double	specular;
 	double	shininess;
 }	t_mat;
+
+typedef struct s_sphere
+{
+	t_tuple	**t_matrix;
+	t_tuple	*ori;
+	t_mat	*mat;
+	double	rad;
+}	t_sphere;
+
+typedef struct s_its
+{
+	t_obj	*obj;
+	double	*len;
+	int		cnt;
+}	t_its;
+
+typedef struct s_ray
+{
+	t_tuple	*ori;
+	t_tuple	*dir;
+}	t_ray;
+
+typedef struct s_light
+{
+	t_tuple	*position;
+	int		intensity;
+}	t_light;
+
+t_its		**its_s(int size, ...);
+
+t_its		**merge(t_its **ori, int size);
+
+t_its		*its(t_obj *obj, double *len_from_ori, int cnt);
+
+t_its		*hit(t_its **its_s);
+
+t_its		*sphere_its(t_ray *r, t_sphere *sphere);
+
+t_ray		*ray(t_tuple *origin, t_tuple *direction);
 
 t_tuple		**matrix(int size, ...);
 
@@ -80,33 +94,11 @@ t_tuple		**rotate(int m_size, int axis, double degree);
 
 t_tuple		**shear(t_tuple **ori_matrix, int axis, ...);
 
+t_tuple		**get_obj_tf(t_obj *obj);
+
 t_tuple		*tuple(int size, ...);
 
 t_tuple		*travel(t_ray *ray, double time);
-
-t_tuple		*normal_at(t_sphere *sphere, t_tuple *world_p);
-
-t_tuple		*reflect(t_tuple *in, t_tuple *normal);
-
-t_its		**its_s(int size, ...);
-
-t_its		**merge(t_its **ori, int size);
-
-t_its		*its(t_obj *obj, double *len_from_ori, int cnt);
-
-t_its		*hit(t_its **its_s);
-
-t_its		*sphere_its(t_ray *r, t_sphere *sphere);
-
-t_ray		*ray(t_tuple *origin, t_tuple *direction);
-
-t_obj		*object(void *data, char type);
-
-t_sphere	*sphere(t_tuple *origin, double radius);
-
-t_light		*light(t_tuple *position, int intensity);
-
-t_mat		*material(int color, t_tuple *values);
 
 t_tuple		*cross(t_tuple *tuple1, t_tuple *tuple2);
 
@@ -119,6 +111,24 @@ t_tuple		*mult(t_tuple *tuple, double value);
 t_tuple		*sub(t_tuple *tuple1, t_tuple *tuple2);
 
 t_tuple		*add(t_tuple *tuple1, t_tuple *tuple2);
+
+t_tuple		*world_to_obj_point(t_tuple **t_matrix, t_tuple *world_point);
+
+t_tuple		*normal_at_obj(t_tuple **t_matrix, t_tuple *world_p, t_tuple *origin);
+
+t_tuple		*reflect(t_tuple *in, t_tuple *normal);
+
+t_tuple		*get_obj_ori(t_obj *obj);
+
+t_obj		*object(void *data, char type);
+
+t_sphere	*sphere(t_tuple *origin, t_mat *mat, double radius);
+
+t_light		*light(t_tuple *position, int intensity);
+
+t_mat		*material(int color, t_tuple *values);
+
+t_mat		*get_obj_mat(t_obj *obj);
 
 double		det(t_tuple **m, int size);
 
