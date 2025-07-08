@@ -3,14 +3,14 @@
 // Multiplies each element of a matrix by a scalar value.
 void	mult_m(t_tuple **m, double value)
 {
-	double	*product;
+	t_tuple	*product;
 	int		row;
 
 	row = -1;
 	while (m[++row])
 	{
-		product = mult(m[row]->val, value, m[row]->size);
-		free(m[row]->val);
-		m[row]->val = product;
+		product = mult(m[row], value);
+		free_t(m[row]);
+		m[row] = product;
 	}
 }
