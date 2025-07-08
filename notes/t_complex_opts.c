@@ -7,7 +7,9 @@ t_tuple	*cross(t_tuple *t1, t_tuple *t2)
 
 	if ((t1->size != 3) && (t2->size != 3))
 		return (NULL);
-	new_v = calloc(t1->size, sizeof(t_tuple));
+	new_v = tuple(0.0);
+	new_v->val = malloc(t1->size * sizeof(double));
+	new_v->size = t1->size;
 	if (!new_v)
 		return (NULL);
 	new_v->val[0] = (t1->val[1] * t2->val[2]) - (t2->val[1] * t1->val[2]);
@@ -25,7 +27,9 @@ t_tuple	*schur(t_tuple *tuple1, t_tuple *tuple2)
 	i = -1;
 	if (tuple1->size != tuple2->size)
 		return (NULL);
-	new_v = calloc(tuple1->size, sizeof(t_tuple));
+	new_v = tuple(0.0);
+	new_v->val = malloc(tuple1->size * sizeof(double));
+	new_v->size = tuple1->size;
 	if (!new_v)
 		return (NULL);
 	while (++i < tuple1->size)
@@ -34,19 +38,21 @@ t_tuple	*schur(t_tuple *tuple1, t_tuple *tuple2)
 }
 
 // Normalizes a vector to have a magnitude of 1.
-t_tuple	*norm(t_tuple *tuple)
+t_tuple	*norm(t_tuple *t)
 {
 	t_tuple	*new_v;
 	double	magnitude;
 	int		i;
 
 	i = -1;
-	magnitude = mag(tuple);
-	new_v = calloc(tuple->size, sizeof(t_tuple));
+	magnitude = mag(t);
+	new_v = tuple(0.0);
+	new_v->val = malloc(t->size * sizeof(double));
+	new_v->size = t->size;
 	if (!new_v)
 		return (NULL);
-	while (++i < tuple->size)
-		new_v->val[i] = tuple->val[i] / magnitude;
+	while (++i < t->size)
+		new_v->val[i] = t->val[i] / magnitude;
 	return (new_v);
 }
 

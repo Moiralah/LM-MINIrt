@@ -41,7 +41,6 @@ t_tuple	*tuple(int size, ...)
 	while (++i < size)
 		new_t->val[i] = va_arg(doubles, double);
 	new_t->size = size;
-	new_t->next = NULL;
 	return (new_t);
 }
 
