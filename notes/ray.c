@@ -16,7 +16,6 @@ t_ray	*ray(t_tuple *origin, t_tuple *direction)
 // Calculates the position of a ray at a given time.
 t_tuple	*travel(t_ray *ray, double time)
 {
-	t_tuple	*new_t_pos;
 	t_tuple	*velo;
 	t_tuple	*new_pos;
 
@@ -35,7 +34,7 @@ t_its	*sphere_its(t_ray *r, t_sphere *sphere)
 	double		rtc;
 	double		h;
 
-	obj = object(sphere, 's');
+	obj = object(sphere, 'S');
 	if (!obj)
 		return (NULL);
 	transform(r, sphere->t_matrix);
@@ -44,6 +43,7 @@ t_its	*sphere_its(t_ray *r, t_sphere *sphere)
 	h = pow(mag(rto), 2) - pow(rtc, 2);
 	if (sqrt(h) > sphere->rad)
 		return (free_t(rto), its(obj, NULL, 0));
+	h = pow(mag(rto), 2) - pow(rtc, 2);
 	result = calloc(2, sizeof(double));
 	if (!result)
 		return (free_t(rto), free(obj), NULL);
@@ -55,20 +55,36 @@ t_its	*sphere_its(t_ray *r, t_sphere *sphere)
 	return (free_t(rto), its(obj, result, 2));
 }
 
+t_its	*intersect(t_ray *ray, t_obj *obj)
+{
+	if (obj->type == 'S')
+		return (sphere_its(ray, (t_sphere *)obj->data));
+	return (NULL);
+}
+
 void	transform(t_ray *ray, t_tuple **t_matrix)
 {
 	t_tuple	**temp_m;
+	t_tuple	**inverse_m;
 	t_tuple	**result_m;
 
 	temp_m = matrix(2, ray->ori);
-	result_m = mxm(temp_m, inverse(t_matrix));
+	if (!temp_m)
+		return ;
+	inverse_m = inverse(t_matrix);
+	if (!inverse_m)
+		return (free_m(temp_m, temp_m[0]->size));
+	result_m = mxm(temp_m, inverse_m);
 	ray->ori = result_m[0];
 	free_m(temp_m, temp_m[0]->size);
 	free(result_m);
 	temp_m = matrix(2, ray->dir);
-	result_m = mxm(temp_m, inverse(t_matrix));
+	if (!temp_m)
+		return (free_m(inverse_m, inverse_m[0]->size));
+	result_m = mxm(temp_m, inverse_m);
 	ray->dir = result_m[0];
 	free_m(temp_m, temp_m[0]->size);
+	free_m(inverse_m, inverse_m[0]->size);
 	free(result_m);
 }
 
