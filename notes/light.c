@@ -10,6 +10,18 @@ t_tuple	*light(t_tuple *light_pos, t_tuple *point_pos)
 	return (sub(light_pos->val, point_pos->val, 4));
 } */
 
+t_light	*light(t_tuple *position, int intensity)
+{
+	t_light	*light;
+
+	light = malloc(sizeof(t_light));
+	if (!light)
+		return (NULL);
+	light->position = position;
+	light->intensity = intensity;
+	return (light);
+}
+
 t_tuple	*world_to_obj_point(t_tuple **t_matrix, t_tuple *world_point)
 {
 	t_tuple	**inverse_m;
@@ -24,12 +36,12 @@ t_tuple	*world_to_obj_point(t_tuple **t_matrix, t_tuple *world_point)
 	inverse_m = inverse(t_matrix);
 	if (!inverse_m)
 		return (free_m(point_m, point_m[0]->size), NULL);
-	obj_p = mxm(inverse_m, point_m);
+	obj_p = mxm(point_m, inverse_m);
 	if (obj_p)
 		result = obj_p[0];
 	free_m(inverse_m, 2);
-	free_m(obj_p, 2);
 	free_m(point_m, 2);
+	free(obj_p);
 	return (result);
 }
 
@@ -51,7 +63,7 @@ t_tuple	*normal_at_obj(t_tuple **t_matrix, t_tuple *world_p, t_tuple *origin)
 	if (!inverse_m)
 		return (free_m(obj_n, 2), free_t(obj_p), NULL);
 	transpose(inverse_m);
-	world_n = mxm(inverse_m, obj_n);
+	world_n = mxm(obj_n, inverse_m);
 	if (!world_n)
 		return (free_m(obj_n, 2), free_m(inverse_m, 2), NULL);
 	world_n[0]->val[3] = 0.0;
@@ -69,16 +81,4 @@ t_tuple	*reflect(t_tuple *in, t_tuple *normal)
 	if (!result)
 		return (NULL);
 	return (result);
-}
-
-t_light	*light(t_tuple *position, int intensity)
-{
-	t_light	*light;
-
-	light = malloc(sizeof(t_light));
-	if (!light)
-		return (NULL);
-	light->position = position;
-	light->intensity = intensity;
-	return (light);
 }
