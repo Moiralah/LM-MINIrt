@@ -9,6 +9,7 @@ void	cast_rays(t_img img, t_sphere *sphere, t_light *light, t_tuple *ori, int no
 	t_tuple	*e;
 	t_tuple	*n;
 	t_tuple	*hit;
+	t_tuple	*ray_origin;
 	double	scaled_w;
 	double	scaled_h;
 	double	wall_size;
@@ -23,16 +24,24 @@ void	cast_rays(t_img img, t_sphere *sphere, t_light *light, t_tuple *ori, int no
 	scaled_h = wall_size / img.h;
 	while (i[0] >= 0)
 	{
+		// Calculate wall point in world coordinates
 		wall_p[0] = (wall_size / 2) - (scaled_w * i[0]);
 		wall_p[1] = (wall_size / 2) - (scaled_h * i[1]);
-		dir = tuple(4.0, wall_p[0], wall_p[1], sphere->ori->val[2], 1.0);
+
+		// Create direction vector from camera to wall point
+		dir = tuple(4.0, wall_p[0], wall_p[1], 0.0, 1.0);
 		temp = dir;
 		dir = sub(dir, ori);
 		free_t(temp);
 		temp = dir;
 		dir = norm(dir);
 		free_t(temp);
-		r = ray(tuple(4.0, 0.0, 0.0, -5.0, 1.0), dir);
+
+		// Create a copy of the origin for the ray
+		ray_origin = tuple(4.0, ori->val[0], ori->val[1], ori->val[2], ori->val[3]);
+
+		// Create ray from camera position
+		r = ray(ray_origin, dir);
 		e = mult(r->dir, -1);
 		its = sphere_its(r, sphere);
 		if (!its)
@@ -48,7 +57,7 @@ void	cast_rays(t_img img, t_sphere *sphere, t_light *light, t_tuple *ori, int no
 		}
 		i[1]--;
 		if ((i[1] < 0) && (i[0]--))
-			i[1] = img.h;
+			i[1] = img.h - 1;
 		free_ray(r);
 		free_its(its);
 	}
@@ -56,6 +65,7 @@ void	cast_rays(t_img img, t_sphere *sphere, t_light *light, t_tuple *ori, int no
 
 int	main(void)
 {
+
 	t_img		img;
 	t_mat		*mat;
 	t_sphere	*s;
@@ -85,5 +95,7 @@ int	main(void)
 	mlx_loop(mlx);
 	mlx_destroy_display(mlx);
 	free(mlx);
+
+	test_intersect_world();
 	return (0);
 }

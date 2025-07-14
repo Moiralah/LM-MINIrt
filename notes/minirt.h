@@ -80,6 +80,8 @@ t_its		*hit(t_its **its_s);
 
 t_its		*sphere_its(t_ray *r, t_sphere *sphere);
 
+t_its		*intersect(t_ray *ray, t_obj *obj);
+
 t_ray		*ray(t_tuple *origin, t_tuple *direction);
 
 t_tuple		**matrix(int size, ...);
