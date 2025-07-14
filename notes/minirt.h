@@ -64,6 +64,12 @@ typedef struct s_light
 	int		intensity;
 }	t_light;
 
+typedef struct s_world
+{
+	t_light	*light;
+	t_obj	**object;
+}	t_world;
+
 t_its		**its_s(int size, ...);
 
 t_its		**merge(t_its **ori, int size);
@@ -167,5 +173,16 @@ void		free_its_s(t_its **its_s);
 void		print_m(t_tuple **matrix);
 
 void		print_t(t_tuple *tuple);
+
+t_world *def_world(void);
+t_its **intsect_world(t_world *world, t_ray *ray);
+void test_intersect_world(void);
+
+
+
+
+
+
+
 
 #endif
