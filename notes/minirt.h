@@ -180,7 +180,9 @@ t_world *def_world(void);
 t_its **intsect_world(t_world *world, t_ray *ray);
 void test_intersect_world(void);
 
-
+t_ray *ray_transform(t_ray *r, t_tuple **matrix);
+t_its *sphere_intersect(t_ray *ray, t_sphere *sphere);
+t_its *intersect_s(t_ray *ray, t_obj *obj);
 
 
 
