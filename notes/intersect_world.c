@@ -14,9 +14,9 @@ t_world *def_world(void)
 	lit = light(tuple(4, -10.0, 10.0, -10.0, 1.0), rgb_hex(1, 1, 1));
 	world->light = lit;
 
-	s1 = sphere(tuple(4, 0.0, 0.0, 0.0, 1.0), material(rgb_hex(0.8, 1.0, 0.6), tuple(4, 0.7, 0.7, 0.7, 1.0)), 1.0);
-	s2 = sphere(tuple(4, 0.0, 0.0, 0.0, 1.0), material(rgb_hex(1.0, 1.0, 1.0), tuple(4, 0.7, 0.7, 0.7, 1.0)), 0.5);
-	s2->t_matrix = scale(4, 0.5, 0.5, 0.5);
+	s1 = sphere(tuple(4, 0.0, 0.0, 0.0, 1.0), material(rgb_hex(0.8, 1.0, 0.6), tuple(4, 0.0, 0.7, 0.2, 0.0)), 1.0);
+	s2 = sphere(tuple(4, 0.0, 0.0, 0.0, 1.0), material(rgb_hex(1.0, 1.0, 1.0), tuple(4, 0.0, 0.0, 0.0, 0.0)), 0.5);
+	//s2->t_matrix = scale(4, 0.5, 0.5, 0.5);
 
 	world->object = ft_calloc(3, sizeof(t_obj *));
 	world->object[0] = object(s1, 'S');
@@ -45,36 +45,29 @@ t_its **add_intersection(t_its **intersections, t_its *obj_intersection, int *to
 
 t_its **intsect_world(t_world *world, t_ray *ray)
 {
-	t_its **intersections = ft_calloc(1, sizeof(t_its *));
-	int total = 0;
-	int i = 0;
+	t_its	**intersections;
+	t_its	*obj_its;
+	t_its	*single;
+	int total;
+	int i;
+	int	j;
 
-	while (world->object[i])
+	intersections = ft_calloc(1, sizeof(t_its *));
+	total = 0;
+	i = -1;
+	while (world->object[++i])
 	{
-		t_its *obj_its = intersect(ray, world->object[i]);
-		if (!obj_its || obj_its->cnt == 0)
+		obj_its = intersect(ray, world->object[i]);
+		j = -1;
+		while (++j < obj_its->cnt)
 		{
-			if (obj_its)
-				free_its(obj_its);
-			i++;
-			continue;
-		}
-		int j = 0;
-		while (j < obj_its->cnt)
-		{
-			t_its *single = malloc(sizeof(t_its));
-			single->obj = obj_its->obj;
+			single = its(obj_its->obj, obj_its->len, 1);
 			single->len = malloc(sizeof(double));
 			single->len[0] = obj_its->len[j];
-			single->cnt = 1;
 			intersections = add_intersection(intersections, single, &total);
-			j++;
 		}
-		i++;
 	}
-	if (total > 1)
-		intersections = merge(intersections, total);
-
+	intersections = merge(intersections, total);
 	return (intersections);
 }
 
@@ -97,7 +90,6 @@ void test_intersect_world(void)
 			printf("xs[%d].t = %g\n", i, xs[i]->len[j]);
 		}
 	}
-
 	//free_its_s(xs);
 	//free_ray(rays);
 }
