@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-// Merges two sorted arrays of intersections.
+// //Merges two sorted arrays of intersections.
 // void	sort(t_its **ori, t_its **l, t_its **r, int size)
 // {
 // 	int	i;

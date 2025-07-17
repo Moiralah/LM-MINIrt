@@ -1,6 +1,7 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 # include <stdio.h>
+# include <stdbool.h>
 # include <math.h>
 # include "../minilibx-linux/mlx.h"
 # include "../libft/libft.h"
@@ -69,6 +70,16 @@ typedef struct s_world
 	t_light	*light;
 	t_obj	**object;
 }	t_world;
+
+typedef struct s_comps
+{
+	double	t;
+	t_obj	*obj;
+	t_tuple	*point;
+	t_tuple	*eyev;
+	bool	inside;
+	t_tuple	*normalv;
+}	t_comps;
 
 t_its		**its_s(int size, ...);
 
@@ -183,7 +194,7 @@ void test_intersect_world(void);
 t_ray *ray_transform(t_ray *r, t_tuple **matrix);
 t_its *sphere_intersect(t_ray *ray, t_sphere *sphere);
 t_its *intersect_s(t_ray *ray, t_obj *obj);
-
+void merge_sort(t_its **arr, int size);
 
 
 

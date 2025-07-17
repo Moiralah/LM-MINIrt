@@ -19,7 +19,10 @@ t_tuple	**mxm(t_tuple **m1, t_tuple **m2)
 		if (!new_m[h])
 			return (free_m(new_m, h), NULL);
 		while (--w >= 0)
+		{
 			new_m[h]->val[w] = dot(m1[h], m2[w]);
+			printf("%d | %d: %f\n", h, w, new_m[h]->val[w]);
+		}
 	}
 	transpose(m2);
 	return (new_m);
