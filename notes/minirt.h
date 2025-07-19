@@ -5,6 +5,8 @@
 # include "../minilibx-linux/mlx.h"
 # include "../libft/libft.h"
 
+# define RATIO 2
+
 typedef struct s_img
 {
 	void	*img;

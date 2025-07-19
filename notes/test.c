@@ -18,7 +18,7 @@ void	cast_rays(t_img img, t_sphere *sphere, t_light *light, t_tuple *ori, int no
 
 	i[0] = img.w - 1;
 	i[1] = img.h - 1;
-	wall_size = 7.0;
+	wall_size = 7.0 * RATIO;
 	scaled_w = wall_size / img.w;
 	scaled_h = wall_size / img.h;
 	while (i[0] >= 0)
@@ -67,15 +67,16 @@ int	main(void)
 	int			blue;
 	int			light_colour;
 
-	img.w = 100;
-	img.h = 100;
+	img.w = 100 * RATIO;
+	img.h = 100 * RATIO;
 	ori = tuple(4.0, 0.0, 0.0, -5.0, 1.0);
 	black = rgb_hex(0.0, 0.0, 0.0);
 	blue = rgb_hex(1.0, 0.2, 1.0);
 	light_colour = rgb_hex(1.0, 1.0, 1.0);
 	l = light(tuple(4, -10.0, 10.0, -10.0, 1.0), light_colour);
 	mat = material(blue, tuple(4, 1.0, 1.0, 1.0, 1.0));
-	s = sphere(tuple(4.0, 0.0, 0.0, 10, 1.0), mat, 1.0);
+	s = sphere(tuple(4.0, 10.0, 2.5, 10, 1.0), mat, 1.0 * 4);
+	// s = sphere(mult(tuple(4.0, 0.0, 0.0, 10, 1.0), 10), mat, 1.0);
 	mlx = mlx_init();
 	win = mlx_new_window(mlx, img.w, img.h, "Sphere");
 	img.img = mlx_new_image(mlx, img.w, img.h);
