@@ -81,6 +81,17 @@ typedef struct s_comps
 	t_tuple	*normalv;
 }	t_comps;
 
+typedef struct s_camera
+{
+	int		hsize;
+	int		vsize;
+	double	field_of_view;
+	t_tuple	**transform;
+	double	half_width;
+	double	half_height;
+	double	pixel_size;
+}	t_camera;
+
 t_its		**its_s(int size, ...);
 
 t_its		**merge(t_its **ori, int size);
