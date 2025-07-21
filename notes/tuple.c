@@ -44,6 +44,24 @@ t_tuple	*tuple(int size, ...)
 	return (new_t);
 }
 
+t_tuple	*copy_t(t_tuple *old)
+{
+	t_tuple	*new;
+	int	size;
+
+	size = old->size;
+	new = tuple(0);
+	if (!new)
+		return (NULL);
+	new->val = malloc(size * sizeof(double));
+	if (!new->val)
+		return (free(new), NULL);
+	while (--size >= 0)
+		new->val[size] = old->val[size];
+	new->size = old->size;
+	return (new);
+}
+
 // Frees the memory allocated for a tuple.
 void	free_t(t_tuple *tuple)
 {
