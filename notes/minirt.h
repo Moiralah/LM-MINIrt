@@ -1,11 +1,10 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 # include <stdio.h>
+# include <stdbool.h>
 # include <math.h>
 # include "../minilibx-linux/mlx.h"
 # include "../libft/libft.h"
-
-# define RATIO 2
 
 typedef struct s_img
 {
@@ -66,6 +65,33 @@ typedef struct s_light
 	int		intensity;
 }	t_light;
 
+typedef struct s_world
+{
+	t_light	*light;
+	t_obj	**object;
+}	t_world;
+
+typedef struct s_comps
+{
+	double	t;
+	t_obj	*obj;
+	t_tuple	*point;
+	t_tuple	*eyev;
+	bool	inside;
+	t_tuple	*normalv;
+}	t_comps;
+
+typedef struct s_camera
+{
+	int		hsize;
+	int		vsize;
+	double	field_of_view;
+	t_tuple	**transform;
+	double	half_width;
+	double	half_height;
+	double	pixel_size;
+}	t_camera;
+
 t_its		**its_s(int size, ...);
 
 t_its		**merge(t_its **ori, int size);
@@ -75,6 +101,8 @@ t_its		*its(t_obj *obj, double *len_from_ori, int cnt);
 t_its		*hit(t_its **its_s);
 
 t_its		*sphere_its(t_ray *r, t_sphere *sphere);
+
+t_its		*intersect(t_ray *ray, t_obj *obj);
 
 t_ray		*ray(t_tuple *origin, t_tuple *direction);
 
@@ -169,5 +197,18 @@ void		free_its_s(t_its **its_s);
 void		print_m(t_tuple **matrix);
 
 void		print_t(t_tuple *tuple);
+
+t_world *def_world(void);
+t_its **intsect_world(t_world *world, t_ray *ray);
+void test_intersect_world(void);
+
+t_ray *ray_transform(t_ray *r, t_tuple **matrix);
+t_its *sphere_intersect(t_ray *ray, t_sphere *sphere);
+t_its *intersect_s(t_ray *ray, t_obj *obj);
+void merge_sort(t_its **arr, int size);
+
+
+
+
 
 #endif
