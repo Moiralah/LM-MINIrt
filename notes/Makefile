@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 NAME	= 3d
-FLAGS	= -Wall -Wextra -Werror #-fsanitize=address -g3
+FLAGS	= -Wall -Wextra -Werror -g #-fsanitize=address -g3
 
 CC	= gcc
 
