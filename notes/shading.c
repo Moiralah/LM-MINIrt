@@ -34,8 +34,7 @@ double	spclr(t_tuple *reflect, t_tuple *eye, t_mat *mat, t_light *light)
 
 void	diffuse(t_mat *mat, t_tuple **m, t_tuple **temp, double *values)
 {
-	if (values[1] >= 0)
-		values[2] = values[0] * mat->diffuse * values[1];
+	values[2] = values[0] * mat->diffuse * values[1];
 	free_t(temp[0]);
 	temp[0] = mult(temp[1], -1.0);
 	if (!temp[0])
@@ -60,10 +59,10 @@ int	lighting(t_mat *mat, t_light *light, t_tuple **m)
 		return (free_t(temp[0]), -1);
 	values[0] = mat->color * light->intensity;
 	values[1] = dot(temp[1], m[2]);
-	values[2] = 0.0;
-	values[3] = 0.0;
-	diffuse(mat, m, temp, values);
-	values[3] = spclr(temp[1], m[1], mat, light);
+	if (values[1] >= 0)
+		diffuse(mat, m, temp, values);
+	if (values[1] >= 0)
+		values[3] = spclr(temp[1], m[1], mat, light);
 	free_t(temp[1]);
 	return ((values[0] * mat->ambient) + values[2] + values[3]);
 }
