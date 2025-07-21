@@ -6,22 +6,23 @@ t_tuple	**mxm(t_tuple **m1, t_tuple **m2)
 	t_tuple	**new_m;
 	int		h;
 	int		w;
+	int		i;
 
 	h = len_m(m1);
+	w = m2[0]->size;
 	new_m = matrix(h);
 	if (!new_m)
 		return (NULL);
-	transpose(m2);
+	m2 = transpose(m2);
 	while (--h >= 0)
 	{
-		w = m2[0]->size;
 		new_m[h] = tuple(w);
 		if (!new_m[h])
 			return (free_m(new_m, h), NULL);
-		while (--w >= 0)
-			new_m[h]->val[w] = dot(m1[h], m2[w]);
+		i = -1;
+		while (++i < w)
+			new_m[h]->val[i] = dot(m1[h], m2[i]);
 	}
-	transpose(m2);
 	return (new_m);
 }
 
@@ -50,7 +51,7 @@ t_tuple	**inverse(t_tuple **m)
 			free_m(mnr, len_m(mnr));
 		}
 	}
-	transpose(mnrs);
+	mnrs = transpose(mnrs);
 	mult_m(mnrs, 1 / det(m, len_m(m)));
 	return (mnrs);
 }
@@ -85,6 +86,27 @@ t_tuple	**subm(t_tuple **m, int row, int col)
 	return (new_m);
 }
 
+// Transposes a matrix.
+t_tuple	**transpose(t_tuple **m)
+{
+	t_tuple	**new_m;
+	int	h;
+	int	w;
+
+	w = m[0]->size;
+	new_m = matrix(w + 1);
+	while (--w >= 0)
+	{
+		h = len_m(m);
+		new_m[w] = tuple(0);
+		new_m[w]->val = malloc(h * sizeof(double));
+		new_m[w]->size = h;
+		while (--h >= 0)
+			new_m[w]->val[h] = m[h]->val[w];
+	}
+	return (new_m);
+}
+
 // Calculates the determinant of a matrix.
 double	det(t_tuple **m, int ori_size)
 {
@@ -105,26 +127,4 @@ double	det(t_tuple **m, int ori_size)
 	bc = m[0]->val[1] * m[1]->val[0];
 	free_m(m, len_m(m));
 	return (ad - bc);
-}
-
-// Transposes a matrix.
-void	transpose(t_tuple **m)
-{
-	double	prev;
-	int		i;
-	int		q;
-
-	i = -1;
-	if (len_m(m) != m[0]->size)
-		return ;
-	while (m[++i])
-	{
-		q = i;
-		while (++q < m[i]->size)
-		{
-			prev = m[i]->val[q];
-			m[i]->val[q] = m[q]->val[i];
-			m[q]->val[i] = prev;
-		}
-	}
 }
