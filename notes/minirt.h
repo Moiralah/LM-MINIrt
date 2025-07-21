@@ -76,7 +76,13 @@ t_its		*sphere_its(t_ray *r, t_sphere *sphere);
 
 t_ray		*ray(t_tuple *origin, t_tuple *direction);
 
+t_ray		*copy_ray(t_ray *old);
+
+t_ray		*transform(t_ray *ray, t_tuple **t_matrix);
+
 t_tuple		**matrix(int size, ...);
+
+t_tuple		**copy_m(t_tuple **old);
 
 t_tuple		**subm(t_tuple **m, int row, int col);
 
@@ -85,6 +91,8 @@ t_tuple		**inverse(t_tuple **m);
 t_tuple		**mxm(t_tuple **m1, t_tuple **m2);
 
 t_tuple		**identity(int size);
+
+t_tuple		**transpose(t_tuple **m);
 
 t_tuple		**translate(int m_size, ...);
 
@@ -97,6 +105,8 @@ t_tuple		**shear(t_tuple **ori_matrix, int axis, ...);
 t_tuple		**get_obj_tf(t_obj *obj);
 
 t_tuple		*tuple(int size, ...);
+
+t_tuple		*copy_t(t_tuple *old);
 
 t_tuple		*travel(t_ray *ray, double time);
 
@@ -114,7 +124,7 @@ t_tuple		*add(t_tuple *tuple1, t_tuple *tuple2);
 
 t_tuple		*world_to_obj_point(t_tuple **t_matrix, t_tuple *world_point);
 
-t_tuple		*normal_at_obj(t_tuple **t_matrix, t_tuple *world_p, t_tuple *origin);
+t_tuple		*normal_at_obj(t_tuple **t_m, t_tuple *world_p, t_tuple *ori);
 
 t_tuple		*reflect(t_tuple *in, t_tuple *normal);
 
@@ -125,6 +135,8 @@ t_obj		*object(void *data, char type);
 t_sphere	*sphere(t_tuple *origin, t_mat *mat, double radius);
 
 t_light		*light(t_tuple *position, int intensity);
+
+t_light		*copy_light(t_light *old);
 
 t_mat		*material(int color, t_tuple *values);
 
@@ -142,13 +154,9 @@ int			rgb_hex(double red, double green, double blue);
 
 int			len_m(t_tuple **m);
 
-int			equal_m(t_tuple **m1, t_tuple **m2);
+// int			equal_m(t_tuple **m1, t_tuple **m2);
 
 int			lighting(t_mat *mat, t_light *light, t_tuple **m);
-
-void		transpose(t_tuple **m);
-
-void		transform(t_ray *ray, t_tuple **t_matrix);
 
 void		mult_m(t_tuple **m, double val);
 
