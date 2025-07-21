@@ -18,6 +18,27 @@ t_tuple	**matrix(int size, ...)
 	return (matrix);
 }
 
+t_tuple	**copy_m(t_tuple **old)
+{
+	t_tuple	**new;
+	int	size;
+	int	i;
+
+	i = -1;
+	size = len_m(old);
+	new = matrix(size);
+	if (!new)
+		return (NULL);
+	new[size] = NULL;
+	while (++i < size)
+	{
+		new[i] = copy_t(old[i]);
+		if (!new[i])
+			return (free_m(new, i), NULL);
+	}
+	return (new);
+}
+
 // Returns the number of rows in a matrix.
 int	len_m(t_tuple **m)
 {
@@ -29,7 +50,7 @@ int	len_m(t_tuple **m)
 	return (h);
 }
 
-// Checks if two matrices are equal.
+/* // Checks if two matrices are equal.
 int	equal_m(t_tuple **m1, t_tuple **m2)
 {
 	int	w;
@@ -49,7 +70,7 @@ int	equal_m(t_tuple **m1, t_tuple **m2)
 			return (0);
 	}
 	return (1);
-}
+} */
 
 // Frees the memory allocated for a matrix.
 void	free_m(t_tuple **matrix, int stop)
