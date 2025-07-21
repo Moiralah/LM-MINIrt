@@ -1,61 +1,67 @@
 #include "minirt.h"
 
-// Creates a list of intersections for a given size.
-t_its	**its_s(int size, ...)
+// Computes the intersections of a ray with a sphere.
+/* t_its	*sphere_its(t_ray *r, t_sphere *sphere)
 {
-	t_its	**its_list;
-	va_list	its_s;
-	int		i;
+	t_obj		*obj;
+	t_ray		*new_ray;
+	t_tuple		*rto;
+	double		*result;
+	double		rtc;
+	double		h;
 
-	i = -1;
-	its_list = calloc(size + 1, sizeof(t_its *));
-	if (!its_list)
+	obj = object(sphere, 'S');
+	if (!obj)
 		return (NULL);
-	va_start(its_s, size);
-	while (++i < size)
-		its_list[i] = va_arg(its_s, t_its *);
-	its_list[i] = NULL;
-	return (merge(its_list, i));
-}
+	new_ray = transform(r, inverse(sphere->t_matrix));
+	rto = sub(sphere->ori, new_ray->ori);
+	rtc = dot(rto, new_ray->dir);
+	h = pow(mag(rto), 2) - pow(rtc, 2);
+	print_t(rto);
+	printf("%f | %f\n", rtc, h);
+	if (sqrt(h) > sphere->rad)
+		return (free_t(rto), its(obj, NULL, 0));
+	h = pow(mag(rto), 2) - pow(rtc, 2);
+	result = calloc(2, sizeof(double));
+	if (!result)
+		return (free_t(rto), free(obj), NULL);
+	h = sqrt(pow(sphere->rad, 2) - h);
+	result[0] = rtc - h;
+	result[1] = rtc + h;
+	if (result[0] == result[1])
+		return (free_t(rto), its(obj, result, 1));
+	return (free_t(rto), its(obj, result, 2));
+} */
 
-// Creates a new intersection object.
-t_its	*its(t_obj *obj, double *len_from_ori, int cnt)
+t_its	*sphere_its(t_ray *r, t_sphere *sphere)
 {
-	t_its	*new_its;
+	t_obj		*obj;
+	t_ray		*new_ray;
+	t_tuple		*rto;
+	double		values[4];
+	double		*result;
 
-	new_its = calloc(1, sizeof(t_its *));
-	new_its->obj = obj;
-	new_its->len = len_from_ori;
-	new_its->cnt = cnt;
-	return (new_its);
-}
-
-// Finds the first positive intersection (hit).
-t_its	*hit(t_its **its_s)
-{
-	int	i;
-
-	i = 0;
-	while ((its_s[i]) && (its_s[i]->len[0] <= 0))
-		i++;
-	return (its_s[i]);
-}
-
-// Frees the memory allocated for a list of intersections.
-void	free_its_s(t_its **its_s)
-{
-	int	i;
-
-	i = -1;
-	while (its_s[++i])
-		free_its(its_s[i]);
-	free(its_s);
-}
-
-// Frees the memory allocated for a single intersection.
-void	free_its(t_its *its)
-{
-	free(its->obj);
-	free(its->len);
-	free(its);
+	result = malloc(2 * sizeof(double));
+	if (!result)
+		return (NULL);
+	obj = object(sphere, 'S');
+	if (!obj)
+		return (NULL);
+	new_ray = transform(r, inverse(sphere->t_matrix));
+	if (!new_ray)
+		return (free(result), free(obj), NULL);
+	rto = sub(new_ray->ori, sphere->ori);
+	if (!rto)
+		return (free(obj), NULL);
+	values[0] = dot(new_ray->dir, new_ray->dir);
+	values[1] = 2 * dot(new_ray->dir, rto);
+	values[2] = dot(rto, rto) - 1;
+	values[3] = pow(values[1], 2) - (4 * values[0] * values[2]);
+	if (values[3] < 0)
+		return (free_t(rto), its(obj, NULL, 0));
+	result[0] = (-values[1] - sqrt(values[3])) / (2 * values[0]);
+	result[1] = (-values[1] + sqrt(values[3])) / (2 * values[0]);
+	if (result[0] == result[1])
+		return (free_t(rto), its(obj, result, 1));
+	return (free_t(rto), its(obj, result, 2));
 }
