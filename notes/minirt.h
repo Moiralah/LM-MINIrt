@@ -92,6 +92,8 @@ typedef struct s_camera
 	double	pixel_size;
 }	t_camera;
 
+t_img		*render(t_camera *cam, t_world *world);
+
 t_its		**its_s(int size, ...);
 
 t_its		**merge(t_its **ori, int size);
@@ -104,7 +106,15 @@ t_its		*sphere_its(t_ray *r, t_sphere *sphere);
 
 t_its		*intersect(t_ray *ray, t_obj *obj);
 
+t_its		**intsect_world(t_world *world, t_ray *ray);
+
+t_its		**add_its(t_its **intersections, t_its *obj_its, int *total_its);
+
+t_its		**intsect_world(t_world *world, t_ray *ray);
+
 t_ray		*ray(t_tuple *origin, t_tuple *direction);
+
+t_ray		*ray_for_pixel(t_camera *cam, int px, int py);
 
 t_tuple		**matrix(int size, ...);
 
@@ -150,6 +160,8 @@ t_tuple		*reflect(t_tuple *in, t_tuple *normal);
 
 t_tuple		*get_obj_ori(t_obj *obj);
 
+t_tuple		**view_transform(t_tuple *from, t_tuple *to, t_tuple *up);
+
 t_obj		*object(void *data, char type);
 
 t_sphere	*sphere(t_tuple *origin, t_mat *mat, double radius);
@@ -159,6 +171,12 @@ t_light		*light(t_tuple *position, int intensity);
 t_mat		*material(int color, t_tuple *values);
 
 t_mat		*get_obj_mat(t_obj *obj);
+
+t_world		*def_world(void);
+
+t_comps		*prepare_computations(t_its *intersection, t_ray *ray);
+
+t_camera	*camera(double hsize, double vsize, double field_of_view);
 
 double		det(t_tuple **m, int size);
 
@@ -198,16 +216,13 @@ void		print_m(t_tuple **matrix);
 
 void		print_t(t_tuple *tuple);
 
-t_world *def_world(void);
-t_its **intsect_world(t_world *world, t_ray *ray);
-void test_intersect_world(void);
+void		test_intersect_world(void);
 
-t_ray *ray_transform(t_ray *r, t_tuple **matrix);
-t_its *sphere_intersect(t_ray *ray, t_sphere *sphere);
-t_its *intersect_s(t_ray *ray, t_obj *obj);
-void merge_sort(t_its **arr, int size);
+int			shade_hit(t_world *world, t_comps *comps);
 
+int			color_at(t_world *world, t_ray *ray);
 
+void		free_comps(t_comps *comps);
 
 
 
