@@ -63,8 +63,8 @@ void	cast_rays(t_img img, t_sphere *sphere, t_light *light, t_tuple *ori, int no
 	}
 }
 
-int	main(void)
-{
+// int	main(void)
+// {
 
 	// t_img		img;
 	// t_mat		*mat;
@@ -96,6 +96,6 @@ int	main(void)
 	// mlx_destroy_display(mlx);
 	// free(mlx);
 
-	test_intersect_world();
-	return (0);
-}
+// 	test_intersect_world();
+// 	return (0);
+// }
