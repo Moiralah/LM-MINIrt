@@ -2,9 +2,15 @@
 # define MINIRT_H
 # include <stdio.h>
 # include <stdbool.h>
+# include <stdbool.h>
 # include <math.h>
 # include "../minilibx-linux/mlx.h"
 # include "../libft/libft.h"
+
+typedef struct s_data
+{
+	char **data;
+}	t_data;
 
 typedef struct s_img
 {
