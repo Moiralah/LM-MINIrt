@@ -30,7 +30,7 @@ typedef struct s_tuple
 
 typedef struct s_material
 {
-	int		color;
+	t_tuple	*color;
 	double	ambient;
 	double	diffuse;
 	double	specular;
@@ -61,7 +61,7 @@ typedef struct s_ray
 typedef struct s_light
 {
 	t_tuple	*position;
-	int		intensity;
+	t_tuple	*intensity;
 }	t_light;
 
 t_its		**its_s(int size, ...);
@@ -78,7 +78,9 @@ t_ray		*ray(t_tuple *origin, t_tuple *direction);
 
 t_ray		*copy_ray(t_ray *old);
 
-t_ray		*transform(t_ray *ray, t_tuple **t_matrix);
+t_tuple		*transform_ori(t_tuple **t_matrix, t_tuple *ori);
+
+t_tuple		*transform_dir(t_tuple **t_matrix, t_tuple *dir);
 
 t_tuple		**matrix(int size, ...);
 
@@ -134,11 +136,11 @@ t_obj		*object(void *data, char type);
 
 t_sphere	*sphere(t_tuple *origin, t_mat *mat, double radius);
 
-t_light		*light(t_tuple *position, int intensity);
+t_light		*light(t_tuple *position, t_tuple *intensity);
 
 t_light		*copy_light(t_light *old);
 
-t_mat		*material(int color, t_tuple *values);
+t_mat		*material(t_tuple *color, t_tuple *values);
 
 t_mat		*get_obj_mat(t_obj *obj);
 
@@ -156,7 +158,7 @@ int			len_m(t_tuple **m);
 
 // int			equal_m(t_tuple **m1, t_tuple **m2);
 
-int			lighting(t_mat *mat, t_light *light, t_tuple **m);
+t_tuple		*lighting(t_mat *mat, t_light *light, t_tuple **m);
 
 void		mult_m(t_tuple **m, double val);
 
