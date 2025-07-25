@@ -60,6 +60,27 @@ int	ft_printf(const char *str, ...)
 	return (len);
 }
 
+void	perr(const char *str, ...)
+{
+	va_list	ap;
+	int		i;
+
+	i = 0;
+	va_start(ap, str);
+	while (str[i])
+	{
+		if ((str[i] == '%') && (str[i + 1] == 's'))
+		{
+			i++;
+			ft_putstr_fd(va_arg(ap, char *), 2);
+		}
+		else
+			ft_putchar_fd(str[i], 2);
+		i++;
+	}
+	va_end(ap);
+}
+
 // int main ()
 // {
 // 	char	c;

@@ -76,5 +76,6 @@ void		free2d(char **str);
 long long	ft_atoll(const char *str);
 int			ft_strcmp(const char *s1, const char *s2);
 char		**ft_splitmj(char const *s, char c);
+void		perr(const char *str, ...);
 
 #endif

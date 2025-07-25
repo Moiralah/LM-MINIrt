@@ -19,14 +19,17 @@
 
 	i[0] = img.w - 1;
 	i[1] = img.h - 1;
-	wall_size = 7.0;
+	wall_size = 7.0 * RATIO;
 	scaled_w = wall_size / img.w;
 	scaled_h = wall_size / img.h;
 	while (i[0] >= 0)
 	{
+		// Calculate wall point in world coordinates
 		wall_p[0] = (wall_size / 2) - (scaled_w * i[0]);
 		wall_p[1] = (wall_size / 2) - (scaled_h * i[1]);
-		dir = tuple(4.0, wall_p[0], wall_p[1], sphere->ori->val[2], 1.0);
+
+		// Create direction vector from camera to wall point
+		dir = tuple(4.0, wall_p[0], wall_p[1], 0.0, 1.0);
 		temp = dir;
 		dir = sub(dir, ori);
 		free_t(temp);
@@ -51,7 +54,7 @@
 		}
 		i[1]--;
 		if ((i[1] < 0) && (i[0]--))
-			i[1] = img.h;
+			i[1] = img.h - 1;
 		free_ray(r);
 		free_its(its);
 	}
