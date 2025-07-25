@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-t_mat	*material(int color, t_tuple *values)
+t_mat	*material(t_tuple *color, t_tuple *values)
 {
 	t_mat	*material;
 
@@ -15,7 +15,7 @@ t_mat	*material(int color, t_tuple *values)
 	return (material);
 }
 
-double	spclr(t_tuple *reflect, t_tuple *eye, t_mat *mat, t_light *light)
+/* double	spclr(t_tuple *reflect, t_tuple *eye, t_mat *mat, t_light *light)
 {
 	double	reflect_dot_eye;
 	double	factor;
@@ -65,4 +65,47 @@ int	lighting(t_mat *mat, t_light *light, t_tuple **m)
 		values[3] = spclr(temp[1], m[1], mat, light);
 	free_t(temp[1]);
 	return ((values[0] * mat->ambient) + values[2] + values[3]);
+} */
+
+t_tuple	*lighting(t_mat *material, t_light *light, t_tuple **m)
+{
+	t_tuple	*lightv;
+	t_tuple	*point;
+	t_tuple	*eyev;
+	t_tuple	*normalv;
+	t_tuple	*reflectv;
+	t_tuple	*effective_colour;
+	t_tuple	*ambient;
+	t_tuple	*diffuse;
+	t_tuple	*specular;
+	double	light_dot_normal;
+	double	reflect_dot_eye;
+	double	factor;
+
+	point = m[0];
+	eyev = m[1];
+	normalv = m[2];
+	effective_colour = schur(material->color, light->intensity);
+	lightv = norm(sub(light->position, point));
+	ambient = mult(effective_colour, material->ambient);
+	light_dot_normal = dot(lightv, normalv);
+	if (light_dot_normal < 0)
+	{
+		diffuse = tuple(3, 0.0, 0.0, 0.0);
+		specular = tuple(3, 0.0, 0.0, 0.0);
+	}
+	else
+	{
+		diffuse = mult(effective_colour, (material->diffuse * light_dot_normal));
+		reflectv = reflect(mult(lightv, -1), normalv);
+		reflect_dot_eye = dot(reflectv, eyev);
+		if (reflect_dot_eye <= 0)
+			specular = tuple(3, 0.0, 0.0, 0.0);
+		else
+		{
+			factor = pow(reflect_dot_eye, material->shininess);
+			specular = mult(light->intensity, (material->specular * factor));
+		}
+	}
+	return (add(add(ambient, diffuse), specular));
 }
