@@ -21,8 +21,8 @@ t_tuple	**matrix(int size, ...)
 t_tuple	**copy_m(t_tuple **old)
 {
 	t_tuple	**new;
-	int	size;
-	int	i;
+	int		size;
+	int		i;
 
 	i = -1;
 	size = len_m(old);
