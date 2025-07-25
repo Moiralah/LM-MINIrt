@@ -90,8 +90,8 @@ t_tuple	**subm(t_tuple **m, int row, int col)
 t_tuple	**transpose(t_tuple **m)
 {
 	t_tuple	**new_m;
-	int	h;
-	int	w;
+	int		h;
+	int		w;
 
 	w = m[0]->size;
 	new_m = matrix(w + 1);
