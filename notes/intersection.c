@@ -33,28 +33,16 @@
 	return (free_t(rto), its(obj, result, 2));
 } */
 
-t_its	*sphere_its(t_ray *r, t_sphere *sphere)
+t_its	*calculate_its(t_ray *r, t_obj *obj, t_tuple *rto)
 {
-	t_obj		*obj;
-	t_ray		*new_ray;
-	t_tuple		*rto;
-	double		values[4];
 	double		*result;
+	double		values[4];
 
 	result = malloc(2 * sizeof(double));
 	if (!result)
 		return (NULL);
-	obj = object(sphere, 'S');
-	if (!obj)
-		return (NULL);
-	new_ray = transform(r, inverse(sphere->t_matrix));
-	if (!new_ray)
-		return (free(result), free(obj), NULL);
-	rto = sub(new_ray->ori, sphere->ori);
-	if (!rto)
-		return (free(obj), NULL);
-	values[0] = dot(new_ray->dir, new_ray->dir);
-	values[1] = 2 * dot(new_ray->dir, rto);
+	values[0] = dot(r->dir, r->dir);
+	values[1] = 2 * dot(r->dir, rto);
 	values[2] = dot(rto, rto) - 1;
 	values[3] = pow(values[1], 2) - (4 * values[0] * values[2]);
 	if (values[3] < 0)
@@ -64,4 +52,33 @@ t_its	*sphere_its(t_ray *r, t_sphere *sphere)
 	if (result[0] == result[1])
 		return (free_t(rto), its(obj, result, 1));
 	return (free_t(rto), its(obj, result, 2));
+}
+
+t_its	*sphere_its(t_ray *r, t_sphere *sphere)
+{
+	t_obj		*obj;
+	t_ray		*new_ray;
+	t_tuple		**inverse_m;
+	t_tuple		*ray_values[2];
+	t_tuple		*rto;
+
+	obj = object(sphere, 'S');
+	if (!obj)
+		return (NULL);
+	inverse_m = inverse(sphere->t_matrix);
+	if (!inverse_m)
+		return (free(obj), NULL);
+	ray_values[0] = transform_ori(inverse_m, r->ori);
+	if (!ray_values[0])
+		return (free_m(inverse_m, len_m(inverse_m)), free(obj), NULL);
+	ray_values[1] = transform_dir(inverse_m, r->dir);
+	if (!ray_values[1])
+		return (free_m(inverse_m, len_m(inverse_m)), free(obj), NULL);
+	new_ray = ray(ray_values[0], ray_values[1]);
+	if (!new_ray)
+		return (free_m(inverse_m, len_m(inverse_m)), free(obj), NULL);
+	rto = sub(new_ray->ori, sphere->ori);
+	if (!rto)
+		return (free(obj), NULL);
+	return (calculate_its(new_ray, obj, rto));
 }
