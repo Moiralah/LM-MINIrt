@@ -7,43 +7,60 @@ t_its	*intersect(t_ray *ray, t_obj *obj)
 	return (NULL);
 }
 
-t_ray	*transform(t_ray *r, t_tuple **t_matrix)
+t_tuple	*transform_ori(t_tuple **t_matrix, t_tuple *ori)
 {
-	t_tuple	**temp_m;
 	t_tuple	**result_m;
-	t_ray	*new_ray;
-	t_tuple	*temp[2];
+	t_tuple	**temp_m;
+	t_tuple	**trans;
+	t_tuple	*new_ori;
 
-	temp[0] = NULL;
-	temp[1] = NULL;
-	temp_m = matrix(2, r->ori);
+	temp_m = matrix(2, ori);
 	if (!temp_m)
 		return (NULL);
 	if (!t_matrix)
-		return (free_m(temp_m, len_m(temp_m)), NULL);
-	result_m = mxm(t_matrix, transpose(temp_m));
+		return (free(temp_m), NULL);
+	trans = transpose(temp_m);
+	if (!trans)
+		return (free(temp_m), NULL);
+	result_m = mxm(t_matrix, trans);
+	if (!result_m)
+		return (free(temp_m), NULL);
 	free(temp_m);
 	temp_m = transpose(result_m);
 	if (!temp_m)
 		return (NULL);
-	temp[0] = temp_m[0];
-	free(temp_m);
-	free(result_m);
-	temp_m = matrix(2, r->dir);
+	free_m(result_m, len_m(result_m));
+	free_m(trans, len_m(trans));
+	new_ori = temp_m[0];
+	return (free(temp_m), new_ori);
+}
+
+t_tuple	*transform_dir(t_tuple **t_matrix, t_tuple *dir)
+{
+	t_tuple	**result_m;
+	t_tuple	**temp_m;
+	t_tuple	**trans;
+	t_tuple	*new_dir;
+
+	temp_m = matrix(2, dir);
 	if (!temp_m)
-		return (free_m(t_matrix, len_m(t_matrix)), NULL);
-	result_m = mxm(t_matrix, transpose(temp_m));
+		return (NULL);
+	if (!t_matrix)
+		return (free(temp_m), NULL);
+	trans = transpose(temp_m);
+	if (!trans)
+		return (free(temp_m), NULL);
+	result_m = mxm(t_matrix, trans);
+	if (!result_m)
+		return (free(temp_m), NULL);
 	free(temp_m);
 	temp_m = transpose(result_m);
 	if (!temp_m)
 		return (NULL);
-	temp[1] = temp_m[0];
-	free(temp_m);
-	free(result_m);
-	new_ray = ray(temp[0], temp[1]);
-	if (!new_ray)
-		(free_t(temp[0]), free_t(temp[1]));
-	return (new_ray);
+	free_m(result_m, len_m(result_m));
+	free_m(trans, len_m(trans));
+	new_dir = temp_m[0];
+	return (free(temp_m), new_dir);
 }
 
 // Calculates the position of a ray at a given time.

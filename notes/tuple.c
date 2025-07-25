@@ -47,7 +47,7 @@ t_tuple	*tuple(int size, ...)
 t_tuple	*copy_t(t_tuple *old)
 {
 	t_tuple	*new;
-	int	size;
+	int		size;
 
 	size = old->size;
 	new = tuple(0);
