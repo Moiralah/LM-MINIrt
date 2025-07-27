@@ -5,7 +5,7 @@ t_tuple	*cross(t_tuple *t1, t_tuple *t2)
 {
 	t_tuple	*new_v;
 
-	if ((t1->size != 3) && (t2->size != 3))
+	if ((t1->size != 4) && (t2->size != 4))
 		return (NULL);
 	new_v = tuple(0.0);
 	new_v->val = malloc(t1->size * sizeof(double));
