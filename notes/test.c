@@ -1,68 +1,8 @@
 #include "minirt.h"
 
-/* void	cast_rays(t_img img, t_sphere *sphere, t_light *light, t_tuple *ori, int nohit)
+/* void	cast_rays(t_img *img, t_sphere *shape, t_light *l, t_tuple *ray_ori, double half, double pixel_size, double wall_z)
 {
-	t_its	*its;
-	t_ray	*r;
-	t_tuple	*dir;
-	t_tuple	*temp;
-	t_tuple	*e;
-	t_tuple	*n;
-	t_tuple	*hit;
-	t_tuple	*hit_colour;
-	double	scaled_w;
-	double	scaled_h;
-	double	wall_size;
-	double	wall_p[2];
-	int		i[2];
-	int	colour_hex;
-
-	i[0] = img.w - 1;
-	i[1] = img.h - 1;
-	wall_size = 7.0 * RATIO;
-	scaled_w = wall_size / img.w;
-	scaled_h = wall_size / img.h;
-	while (i[0] >= 0)
-	{
-		// Calculate wall point in world coordinates
-		wall_p[0] = (wall_size / 2) - (scaled_w * i[0]);
-		wall_p[1] = (wall_size / 2) - (scaled_h * i[1]);
-
-		// Create direction vector from camera to wall point
-		dir = tuple(4.0, wall_p[0], wall_p[1], 0.0, 1.0);
-		temp = dir;
-		dir = sub(dir, ori);
-		free_t(temp);
-		temp = dir;
-		dir = norm(dir);
-		free_t(temp);
-		r = ray(tuple(4, 0.0, 0.0, -5.0, 1.0), dir);
-		its = sphere_its(r, sphere);
-		if (!its)
-			return (free_ray(r));
-		if ((!its->len) || (its->len[0] < 0))
-			render_p(&img, i[0], i[1], nohit);
-		else
-		{
-			hit = travel(r, its->len[0]);
-			n = normal_at_obj(get_obj_tf(its->obj), hit, tuple(4.0, 0.0, 0.0, 0.0, 1.0));
-			e = mult(r->dir, -1);
-			hit_colour = lighting(get_obj_mat(its->obj), light, matrix(4, hit, e, n));
-			//print_t(hit_colour);
-			colour_hex = rgb_hex(hit_colour->val[0], hit_colour->val[1], hit_colour->val[2]);
-			render_p(&img, i[0], i[1], colour_hex);
-		}
-		i[1]--;
-		if ((i[1] < 0) && (i[0]--))
-			i[1] = img.h - 1;
-		free_ray(r);
-		free_its(its);
-	}
-} */ 
-
-void	cast_rays(t_img *img, t_sphere *shape, t_light *l, t_tuple *ray_ori, double half, double pixel_size, double wall_z)
-{
-	t_its	*xs;
+	t_its	**xs;
 	t_ray	*r;
 	t_tuple	*colour;
 	t_tuple	*normal;
@@ -87,9 +27,9 @@ void	cast_rays(t_img *img, t_sphere *shape, t_light *l, t_tuple *ray_ori, double
 			pos = tuple(4, world_x, world_y, wall_z, 1.0);	
 			r = ray(ray_ori, norm(sub(pos, ray_ori)));
 			xs = sphere_its(r, shape);
-			if (xs && xs->len)
+			if (xs && (xs[0]->len >= 0))
 			{
-				hit = travel(r, xs->len[0]);
+				hit = travel(r, xs[0]->len);
 				normal = normal_at_obj(get_obj_tf(xs->obj), hit, get_obj_ori(xs->obj));
 				eye = mult(r->dir, -1);
 				colour = lighting(get_obj_mat(xs->obj), l, matrix(4, hit, eye, normal));
@@ -143,7 +83,7 @@ int	main(void)
 	mlx_destroy_display(mlx);
 	free(mlx);
 	return (0);
-}
+} */
 
 /* int	main(void)
 {
@@ -242,12 +182,50 @@ int	main(void)
 
 /* int	main(void)
 {
-	t_tuple	*pos;
-	t_tuple	*hit;
+	t_world	*w;
+	t_ray	*r;
+	t_tuple	*colour;
 
-	pos = tuple(4, -10.0, 10.0, -10.0, 1.0);
-	hit = tuple(4, 0.965598, 0.137943, 9.779564, 1.0);
-	print_t(sub(pos, hit));
-	print_t(norm(sub(pos, hit)));
-	return (0);
+	r = ray(tuple(4, 0.0, 0.0, 0.75, 1.0), tuple(4, 0.0, 0.0, -1.0, 0.0));
+	w = def_world();
+	colour = color_at(w, r);
+	print_t(colour);
 } */
+
+int	main(void)
+{
+	t_world		*w;
+	t_camera	*c;
+	t_tuple	**vm;
+	t_tuple	*from;
+	t_tuple	*to;
+	t_tuple	*up;
+	void	*mlx;
+	void	*win;
+	t_img	img;
+	int	vsize;
+	int	hsize;
+
+
+	hsize = 1000;
+	vsize = 500;
+	img.w = hsize;
+	img.h = vsize;
+	from = tuple(4, 0.0, 1.5, -5.0, 1.0);
+	to = tuple(4, 0.0, 1.0, 0.0, 1.0);
+	up = tuple(4, 0.0, 1.0, 0.0, 0.0);
+	vm = view_transform(from, to, up);
+	c = camera(hsize, vsize, M_PI / 3.0);
+	c->transform = vm;
+	w = def_world();
+	mlx = mlx_init();
+	win = mlx_new_window(mlx, img.w, img.h, "Sphere");
+	img.img = mlx_new_image(mlx, img.w, img.h);
+	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.len, &img.endian);
+	render(&img, c, w);
+	mlx_put_image_to_window(mlx, win, img.img, 0, 0);
+	mlx_loop(mlx);
+	mlx_destroy_display(mlx);
+	free(mlx);
+	return (0);
+}
