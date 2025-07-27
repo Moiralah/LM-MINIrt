@@ -13,7 +13,11 @@ t_tuple	*mult(t_tuple *t, double value)
 	if (!new_v)
 		return (NULL);
 	while (++i < t->size)
-		new_v->val[i] = t->val[i] * value;
+	{
+		new_v->val[i] = t->val[i];
+		if (t->val[i] != 0)
+			new_v->val[i] = t->val[i] * value;
+	}
 	return (new_v);
 }
 
