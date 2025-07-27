@@ -19,14 +19,13 @@ t_its	**its_s(int size, ...)
 }
 
 // Creates a new intersection object.
-t_its	*its(t_obj *obj, double *len_from_ori, int cnt)
+t_its	*its(t_obj *obj, double len_from_ori)
 {
 	t_its	*new_its;
 
 	new_its = calloc(1, sizeof(t_its));
 	new_its->obj = obj;
 	new_its->len = len_from_ori;
-	new_its->cnt = cnt;
 	return (new_its);
 }
 
@@ -36,7 +35,7 @@ t_its	*hit(t_its **its_s)
 	int	i;
 
 	i = 0;
-	while ((its_s[i]) && (its_s[i]->len[0] <= 0))
+	while ((its_s[i]) && (its_s[i]->len <= 0))
 		i++;
 	return (its_s[i]);
 }
@@ -56,6 +55,5 @@ void	free_its_s(t_its **its_s)
 void	free_its(t_its *its)
 {
 	free(its->obj);
-	free(its->len);
 	free(its);
 }
