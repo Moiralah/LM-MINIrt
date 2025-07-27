@@ -7,60 +7,61 @@ t_comps	*prepare_computations(t_its *intersection, t_ray *ray)
 	comps = malloc(sizeof(t_comps));
 	if (!comps)
 		return (NULL);
-	comps->t = intersection->len[0];
+	comps->t = intersection->len;
 	comps->obj = intersection->obj;
 	comps->point = travel(ray, comps->t);
-	comps->eyev = mult(ray->dir, -1);
-	comps->normalv = normal_at(comps->obj, comps->point);
-	if (dot(comps->normalv, comps->eyev) < 0)
-	{
-		comps->inside = true;
-		comps->normalv = mult(comps->normalv, -1.0);
-	}
-	else
-		comps->inside = false;
+	comps->eyev = mult(ray->dir, -1.0);
+	comps->normalv = normal_at_obj(get_obj_tf(comps->obj), comps->point, tuple(4, 0.0, 0.0, 0.0, 1.0));
+	comps->inside = false;
+	if (dot(comps->normalv, comps->eyev) >= 0)
+		return (comps);
+	comps->inside = true;
+	comps->normalv = mult(comps->normalv, -1.0);
 	return (comps);
 }
 
-int	shade_hit(t_world *world, t_comps *comps)
+t_tuple	*shade_hit(t_world *world, t_comps *comps)
 {
-	int	colour;
+	t_tuple	**temp;
+	t_tuple	*colour;
+	int	i;
 
-	colour = lighting(get_obj_mat(comps->obj), world->light,
-			matrix(4.0, comps->point, comps->eyev, comps->normalv));
+	temp = matrix(4, comps->point, comps->eyev, comps->normalv);
+	if (!temp)
+		return (NULL);
+	i = 0;
+	colour = lighting(get_obj_mat(comps->obj), world->light[i], temp);
+	while (world->light[++i])
+		colour = add(colour, lighting(get_obj_mat(comps->obj), world->light[i], temp));
 	return (colour);
 }
 
-int	color_at(t_world *world, t_ray *ray)
+t_tuple	*color_at(t_world *world, t_ray *ray)
 {
-	t_its	**intersection;
-	t_its	*hits;
+	t_its	**intersections;
+	t_its	*hit_its;
 	t_comps	*comps;
-	int		color;
+	t_tuple	*color;
 
-	intersection = intsect_world(world, ray);
-	hits = hit(intersection);
-	if (!hits)
-	{
-		free_its_s(intersection);
-		return (rgb_hex(0, 0, 0));
-	}
-	comps = prepare_computations(hits, ray);
+	intersections = its_world(world, ray);
+	if (!intersections)
+		return (tuple(3, 0.0, 0.0, 0.0));
+	hit_its = hit(intersections);
+	comps = prepare_computations(hit_its, ray);
 	color = shade_hit(world, comps);
-	free_its_s(intersection);
+	//free_its_s(intersections);
 	free_comps(comps);
 	return (color);
 }
 
 void	free_comps(t_comps *comps)
 {
-	if (comps)
-	{
-		free_t(comps->point);
-		free_t(comps->eyev);
-		free_t(comps->normalv);
-		free(comps);
-	}
+	if (!comps)
+		return ;
+	free_t(comps->point);
+	free_t(comps->eyev);
+	free_t(comps->normalv);
+	free(comps);
 }
 
 #define FORWARD 0
@@ -77,16 +78,11 @@ t_tuple	**view_transform(t_tuple *from, t_tuple *to, t_tuple *up)
 
 	v[FORWARD] = norm(sub(to, from));
 	v[UPNORM] = norm(up);
-	v[LEFT] = cross(v[UPNORM], v[FORWARD]);
+	v[LEFT] = cross(v[FORWARD], v[UPNORM]);
 	v[TRUEUP] = cross(v[LEFT], v[FORWARD]);
-	orientation = matrix(4.0,
-			v[LEFT]->val[0], v[LEFT]->val[1], v[LEFT]->val[2], 0,
-			v[TRUEUP]->val[0], v[TRUEUP]->val[1], v[TRUEUP]->val[2], 0,
-			-v[FORWARD]->val[0], -v[FORWARD]->val[1], -v[FORWARD]->val[2], 0,
-			0, 0, 0, 1);
-	translation_matrix = translate(-from->val[0], -from->val[1], -from->val[2]);
+	orientation = matrix(5, v[LEFT], v[TRUEUP], mult(v[FORWARD], -1.0), NULL);
+	orientation[3] = tuple(4, 0.0, 0.0, 0.0, 1.0);
+	translation_matrix = translate(4, -from->val[0], -from->val[1], -from->val[2]);
 	view_matrix = mxm(orientation, translation_matrix);
 	return (view_matrix);
 }
-
-
