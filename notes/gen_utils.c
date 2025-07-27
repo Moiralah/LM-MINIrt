@@ -14,7 +14,7 @@ void	sort(t_its **ori, t_its **l, t_its **r, int size)
 			ori[i + q] = l[i];
 		else if (i >= floor(((double) size) / 2))
 			ori[q + i] = r[q];
-		else if ((l[i]->len[0] < r[q]->len[0]))
+		else if ((l[i]->len < r[q]->len))
 			ori[i + q] = l[i];
 		else
 			ori[q + i] = r[q];
@@ -22,7 +22,7 @@ void	sort(t_its **ori, t_its **l, t_its **r, int size)
 			i++;
 		else if (i >= floor(((double) size) / 2))
 			q++;
-		else if ((l[i]->len[0] < r[q]->len[0]))
+		else if ((l[i]->len < r[q]->len))
 			i++;
 		else
 			q++;
@@ -44,10 +44,10 @@ t_its	**merge(t_its **ori, int size)
 		return (NULL);
 	while (--mid >= 0)
 		left[mid] = ori[mid];
-	/* mid = floor(((double) size) / 2);
-	printf("Left: %d\n", mid);
+	mid = floor(((double) size) / 2);
+	/* printf("Left: %d\n", mid);
 	while (--mid >= 0)
-		printf("%f ", left[mid]->len[0]);
+		printf("%f ", left[mid]->len);
 	printf("\n"); */
 	mid = ceil(((double) size) / 2);
 	right = calloc(mid, sizeof(t_its *));
@@ -56,11 +56,11 @@ t_its	**merge(t_its **ori, int size)
 	mid = floor(((double) size) / 2);
 	while (++mid <= size)
 		right[size - mid] = ori[mid - 1];
-	/* mid = ceil(((double) size) / 2);
-	printf("Right: %d\n", mid);
+	mid = ceil(((double) size) / 2);
+	/* printf("Right: %d\n", mid);
 	mid = floor(((double) size) / 2);
 	while (++mid <= size)
-		printf("%f ", right[size - mid]->len[0]);
+		printf("%f ", right[size - mid]->len);
 	printf("\n"); */
 	left = merge(left, floor(((double) size) / 2));
 	right = merge(right, ceil(((double) size) / 2));
