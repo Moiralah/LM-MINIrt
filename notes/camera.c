@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-t_camera	*camera(double hsize, double vsize, double field_of_view)
+t_camera	*camera(int hsize, int vsize, double field_of_view)
 {
 	t_camera	*cam;
 	double		half_view;
@@ -14,13 +14,10 @@ t_camera	*camera(double hsize, double vsize, double field_of_view)
 	cam->field_of_view = field_of_view;
 	cam->transform = identity(4);
 	half_view = tan(field_of_view / 2);
-	aspect = (double)hsize / (double)vsize;
-	if (aspect >= 1)
-	{
-		cam->half_width = half_view;
-		cam->half_height = half_view / aspect;
-	}
-	else
+	aspect = (double) hsize / (double) vsize;
+	cam->half_width = half_view;
+	cam->half_height = half_view / aspect;
+	if (aspect < 1)
 	{
 		cam->half_width = half_view * aspect;
 		cam->half_height = half_view;
@@ -36,51 +33,44 @@ t_camera	*camera(double hsize, double vsize, double field_of_view)
 
 t_ray	*ray_for_pixel(t_camera *cam, int px, int py)
 {
-	double	c[4];
-	t_tuple	*pixel;
-	t_tuple	*origin;
-	t_tuple	*direction;
 	t_tuple	**inverse_transform;
+	t_tuple	**origin;
+	t_tuple	**pixel;
+	t_tuple	*direction;
+	double	c[4];
 
 	c[XOFFSET] = (px + 0.5) * cam->pixel_size;
 	c[YOFFSET]= (py + 0.5) * cam->pixel_size;
 	c[WORLD_X] = cam->half_width - c[XOFFSET];
 	c[WORLD_Y] = cam->half_height - c[YOFFSET];
 	inverse_transform = inverse(cam->transform);
-	pixel = tuple(4.0, c[WORLD_X], c[WORLD_Y], -1.0, 1.0);
-	pixel = mxm(inverse_transform, &pixel);
-	origin = tuple(4.0, 0.0, 0.0, 0.0, 1.0);
-	origin = mxm(inverse_transform, &origin);
-	direction = norm(sub(pixel, origin));
-	return (ray(origin, norm(direction)));
+	pixel = matrix(2, tuple(4, c[WORLD_X], c[WORLD_Y], -1.0, 1.0));
+	pixel = mxm(inverse_transform, transpose(pixel));
+	pixel = transpose(pixel);
+	origin = matrix(2, tuple(4, 0.0, 0.0, 0.0, 1.0));
+	origin = mxm(inverse_transform, transpose(origin));
+	origin = transpose(origin);
+	direction = norm(sub(pixel[0], origin[0]));
+	return (ray(origin[0], direction));
 }
 
-t_img *render(t_camera *cam, t_world *world)
+void	render(t_img *canvas, t_camera *cam, t_world *world)
 {
-	t_img	*canvas;
 	t_ray	*ray;
-	int		color;
-	int		x;
+	t_tuple	*color;
 	int		y;
+	int		x;
 
-	canvas = malloc(sizeof(t_img));
-	if (!canvas)
-		return (NULL);
-	canvas->w = cam->hsize;
-	canvas->h = cam->vsize;
-	y = 0;
-	while (y < cam->vsize - 1)
+	y = -1;
+	while (++y < (cam->vsize - 1))
 	{
-		x = 0;
-		while (x < cam->hsize - 1)
+		x = -1;
+		while (++x < (cam->hsize - 1))
 		{
 			ray = ray_for_pixel(cam, x, y);
 			color = color_at(world, ray);
-			render_p(canvas, x, y, color);
+			render_p(canvas, x, y, rgb_hex(color->val[0], color->val[1], color->val[2]));
 			free_ray(ray);
-			x++;
 		}
-		y++;
 	}
-	return (canvas);
 }
