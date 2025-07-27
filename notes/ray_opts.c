@@ -1,9 +1,9 @@
 #include "minirt.h"
 
-t_its	*intersect(t_ray *ray, t_obj *obj)
+t_its	**intersect(t_ray *ray, t_obj *obj)
 {
 	if (obj->type == 'S')
-		return (sphere_its(ray, (t_sphere *)obj->data));
+		return (sphere_its(obj, ray));
 	return (NULL);
 }
 
