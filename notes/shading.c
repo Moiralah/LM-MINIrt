@@ -15,6 +15,21 @@ t_mat	*material(t_tuple *color, t_tuple *values)
 	return (material);
 }
 
+t_mat	*copy_mat(t_mat *old)
+{
+	t_mat	*new;
+
+	new = malloc(sizeof(t_mat));
+	if (!new)
+		return (NULL);
+	new->color = copy_t(old->color);
+	new->ambient = old->ambient;
+	new->diffuse = old->diffuse;
+	new->specular = old->specular;
+	new->shininess = old->shininess;
+	return (new);
+}
+
 /* double	spclr(t_tuple *reflect, t_tuple *eye, t_mat *mat, t_light *light)
 {
 	double	reflect_dot_eye;
@@ -108,4 +123,10 @@ t_tuple	*lighting(t_mat *material, t_light *light, t_tuple **m)
 		}
 	}
 	return (add(add(ambient, diffuse), specular));
+}
+
+void	free_mat(t_mat *material)
+{
+	free_t(material->color);
+	free(material);
 }
