@@ -60,47 +60,47 @@
 	}
 } */
 
-void	cast_rays(t_img *img, t_sphere *shape, t_light *l, t_tuple *ray_ori, double half, double pixel_size, double wall_z)
-{
-	t_its	*xs;
-	t_ray	*r;
-	t_tuple	*colour;
-	t_tuple	*normal;
-	t_tuple	*pos;
-	t_tuple	*hit;
-	t_tuple	*eye;
-	double	world_y;
-	double	world_x;
-	int	hex;
-	int	y;
-	int	x;
+// void	cast_rays(t_img *img, t_sphere *shape, t_light *l, t_tuple *ray_ori, double half, double pixel_size, double wall_z)
+// {
+// 	t_its	*xs;
+// 	t_ray	*r;
+// 	t_tuple	*colour;
+// 	t_tuple	*normal;
+// 	t_tuple	*pos;
+// 	t_tuple	*hit;
+// 	t_tuple	*eye;
+// 	double	world_y;
+// 	double	world_x;
+// 	int	hex;
+// 	int	y;
+// 	int	x;
 
-	y = -1;
-	//colour = rgb_hex(red->val[0], red->val[1], red->val[2]);
-	while (++y < img->w)
-	{
-		world_y = half - (pixel_size * y);
-		x = -1;
-		while (++x < img->h)
-		{
-			world_x = -half + (pixel_size * x);
-			pos = tuple(4, world_x, world_y, wall_z, 1.0);
-			r = ray(ray_ori, norm(sub(pos, ray_ori)));
-			xs = sphere_its(r, shape);
-			if (xs && xs->len)
-			{
-				hit = travel(r, xs->len[0]);
-				normal = normal_at_obj(get_obj_tf(xs->obj), hit, get_obj_ori(xs->obj));
-				eye = mult(r->dir, -1);
-				colour = lighting(get_obj_mat(xs->obj), l, matrix(4, hit, eye, normal));
-				hex = rgb_hex(colour->val[0], colour->val[1], colour->val[2]);
-				render_p(img, x, y, hex);
-			}
-			else
-				render_p(img, x, y, 0);
-		}
-	}
-}
+// 	y = -1;
+// 	//colour = rgb_hex(red->val[0], red->val[1], red->val[2]);
+// 	while (++y < img->w)
+// 	{
+// 		world_y = half - (pixel_size * y);
+// 		x = -1;
+// 		while (++x < img->h)
+// 		{
+// 			world_x = -half + (pixel_size * x);
+// 			pos = tuple(4, world_x, world_y, wall_z, 1.0);
+// 			r = ray(ray_ori, norm(sub(pos, ray_ori)));
+// 			xs = sphere_its(r, shape);
+// 			if (xs && xs->len)
+// 			{
+// 				hit = travel(r, xs->len[0]);
+// 				normal = normal_at_obj(get_obj_tf(xs->obj), hit, get_obj_ori(xs->obj));
+// 				eye = mult(r->dir, -1);
+// 				colour = lighting(get_obj_mat(xs->obj), l, matrix(4, hit, eye, normal));
+// 				hex = rgb_hex(colour->val[0], colour->val[1], colour->val[2]);
+// 				render_p(img, x, y, hex);
+// 			}
+// 			else
+// 				render_p(img, x, y, 0);
+// 		}
+// 	}
+// }
 
 // int	main(void)
 // {

@@ -7,6 +7,11 @@
 # include "../minilibx-linux/mlx.h"
 # include "../libft/libft.h"
 
+typedef struct s_data
+{
+	char **data;
+}	t_data;
+
 typedef struct s_img
 {
 	void	*img;
@@ -238,6 +243,6 @@ void		test_intersect_world(void);
 
 void		free_comps(t_comps *comps);
 
-
+float		ft_atof(const char *str);
 
 #endif
