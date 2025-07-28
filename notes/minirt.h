@@ -7,9 +7,53 @@
 # include "../minilibx-linux/mlx.h"
 # include "../libft/libft.h"
 
+typedef struct s_tuple
+{
+	double	*val;
+	int		size;
+}	t_tuple;
+
+typedef struct s_sp
+{
+	t_tuple		*sp_centre;
+	double		sp_diameter;
+	t_tuple		*sp_color;
+	struct s_sp	*next;
+}	t_sp;
+
+typedef struct s_pl
+{
+	t_tuple		*pl_point;
+	t_tuple		*pl_normalv;
+	t_tuple		*pl_color;
+	struct s_pl	*next;
+}	t_pl;
+
+typedef struct s_cy
+{
+	t_tuple		*cy_centre;
+	t_tuple		*cy_normalv;
+	double		cy_diameter;
+	double		cy_height;
+	t_tuple		*cy_color;
+	struct s_cy	*next;
+}	t_cy;
+
 typedef struct s_data
 {
-	char **data;
+	char	**data;
+	double	a_ratio;
+	t_tuple	*a_color;
+	t_tuple	*c_viewpoint;
+	t_tuple	*c_3dv;
+	double	c_fov;
+	t_tuple	*l_viewpoint;
+	double	l_bright_ratio;
+	t_tuple	*l_color;
+	t_sp	*sphere;
+	t_pl	*plane;
+	t_cy	*cylinder;
+
 }	t_data;
 
 typedef struct s_img
@@ -28,12 +72,6 @@ typedef struct s_obj
 	void	*data;
 	char	type;
 }	t_obj;
-
-typedef struct s_tuple
-{
-	double			*val;
-	int				size;
-}	t_tuple;
 
 typedef struct s_material
 {
@@ -244,5 +282,49 @@ void		test_intersect_world(void);
 void		free_comps(t_comps *comps);
 
 float		ft_atof(const char *str);
+
+void		remove_commas(char *str);
+
+void		check_name(char *av);
+
+int			check_char(char *line, char *s);
+
+void		content(char *file, t_data *data);
+
+void		check_range(float min, float max, float value);
+
+int			check_freq(char **data, char *s, int *i);
+
+int			ft_arraylen(char **array);
+
+void		check_ambient(t_data *data);
+
+void		check_camera(t_data *data);
+
+void		check_light(t_data *data);
+
+void		check_sphere(t_data *data);
+
+void		check_plane(t_data *data);
+
+void		check_cylinder(t_data *data);
+
+void		check_format(char **data);
+
+void		validate_data(char *file, t_data *data);
+
+void		set_ambient(char *line, t_data *data);
+
+void		set_camera(char *line, t_data *data);
+
+void		set_light(char *line, t_data *data);
+
+void		set_sphere(char *line, t_data *data);
+
+void		set_plane(char *line, t_data *data);
+
+void		set_cylinder(char *line, t_data *data);
+
+void		input_data(t_data *data);
 
 #endif
