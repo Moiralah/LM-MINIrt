@@ -7,6 +7,11 @@
 # include "../minilibx-linux/mlx.h"
 # include "../libft/libft.h"
 
+typedef struct s_data
+{
+	char **data;
+}	t_data;
+
 typedef struct s_img
 {
 	void	*img;
@@ -39,17 +44,6 @@ typedef struct s_material
 	double	shininess;
 }	t_mat;
 
-typedef struct s_camera
-{
-	t_tuple	**transform;
-	double	half_width;
-	double	half_height;
-	double	pixel_size;
-	double	field_of_view;
-	int		hsize;
-	int		vsize;
-}	t_camera;
-
 typedef struct s_sphere
 {
 	t_tuple	**t_matrix;
@@ -61,7 +55,8 @@ typedef struct s_sphere
 typedef struct s_its
 {
 	t_obj	*obj;
-	double	len;
+	double	*len;
+	int		cnt;
 }	t_its;
 
 typedef struct s_ray
@@ -78,33 +73,46 @@ typedef struct s_light
 
 typedef struct s_world
 {
-	t_light	**light;
+	t_light	*light;
 	t_obj	**object;
 }	t_world;
 
 typedef struct s_comps
 {
+	double	t;
 	t_obj	*obj;
-	t_tuple	*normalv;
 	t_tuple	*point;
 	t_tuple	*eyev;
-	double	t;
 	bool	inside;
+	t_tuple	*normalv;
 }	t_comps;
+
+typedef struct s_camera
+{
+	int		hsize;
+	int		vsize;
+	double	field_of_view;
+	t_tuple	**transform;
+	double	half_width;
+	double	half_height;
+	double	pixel_size;
+}	t_camera;
+
+t_img		*render(t_camera *cam, t_world *world);
 
 t_its		**its_s(int size, ...);
 
 t_its		**merge(t_its **ori, int size);
 
-t_its		**sphere_its(t_obj *obj, t_ray *r);
-
-t_its		*its(t_obj *obj, double len_from_ori);
+t_its		*its(t_obj *obj, double *len_from_ori, int cnt);
 
 t_its		*hit(t_its **its_s);
 
-t_its		**intersect(t_ray *ray, t_obj *obj);
+t_its		*sphere_its(t_ray *r, t_sphere *sphere);
 
-t_its		**its_world(t_world *world, t_ray *ray);
+t_its		*intersect(t_ray *ray, t_obj *obj);
+
+t_its		**intsect_world(t_world *world, t_ray *ray);
 
 t_its		**add_its(t_its **intersections, t_its *obj_its, int *total_its);
 
@@ -115,6 +123,10 @@ t_ray		*ray(t_tuple *origin, t_tuple *direction);
 t_ray		*ray_for_pixel(t_camera *cam, int px, int py);
 
 t_ray		*copy_ray(t_ray *old);
+
+t_tuple		*transform_ori(t_tuple **t_matrix, t_tuple *ori);
+
+t_tuple		*transform_dir(t_tuple **t_matrix, t_tuple *dir);
 
 t_tuple		**matrix(int size, ...);
 
@@ -139,8 +151,6 @@ t_tuple		**rotate(int m_size, int axis, double degree);
 t_tuple		**shear(t_tuple **ori_matrix, int axis, ...);
 
 t_tuple		**get_obj_tf(t_obj *obj);
-
-t_tuple		**view_transform(t_tuple *from, t_tuple *to, t_tuple *up);
 
 t_tuple		*tuple(int size, ...);
 
@@ -168,15 +178,7 @@ t_tuple		*reflect(t_tuple *in, t_tuple *normal);
 
 t_tuple		*get_obj_ori(t_obj *obj);
 
-t_tuple		*shade_hit(t_world *world, t_comps *comps);
-
-t_tuple		*transform_ori(t_tuple **t_matrix, t_tuple *ori);
-
-t_tuple		*transform_dir(t_tuple **t_matrix, t_tuple *dir);
-
-t_tuple		*color_at(t_world *world, t_ray *ray);
-
-t_tuple		*lighting(t_mat *mat, t_light *light, t_tuple **m);
+t_tuple		**view_transform(t_tuple *from, t_tuple *to, t_tuple *up);
 
 t_obj		*object(void *data, char type);
 
@@ -188,15 +190,13 @@ t_light		*copy_light(t_light *old);
 
 t_mat		*material(t_tuple *color, t_tuple *values);
 
-t_mat		*copy_mat(t_mat *old);
-
 t_mat		*get_obj_mat(t_obj *obj);
 
 t_world		*def_world(void);
 
 t_comps		*prepare_computations(t_its *intersection, t_ray *ray);
 
-t_camera	*camera(int hsize, int vsize, double field_of_view);
+t_camera	*camera(double hsize, double vsize, double field_of_view);
 
 double		det(t_tuple **m, int size);
 
@@ -212,15 +212,13 @@ int			len_m(t_tuple **m);
 
 // int			equal_m(t_tuple **m1, t_tuple **m2);
 
-void		render(t_img *canvas, t_camera *cam, t_world *world);
+t_tuple		*lighting(t_mat *mat, t_light *light, t_tuple **m);
 
 void		mult_m(t_tuple **m, double val);
 
 void		render_p(t_img *img, int x, int y, int color);
 
 void		free_m(t_tuple **matrix, int stop);
-
-void		free_mat(t_mat *material);
 
 void		free_t(t_tuple *tuple);
 
@@ -236,7 +234,13 @@ void		print_t(t_tuple *tuple);
 
 void		test_intersect_world(void);
 
+int			shade_hit(t_world *world, t_comps *comps);
+
+int			color_at(t_world *world, t_ray *ray);
+
 void		free_comps(t_comps *comps);
+
+float		ft_atof(const char *str);
 
 
 

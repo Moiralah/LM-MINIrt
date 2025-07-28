@@ -58,7 +58,8 @@ files 	   = ft_strlen \
 			 ft_strjoingnl \
 			 get_next_line \
 			 free2d \
-			 ft_splitmj
+			 ft_splitmj\
+			 ft_strnormalize_spaces
 
 Compiler	= gcc
 

@@ -1,265 +1,24 @@
 #include "minirt.h"
 
-// #define BUFFER_SIZE 4096
-
-// t_scene *parse_rt_file(const char *filename)
-// {
-// 	int fd;
-// 	char buffer[BUFFER_SIZE + 1];
-// 	char *file_content = NULL;
-// 	char *temp;
-// 	ssize_t bytes_read;
-// 	char **lines;
-// 	t_scene *scene;
-
-// 	// Validate file extension
-// 	if (!ft_strnstr(filename, ".rt", ft_strlen(filename)))
-// 	{
-// 		printf("Error: Invalid file extension. Expected .rt\n");
-// 		return (NULL);
-// 	}
-
-// 	// Open the file
-// 	fd = open(filename, O_RDONLY);
-// 	if (fd < 0)
-// 	{
-// 		perror("Error opening file");
-// 		return (NULL);
-// 	}
-
-// 	// Read the file into a buffer
-// 	file_content = ft_strdup("");
-// 	while ((bytes_read = read(fd, buffer, BUFFER_SIZE)) > 0)
-// 	{
-// 		buffer[bytes_read] = '\0';
-// 		temp = file_content;
-// 		file_content = ft_strjoin(file_content, buffer);
-// 		free(temp);
-// 		if (!file_content)
-// 		{
-// 			close(fd);
-// 			return (NULL);
-// 		}
-// 	}
-// 	if (bytes_read < 0)
-// 	{
-// 		perror("Error reading file");
-// 		free(file_content);
-// 		close(fd);
-// 		return (NULL);
-// 	}
-// 	close(fd);
-
-// 	// Split the file content into lines
-// 	lines = ft_split(file_content, '\n');
-// 	free(file_content);
-// 	if (!lines)
-// 		return (NULL);
-
-// 	// Initialize the scene
-// 	scene = ft_calloc(1, sizeof(t_scene));
-// 	if (!scene)
-// 	{
-// 		ft_free_array(lines);
-// 		return (NULL);
-// 	}
-
-// 	// Parse each line
-// 	for (int i = 0; lines[i]; i++)
-// 	{
-// 		if (ft_strncmp(lines[i], "A ", 2) == 0)
-// 			parse_ambient(scene, lines[i]);
-// 		else if (ft_strncmp(lines[i], "C ", 2) == 0)
-// 			parse_camera(scene, lines[i]);
-// 		else if (ft_strncmp(lines[i], "L ", 2) == 0)
-// 			parse_light(scene, lines[i]);
-// 		else if (ft_strncmp(lines[i], "sp ", 3) == 0 || ft_strncmp(lines[i], "pl ", 3) == 0 || ft_strncmp(lines[i], "cy ", 3) == 0)
-// 			parse_object(scene, lines[i]);
-// 		else if (lines[i][0] != '\0') // Ignore empty lines
-// 			printf("Warning: Unknown identifier in line: %s\n", lines[i]);
-// 	}
-
-// 	// Free the lines array
-// 	ft_free_array(lines);
-
-// 	return (scene);
-// }
-
-// void free_scene(t_scene *scene)
-// {
-// 	if (!scene)
-// 		return;
-
-// 	if (scene->ambient)
-// 		free(scene->ambient);
-// 	if (scene->camera)
-// 	{
-// 		free_t(scene->camera->position);
-// 		free_t(scene->camera->orientation);
-// 		free(scene->camera);
-// 	}
-// 	if (scene->light)
-// 	{
-// 		free_t(scene->light->position);
-// 		free(scene->light);
-// 	}
-// 	while (scene->objects)
-// 	{
-// 		t_object *temp = scene->objects;
-// 		scene->objects = scene->objects->next;
-// 		free_t(temp->position);
-// 		if (temp->orientation)
-// 			free_t(temp->orientation);
-// 		free(temp);
-// 	}
-// 	free(scene);
-// }
-
-// void parse_ambient(t_scene *scene, char *line)
-// {
-// 	char **tokens = ft_split(line, ' ');
-
-// 	if (!tokens || ft_arraylen(tokens) != 3)
-// 	{
-// 		printf("Error: Invalid ambient lighting format\n");
-// 		return;
-// 	}
-
-// 	scene->ambient = ft_calloc(1, sizeof(t_ambient));
-// 	if (!scene->ambient)
-// 		return;
-
-// 	scene->ambient->ratio = ft_atof(tokens[1]);
-// 	scene->ambient->color = parse_color(tokens[2]);
-
-// 	ft_free_array(tokens);
-// }
-
-// void parse_camera(t_scene *scene, char *line)
-// {
-// 	char **tokens = ft_split(line, ' ');
-
-// 	if (!tokens || ft_arraylen(tokens) != 4)
-// 	{
-// 		printf("Error: Invalid camera format\n");
-// 		return;
-// 	}
-
-// 	scene->camera = ft_calloc(1, sizeof(t_camera));
-// 	if (!scene->camera)
-// 		return;
-
-// 	scene->camera->position = parse_tuple(tokens[1]);
-// 	scene->camera->orientation = parse_tuple(tokens[2]);
-// 	scene->camera->fov = ft_atof(tokens[3]);
-
-// 	ft_free_array(tokens);
-// }
-
-// void parse_light(t_scene *scene, char *line)
-// {
-// 	char **tokens = ft_split(line, ' ');
-
-// 	if (!tokens || ft_arraylen(tokens) != 4)
-// 	{
-// 		printf("Error: Invalid light format\n");
-// 		return;
-// 	}
-
-// 	scene->light = ft_calloc(1, sizeof(t_light));
-// 	if (!scene->light)
-// 		return;
-
-// 	scene->light->position = parse_tuple(tokens[1]);
-// 	scene->light->brightness = ft_atof(tokens[2]);
-// 	scene->light->color = parse_color(tokens[3]);
-
-// 	ft_free_array(tokens);
-// }
-
-// void parse_object(t_scene *scene, char *line)
-// {
-// 	char **tokens = ft_split(line, ' ');
-
-// 	if (!tokens)
-// 	{
-// 		printf("Error: Invalid object format\n");
-// 		return;
-// 	}
-
-// 	t_object *obj = ft_calloc(1, sizeof(t_object));
-// 	if (!obj)
-// 		return;
-
-// 	obj->type = ft_strdup(tokens[0]);
-// 	obj->position = parse_tuple(tokens[1]);
-// 	if (ft_strncmp(obj->type, "sp", 2) == 0)
-// 	{
-// 		obj->diameter = ft_atof(tokens[2]);
-// 		obj->color = parse_color(tokens[3]);
-// 	}
-// 	else if (ft_strncmp(obj->type, "pl", 2) == 0)
-// 	{
-// 		obj->orientation = parse_tuple(tokens[2]);
-// 		obj->color = parse_color(tokens[3]);
-// 	}
-// 	else if (ft_strncmp(obj->type, "cy", 2) == 0)
-// 	{
-// 		obj->orientation = parse_tuple(tokens[2]);
-// 		obj->diameter = ft_atof(tokens[3]);
-// 		obj->height = ft_atof(tokens[4]);
-// 		obj->color = parse_color(tokens[5]);
-// 	}
-
-// 	obj->next = scene->objects;
-// 	scene->objects = obj;
-
-// 	ft_free_array(tokens);
-// }
-
-// int main(int argc, char **argv)
-// {
-// 	if (argc != 2)
-// 	{
-// 		printf("Usage: %s <scene.rt>\n", argv[0]);
-// 		return (1);
-// 	}
-
-// 	t_scene *scene = parse_rt_file(argv[1]);
-// 	if (!scene)
-// 	{
-// 		printf("Error parsing scene file.\n");
-// 		return (1);
-// 	}
-
-// 	// Here you would typically render the scene or perform further processing
-// 	// For now, we just free the scene
-// 	free_scene(scene);
-
-// 	return (0);
-// }
-
-void	read_file(char *file, t_data *data)
+void print_content(t_data *data)
 {
-	char	*content;
-	char	*temp;
-	int		fd;
+	if (!data || !data->data)
+		return;
+	for (int i = 0; data->data[i]; i++)
+		printf("%s\n", data->data[i]);
+}
 
-	fd = open (file, O_RDONLY);
-	if (fd == -1)
-		return (perr("Invalid file format. File need '.rt' format."), exit(1));
-	file = get_next_line (fd);
-	while (file)
+void	remove_commas(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
 	{
-		content = get_next_line (fd);
-		if (!content)
-			break ;
-		temp = file;
-		file = ft_strjoin (temp, content);
+		if (str[i] == ',')
+			str[i] = ' ';
+		i++;
 	}
-	close (fd);
-	data->data = ft_splitmj(file, '\n');
-	free (file);
 }
 
 void	check_name(char *av)
@@ -269,33 +28,303 @@ void	check_name(char *av)
 	i = 0;
 	while (av[i] != '\0')
 		i++;
-	if (av[i - 4] == '.')
-		if (av[i - 3] == 'r')
-			if (av[i - 2] == 't')
+	if (av[i - 3] == '.')
+		if (av[i - 2] == 'r')
+			if (av[i - 1] == 't')
 				return ;
-	return (perr ("Invalid file format. File need '.rt' format."), exit (1));
+	return (perr("Invalid file format. File need '.rt' format."), exit(1));
 }
 
-void	validate_file(char *file, t_data *data)
+int	check_char(char *line, char *s)
+{
+	if (ft_strncmp(line, s, ft_strlen(s)) != 0)
+		return (0);
+	return (1);
+}
+
+void	content(char *file, t_data *data)
+{
+	char	*content;
+	char	*temp;
+	char	*line;
+	int		fd;
+
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+		return (perr("Invalid file."), exit(1));
+	content = get_next_line(fd);
+	while (content)
+	{
+		line = get_next_line(fd);
+		if (!line)
+			break ;
+		temp = content;
+		content = ft_strjoin(temp, content);
+	}
+	close(fd);
+	remove_commas(content);
+	temp = ft_strnormalize_spaces(content);
+	free(content);
+	data->data = ft_split(temp, '\n');
+}
+
+void	check_range(float min, float max, float value)
+{
+	if (value < min || value > max)
+		return (perr("Value out of range: %f. Expected range: [%f, %f].",
+				value, min, max), exit(1));
+}
+
+int	check_freq(char **data, char *s, int *i)
+{
+	int	j;
+	int	k;
+
+	*i = 0;
+	j = 0;
+	k = 0;
+	while (data[k])
+	{
+		if (ft_strncmp(data[k], s, ft_strlen(s)) == 0)
+		{
+			j++;
+			*i = k;
+		}
+		k++;
+	}
+	return (j);
+}
+
+int	ft_arraylen(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i])
+		i++;
+	return (i);
+}
+
+void	check_ambient(t_data *data)
+{
+	int		i;
+	char	**temp;
+
+	if (check_freq(data->data, "A ", &i) != 1)
+		return (perr("Error: Ambient light format. Only one 'A' line."),
+			exit(1));
+	temp = ft_split(data->data[i], ' ');
+	if (ft_arraylen(temp) != 5)
+	{
+		free2d(temp);
+		return (perr("Error: Format: 'A <ratio> <R, G, B>'."),
+			exit(1));
+	}
+	check_range(0.0, 1.0, ft_atof(temp[1]));
+	check_range(0, 255, ft_atof(temp[2]));
+	check_range(0, 255, ft_atof(temp[3]));
+	check_range(0, 255, ft_atof(temp[4]));
+	free2d(temp);
+}
+
+void	check_camera(t_data *data)
+{
+	int		i;
+	char	**temp;
+
+	if (check_freq(data->data, "C ", &i) != 1)
+		return (perr("Error: There should be exactly one 'C' line."), exit(1));
+	temp = ft_split(data->data[i], ' ');
+	if (ft_arraylen(temp) != 8)
+	{
+		free2d(temp);
+		return (perr("Error: Format: 'C <x,y,z> <x,y,z> <FOV>'."), exit(1));
+	}
+	check_range(-1, 1, ft_atof(temp[4]));
+	check_range(-1, 1, ft_atof(temp[5]));
+	check_range(-1, 1, ft_atof(temp[6]));
+	check_range(0, 180, ft_atof(temp[7]));
+	free2d(temp);
+}
+
+void	check_light(t_data *data)
+{
+	int		i;
+	char	**temp;
+
+	if (check_freq(data->data, "L ", &i) != 1)
+		return (perr("Error: There should be exactly one 'L' line."), exit(1));
+	temp = ft_split(data->data[i], ' ');
+	if (ft_arraylen(temp) != 8)
+	{
+		free2d(temp);
+		return (perr("Error: Format: 'L <x,y,z> <ratio> <R,G,B>'."), exit(1));
+	}
+	check_range(0.0, 1.0, ft_atof(temp[4]));
+	check_range(0, 255, ft_atof(temp[5]));
+	check_range(0, 255, ft_atof(temp[6]));
+	check_range(0, 255, ft_atof(temp[7]));
+	free2d(temp);
+}
+
+void	check_sphere(t_data *data)
+{
+	int		i;
+	char	**temp;
+
+	i = 0;
+	while (data->data[i])
+	{
+		if (check_char(data->data[i], "sp ") == 1)
+		{
+			temp = ft_split(data->data[i], ' ');
+			if (ft_arraylen(temp) != 8)
+			{
+				free2d(temp);
+				return (perr("Error: Format: 'sp <x,y,z> <sp dia.> <R,G,B>'."),
+					exit(1));
+			}
+			check_range(0, 255, ft_atof(temp[5]));
+			check_range(0, 255, ft_atof(temp[6]));
+			check_range(0, 255, ft_atof(temp[7]));
+			free2d(temp);
+		}
+		i++;
+	}
+}
+
+void	check_plane(t_data *data)
+{
+	int		i;
+	char	**temp;
+
+	i = 0;
+	while (data->data[i])
+	{
+		if (check_char(data->data[i], "pl ") == 1)
+		{
+			temp = ft_split(data->data[i], ' ');
+			if (ft_arraylen(temp) != 10)
+			{
+				free2d(temp);
+				return (perr("Error:Format:'pl <x,y,z> <x,y,z> <R,G,B>'."),
+					exit(1));
+			}
+			check_range(-1, 1, ft_atof(temp[4]));
+			check_range(-1, 1, ft_atof(temp[5]));
+			check_range(-1, 1, ft_atof(temp[6]));
+			check_range(0, 255, ft_atof(temp[7]));
+			check_range(0, 255, ft_atof(temp[8]));
+			check_range(0, 255, ft_atof(temp[9]));
+			free2d(temp);
+		}
+		i++;
+	}
+}
+
+void	check_cylinder(t_data *data)
+{
+	int		i;
+	char	**temp;
+
+	i = 0;
+	while (data->data[i])
+	{
+		if (check_char(data->data[i], "cy ") == 1)
+		{
+			temp = ft_split(data->data[i], ' ');
+			if (ft_arraylen(temp) != 12)
+			{
+				free2d(temp);
+				return (perr("Error:Format:'cy <x,y,z> <x,y,z> <cy dia.> <cy height> <R,G,B>'."),
+					exit(1));
+			}
+			check_range(-1, 1, ft_atof(temp[4]));
+			check_range(-1, 1, ft_atof(temp[5]));
+			check_range(-1, 1, ft_atof(temp[6]));
+			check_range(0, 255, ft_atof(temp[9]));
+			check_range(0, 255, ft_atof(temp[10]));
+			check_range(0, 255, ft_atof(temp[11]));
+			free2d(temp);
+		}
+		i++;
+	}
+}
+
+void	check_format(char **data)
+{
+	int	i;
+
+	i = 0;
+	while (data[i])
+	{
+		if (ft_strncmp(data[i], "A ", 2) != 0
+			&& ft_strncmp(data[i], "C ", 2) != 0
+			&& ft_strncmp(data[i], "L ", 2) != 0
+			&& ft_strncmp(data[i], "sp ", 3) != 0
+			&& ft_strncmp(data[i], "pl ", 3) != 0
+			&& ft_strncmp(data[i], "cy ", 3) != 0)
+			return (perr("Error: 'A', 'C', 'L', 'sp', 'pl', or 'cy' only."),
+				exit(1));
+		i++;
+	}
+}
+
+void	validate_data(char *file, t_data *data)
 {
 	check_name(file);
-	read_file(file, data);
+	content(file, data);
+	print_content(data);
+	check_format(data->data);
+	check_ambient(data);
+	check_camera(data);
+	check_light(data);
+	check_sphere(data);
+	check_plane(data);
+	check_cylinder(data);
+}
 
+void	set_ambient(char *line)
+{
+	char	**temp;
+	t_mat	*ambient;
+
+	temp = ft_split(line, ' ');
+	//ambient = material(tuple(ft_atof));
+}
+
+void	input_data(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->data[i])
+	{
+		if (ft_strncmp(data->data[i], "A ", 2) == 0)
+			set_ambient(data->data[i]);
+		else if (ft_strncmp(data->data[i], "C ", 2) == 0)
+			set_camera(data->data[i]);
+		else if (ft_strncmp(data->data[i], "L ", 2) == 0)
+			set_light(data->data[i]);
+		else if (ft_strncmp(data->data[i], "sp ", 3) == 0)
+			set_sphere(data->data[i]);
+		else if (ft_strncmp(data->data[i], "pl ", 3) == 0)
+			set_plane(data->data[i]);
+		else if (ft_strncmp(data->data[i], "cy ", 3) == 0)
+			set_cylinder(data->data[i]);
+		i++;
+	}
 }
 
 int	main(int ac, char **av)
 {
-	t_data *data;
-
+	t_data	*data;
 
 	if (ac != 2)
-		return(perr("Invalid input. < ./miniRT xxx.rt >"), 1);
+		return (perr("Invalid input. < ./miniRT xxx.rt >"), 1);
 	data = malloc(sizeof(t_data));
-	if(!data)
-		return(1);
-	validate_file(av[1], data);
-
-
-
-
+	if (!data)
+		return (1);
+	validate_data(av[1], data);
+	input_data(data);
 }
