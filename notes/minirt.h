@@ -1,5 +1,6 @@
 #ifndef MINIRT_H
 # define MINIRT_H
+# define EPSILON 0.0001
 # include <stdio.h>
 # include <stdbool.h>
 # include <stdbool.h>
@@ -120,13 +121,14 @@ typedef struct s_light
 
 typedef struct s_world
 {
-	t_light	**light;
+	t_light	*light;
 	t_obj	**object;
 }	t_world;
 
 typedef struct s_comps
 {
 	t_obj	*obj;
+	t_tuple	*over_point;
 	t_tuple	*normalv;
 	t_tuple	*point;
 	t_tuple	*eyev;
@@ -218,7 +220,7 @@ t_tuple		*transform_dir(t_tuple **t_matrix, t_tuple *dir);
 
 t_tuple		*color_at(t_world *world, t_ray *ray);
 
-t_tuple		*lighting(t_mat *mat, t_light *light, t_tuple **m);
+t_tuple		*lighting(t_mat *mat, t_light *light, t_tuple **m, int shadowed);
 
 t_obj		*object(void *data, char type);
 
@@ -247,6 +249,8 @@ double		mag(t_tuple *tuple);
 double		dot(t_tuple *tuple1, t_tuple *tuple2);
 
 double		spclr(t_tuple *r, t_tuple *eye, t_mat *mat, t_light *light);
+
+int			shadowed(t_world *w, t_tuple *point);
 
 int			rgb_hex(double red, double green, double blue);
 
