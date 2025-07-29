@@ -104,4 +104,5 @@ int	main(int ac, char **av)
 	validate_data(av[1], data);
 	print_content(data);
 	input_data(data);
+	world(data);
 }
