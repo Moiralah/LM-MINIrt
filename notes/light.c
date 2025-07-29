@@ -97,3 +97,31 @@ t_tuple	*reflect(t_tuple *in, t_tuple *normal)
 	free_t(temp);
 	return (result);
 }
+
+int	shadowed(t_world *w, t_tuple *point)
+{
+	t_its	**its_list;
+	t_its	*its;
+	t_ray	*temp;
+	t_tuple	*to_light;
+	double	dist;
+
+	to_light = sub(w->light[0]->position, point);
+	dist = mag(to_light);
+	to_light = norm(to_light);
+	temp = ray(point, to_light);
+	its_list = its_world(w, temp);
+	its = hit(its_list);
+	if (!its)
+	{
+		// printf("No Hit\n");
+		return (0);
+	}
+	else if (its->len >= dist)
+	{
+		// printf("No Hit Len\n");
+		return (0);
+	}
+	// printf("Hit\n");
+	return (1);
+}
