@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-/* t_world	*def_world(void)
+t_world	*def_world(void)
 {
 	t_world		*world;
 	t_light		*lit;
@@ -12,19 +12,19 @@
 	world = malloc(sizeof(t_world));
 	if (!world)
 		return (NULL);
-	lit = light(tuple(4, -10.0, 0.0, -10.0, 1.0), tuple(3, 1.0, 1.0, 1.0));
+	lit = light(tuple(4, -10.0, 10.0, -10.0, 1.0), tuple(3, 1.0, 1.0, 1.0));
 	world->light = calloc(2, sizeof(t_light *));
 	world->light[0] = lit;
 	world->light[1] = NULL;
 	origin = tuple(4, 0.0, 0.0, 0.0, 1.0);
 	m = material(tuple(3, 0.8, 1.0, 0.6), tuple(4, 0.1, 0.7, 0.2, 200.0));
 	s1 = sphere(copy_t(origin), copy_mat(m), 1.0);
-	s1->t_matrix = translate(4, 0.5, 0.5, 0.0);
+	//s1->t_matrix = translate(4, 0.5, 0.5, 0.0);
 	m = material(tuple(3, 1.0, 0.2, 1.0), tuple(4, 0.1, 0.9, 0.9, 200.0));
 	s2 = sphere(copy_t(origin),copy_mat(m), 0.5);
-	//free_m(s2->t_matrix, len_m(s2->t_matrix));
-	//s2->t_matrix = scale(4, 0.5, 0.5, 0.5);
-	s2->t_matrix = mxm(scale(4, 0.5, 0.5, 0.5), translate(4, 0.5, 0.0, 0.0));
+	// free_m(s2->t_matrix, len_m(s2->t_matrix));
+	// s2->t_matrix = scale(4, 0.5, 0.5, 0.5);
+	// s2->t_matrix = mxm(scale(4, 0.5, 0.5, 0.5), translate(4, 0.5, 0.0, 0.0));
 	world->object = ft_calloc(3, sizeof(t_obj *));
 	world->object[0] = object(s1, 'S');
 	world->object[1] = object(s2, 'S');
@@ -32,9 +32,9 @@
 	free_mat(m);
 	free_t(origin);
 	return (world);
-} */
+}
 
-t_world	*def_world(void)
+/* t_world	*def_world(void)
 {
 	t_world		*world;
 	t_light		*lit;
@@ -86,7 +86,52 @@ t_world	*def_world(void)
 	free_mat(m);
 	free_t(origin);
 	return (world);
-}
+} */
+
+/* t_world	*world(t_data *data)
+{
+	t_world		*w;
+	t_cylinder	*c;
+	t_sphere	*s;
+	t_plane		*p;
+	t_mat		*m;
+	double		sh;
+	double		sp;
+	double		df;
+	int		i;
+
+	spclr = 0.9;
+	diff = 0.9;
+	w = malloc(sizeof(t_world));
+	if (!w)
+		return (NULL);
+	w->light = light(data->l_ori, mult(l_color, l_ratio));
+	w->object = malloc((data->obj_amt + 1) * sizeof(t_obj *));
+	w->object[data->obj_amt] = NULL;
+	i = -1;
+	while (w->sp)
+	{
+		m = material(w->sp->color, tuple(4, data->a_ratio, sp, df, sh));
+		s = sphere(w->sp->ori, m, w->sp->rad);
+		w->object[++i] = s;
+		w->sp = w->sp->next;
+	}
+	while (w->pl)
+	{
+		m = material(w->pl->color, tuple(4, data->a_ratio, sp, df, sh));
+		p = plane(w->pl->ori, m, w->pl->rad);
+		w->object[++i] = p;
+		w->pl = w->pl->next;
+	}
+	while (w->cy)
+	{
+		m = material(w->cy->color, tuple(4, data->a_ratio, sp, df, sh));
+		c = cylinder(w->cy->ori, m, w->cy->normalv, w->cy->rad, w->cy->height);
+		w->object[++i] = c;
+		w->cy = w->cy->next;
+	}
+	return (w);
+} */
 
 /* t_its	**add_its(t_its **intersections, t_its *obj_its, int *total_its)
 {
