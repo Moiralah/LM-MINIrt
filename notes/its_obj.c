@@ -35,6 +35,8 @@ t_its	*hit(t_its **its_s)
 	int	i;
 
 	i = 0;
+	if (!its_s)
+		return (NULL);
 	while ((its_s[i]) && (its_s[i]->len <= 0))
 		i++;
 	return (its_s[i]);
