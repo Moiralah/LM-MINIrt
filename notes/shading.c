@@ -82,7 +82,7 @@ int	lighting(t_mat *mat, t_light *light, t_tuple **m)
 	return ((values[0] * mat->ambient) + values[2] + values[3]);
 } */
 
-t_tuple	*lighting(t_mat *material, t_light *light, t_tuple **m)
+t_tuple	*lighting(t_mat *material, t_light *light, t_tuple **m, int shadowed)
 {
 	t_tuple	*lightv;
 	t_tuple	*point;
@@ -103,6 +103,8 @@ t_tuple	*lighting(t_mat *material, t_light *light, t_tuple **m)
 	effective_colour = schur(material->color, light->intensity);
 	lightv = norm(sub(light->position, point));
 	ambient = mult(effective_colour, material->ambient);
+	if (shadowed)
+		return (ambient);
 	light_dot_normal = dot(lightv, normalv);
 	if (light_dot_normal < 0)
 	{
