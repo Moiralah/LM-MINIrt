@@ -73,4 +73,5 @@ void	render(t_img *canvas, t_camera *cam, t_world *world)
 			free_ray(ray);
 		}
 	}
+	printf("Rendered\n");
 }
