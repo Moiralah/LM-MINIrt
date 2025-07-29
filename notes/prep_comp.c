@@ -12,6 +12,7 @@ t_comps	*prepare_computations(t_its *intersection, t_ray *ray)
 	comps->point = travel(ray, comps->t);
 	comps->eyev = mult(ray->dir, -1.0);
 	comps->normalv = normal_at_obj(get_obj_tf(comps->obj), comps->point, tuple(4, 0.0, 0.0, 0.0, 1.0));
+	comps->over_point = add(comps->point, mult(comps->normalv, EPSILON));
 	comps->inside = false;
 	if (dot(comps->normalv, comps->eyev) >= 0)
 		return (comps);
@@ -25,14 +26,19 @@ t_tuple	*shade_hit(t_world *world, t_comps *comps)
 	t_tuple	**temp;
 	t_tuple	*colour;
 	int	i;
+	int	q;
 
-	temp = matrix(4, comps->point, comps->eyev, comps->normalv);
+	temp = matrix(4, comps->over_point, comps->eyev, comps->normalv);
 	if (!temp)
 		return (NULL);
-	i = 0;
-	colour = lighting(get_obj_mat(comps->obj), world->light[i], temp);
-	while (world->light[++i])
-		colour = add(colour, lighting(get_obj_mat(comps->obj), world->light[i], temp));
+	q = 0;
+	i = shadowed(world, comps->over_point);
+	colour = lighting(get_obj_mat(comps->obj), world->light[q], temp, i);
+	while (world->light[++q])
+	{
+		i = shadowed(world, comps->point);
+		colour = add(colour, lighting(get_obj_mat(comps->obj), world->light[q], temp, i));
+	}
 	return (colour);
 }
 
