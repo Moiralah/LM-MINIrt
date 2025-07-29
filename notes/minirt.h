@@ -15,27 +15,27 @@ typedef struct s_tuple
 
 typedef struct s_sp
 {
-	t_tuple		*sp_centre;
-	double		sp_diameter;
-	t_tuple		*sp_color;
+	t_tuple		*ori;
+	double		rad;
+	t_tuple		*color;
 	struct s_sp	*next;
 }	t_sp;
 
 typedef struct s_pl
 {
-	t_tuple		*pl_point;
-	t_tuple		*pl_normalv;
-	t_tuple		*pl_color;
+	t_tuple		*ori;
+	t_tuple		*normalv;
+	t_tuple		*color;
 	struct s_pl	*next;
 }	t_pl;
 
 typedef struct s_cy
 {
-	t_tuple		*cy_centre;
-	t_tuple		*cy_normalv;
-	double		cy_diameter;
-	double		cy_height;
-	t_tuple		*cy_color;
+	t_tuple		*ori;
+	t_tuple		*normalv;
+	double		rad;
+	double		height;
+	t_tuple		*color;
 	struct s_cy	*next;
 }	t_cy;
 
@@ -44,15 +44,16 @@ typedef struct s_data
 	char	**data;
 	double	a_ratio;
 	t_tuple	*a_color;
-	t_tuple	*c_viewpoint;
-	t_tuple	*c_3dv;
+	t_tuple	*c_ori;
+	t_tuple	*c_dir;
 	double	c_fov;
-	t_tuple	*l_viewpoint;
-	double	l_bright_ratio;
+	t_tuple	*l_pos;
+	double	l_ratio;
 	t_tuple	*l_color;
-	t_sp	*sphere;
-	t_pl	*plane;
-	t_cy	*cylinder;
+	int		obj_amt;
+	t_sp	*sp;
+	t_pl	*pl;
+	t_cy	*cy;
 }	t_data;
 
 typedef struct s_img
@@ -133,6 +134,20 @@ typedef struct s_comps
 	double	t;
 	bool	inside;
 }	t_comps;
+
+typedef struct s_test_shape {
+	t_tuple	**t_matrix;
+	t_tuple	**inverse;
+	t_tuple	**transpose;
+	t_mat	*mat;
+	t_ray	*saved_ray; // For testing ray transform logic
+}	t_test_shape;
+
+typedef struct s_plane
+{
+	t_tuple	**t_matrix;
+	t_mat	*mat;
+}	t_plane;
 
 t_its		**its_s(int size, ...);
 
@@ -325,5 +340,19 @@ void		set_plane(char *line, t_data *data);
 void		set_cylinder(char *line, t_data *data);
 
 void		input_data(t_data *data);
+
+t_its		**plane_its(t_obj *obj, t_ray *ray);
+
+t_its		**test_its(t_obj *obj, t_ray *ray);
+
+// Shape abstraction functions
+t_obj		*test_shape(void);
+t_tuple		*plane_local_normal(t_obj *obj, t_tuple *p);
+t_tuple		*local_normal_at(t_tuple *p);
+void		set_transform(t_obj *obj, t_tuple **transform);
+
+// Plane functions
+t_obj		*plane(void);
+t_tuple		*plane_local_normal(t_obj *obj, t_tuple *p);
 
 #endif

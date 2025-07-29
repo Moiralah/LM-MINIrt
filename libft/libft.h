@@ -78,5 +78,6 @@ int			ft_strcmp(const char *s1, const char *s2);
 char		**ft_splitmj(char const *s, char c);
 void		perr(const char *str, ...);
 char		*ft_strnormalize_spaces(const char *s);
+int			ft_arraylen(char **array);
 
 #endif

@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-/* t_world	*def_world(void)
+t_world	*def_world(t_data *data)
 {
 	t_world		*world;
 	t_light		*lit;
@@ -32,8 +32,8 @@
 	free_mat(m);
 	free_t(origin);
 	return (world);
-} */
-
+}
+/*
 t_world	*def_world(void)
 {
 	t_world		*world;
@@ -130,7 +130,7 @@ t_its	**its_world(t_world *world, t_ray *ray)
 	intersections = merge(intersections, total);
 	return (intersections);
 } */
- 
+
 t_its	**merge_its_s(t_its **list1, t_its **list2)
 {
 	t_its	**merged;
@@ -177,7 +177,7 @@ t_its	**its_world(t_world *world, t_ray *ray)
 		i++;
 	return (merge(merged_list, i));
 }
-
+/*
 void	test_intersect_world(void)
 {
 	t_its	**xs;
@@ -199,3 +199,4 @@ void	test_intersect_world(void)
 	free_its_s(xs);
 	free_ray(r);
 }
+*/

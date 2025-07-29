@@ -14,6 +14,10 @@ t_tuple	**get_obj_tf(t_obj *obj)
 {
 	if (obj->type == 'S')
 		return (((t_sphere *)(obj->data))->t_matrix);
+	if (obj->type == 'P')
+		return (((t_plane *)(obj->data))->t_matrix);
+	if (obj->type == 'T')
+		return (((t_test_shape *)(obj->data))->t_matrix);
 	return (NULL);
 }
 
@@ -21,6 +25,10 @@ t_tuple	*get_obj_ori(t_obj *obj)
 {
 	if (obj->type == 'S')
 		return (((t_sphere *)(obj->data))->ori);
+	// if (obj->type == 'P')
+	// 	return (((t_plane *)(obj->data))->ori);
+	// if (obj->type == 'C')
+	// 	return (((t_cylinder *)(obj->data))->ori);
 	return (NULL);
 }
 
@@ -28,6 +36,10 @@ t_mat	*get_obj_mat(t_obj *obj)
 {
 	if (obj->type == 'S')
 		return (((t_sphere *)(obj->data))->mat);
+	// if (obj->type == 'P')
+	// 	return (((t_plane *)(obj->data))->mat);
+	// if (obj->type == 'C')
+	// 	return (((t_cylinder *)(obj->data))->mat);
 	return (NULL);
 }
 
