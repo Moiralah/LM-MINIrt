@@ -14,7 +14,7 @@ void	check_sphere(t_data *data)
 			if (ft_arraylen(temp) != 8)
 			{
 				free2d(temp);
-				return (perr("Error: Format: 'sp <x,y,z> <sp dia.> <R,G,B>'."),
+				return (perr("Error: Format: 'sp <x,y,z> <dia.> <R,G,B>'."),
 					exit(1));
 			}
 			check_range(0, 255, ft_atof(temp[5]));
@@ -55,7 +55,7 @@ void	check_plane(t_data *data)
 	}
 }
 
-#define CY "Error: Format:'cy <x,y,z> <x,y,z> <cy dia.> <cy height> <R,G,B>'."
+#define CY "Error: Format:'cy <x,y,z> <x,y,z> <dia.> <height> <R,G,B>'."
 
 void	check_cylinder(t_data *data)
 {
