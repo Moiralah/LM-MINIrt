@@ -192,7 +192,7 @@ int	main(void)
 	print_t(colour);
 } */
 
-int	main(void)
+/* int	main(void)
 {
 	t_world		*w;
 	t_camera	*c;
@@ -227,5 +227,11 @@ int	main(void)
 	mlx_loop(mlx);
 	mlx_destroy_display(mlx);
 	free(mlx);
+	return (0);
+} */
+
+int	main(void)
+{
+	
 	return (0);
 }
