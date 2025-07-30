@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   plane.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/31 01:38:50 by huidris           #+#    #+#             */
+/*   Updated: 2025/07/31 01:38:51 by huidris          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 void	set_transform(t_obj *obj, t_tuple **transform)
@@ -50,15 +62,20 @@ t_tuple	*normal_at(t_obj *obj, t_tuple *world_p)
 	return (norm(world_normal));
 }
 
-t_obj	*plane(t_tuple *color)
+t_obj	*plane(t_tuple *origin, t_tuple *color)
 {
 	t_plane	*p;
 	t_obj	*obj;
+	t_tuple	*w_ori;
+	t_tuple	*move;
 
-	p = malloc(sizeof(t_plane));
+	w_ori = tuple(4, 0.0, 0.0, 0.0, 1.0);
+	move = sub(origin, w_ori);
+	p = calloc(1, sizeof(t_plane));
 	if (!p)
 		return (NULL);
-	p->t_matrix = identity(4);
+	p->t_matrix = translate(4, move->val[0], move->val[1], move->val[2]);
+	p->ori = w_ori;
 	p->mat = material(color, tuple(4, 0.1, 0.9, 0.9, 200.0));
 	obj = object(p, 'P');
 	return (obj);

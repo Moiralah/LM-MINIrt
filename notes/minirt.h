@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minirt.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/31 01:39:13 by huidris           #+#    #+#             */
+/*   Updated: 2025/07/31 01:39:14 by huidris          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINIRT_H
 # define MINIRT_H
 # include <stdio.h>
@@ -147,6 +159,7 @@ typedef struct s_test_shape
 typedef struct s_plane
 {
 	t_tuple	**t_matrix;
+	t_tuple	*ori;
 	t_mat	*mat;
 }	t_plane;
 
