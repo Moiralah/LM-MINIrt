@@ -135,7 +135,8 @@ typedef struct s_comps
 	bool	inside;
 }	t_comps;
 
-typedef struct s_test_shape {
+typedef struct s_test_shape
+{
 	t_tuple	**t_matrix;
 	t_tuple	**inverse;
 	t_tuple	**transpose;
@@ -237,7 +238,7 @@ t_tuple		*lighting(t_mat *mat, t_light *light, t_tuple **m);
 
 t_obj		*object(void *data, char type);
 
-t_sphere	*sphere(t_tuple *origin, t_mat *mat, double radius);
+t_obj		*sphere(t_tuple *origin, t_mat *mat, double radius);
 
 t_light		*light(t_tuple *position, t_tuple *intensity);
 
@@ -249,7 +250,7 @@ t_mat		*copy_mat(t_mat *old);
 
 t_mat		*get_obj_mat(t_obj *obj);
 
-t_world		*def_world(void);
+t_world		*def_world(t_data *data);
 
 t_comps		*prepare_computations(t_its *intersection, t_ray *ray);
 
@@ -339,20 +340,22 @@ void		set_plane(char *line, t_data *data);
 
 void		set_cylinder(char *line, t_data *data);
 
+void		obj_amount(t_data *data);
+
 void		input_data(t_data *data);
+
+void		set_transform(t_obj *obj, t_tuple **transform);
+
+t_tuple		*sphere_n(t_obj *obj, t_tuple *p);
+
+t_tuple		*normal_at(t_obj *obj, t_tuple *world_p);
+
+t_obj		*plane(t_tuple *color);
 
 t_its		**plane_its(t_obj *obj, t_ray *ray);
 
 t_its		**test_its(t_obj *obj, t_ray *ray);
 
-// Shape abstraction functions
 t_obj		*test_shape(void);
-t_tuple		*plane_local_normal(t_obj *obj, t_tuple *p);
-t_tuple		*local_normal_at(t_tuple *p);
-void		set_transform(t_obj *obj, t_tuple **transform);
-
-// Plane functions
-t_obj		*plane(void);
-t_tuple		*plane_local_normal(t_obj *obj, t_tuple *p);
 
 #endif

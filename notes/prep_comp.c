@@ -11,7 +11,7 @@ t_comps	*prepare_computations(t_its *intersection, t_ray *ray)
 	comps->obj = intersection->obj;
 	comps->point = travel(ray, comps->t);
 	comps->eyev = mult(ray->dir, -1.0);
-	comps->normalv = normal_at_obj(get_obj_tf(comps->obj), comps->point, tuple(4, 0.0, 0.0, 0.0, 1.0));
+	comps->normalv = normal_at(comps->obj, comps->point);
 	comps->inside = false;
 	if (dot(comps->normalv, comps->eyev) >= 0)
 		return (comps);

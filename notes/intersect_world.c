@@ -4,10 +4,12 @@ t_world	*def_world(t_data *data)
 {
 	t_world		*world;
 	t_light		*lit;
-	t_sphere	*s1;
-	t_sphere	*s2;
+	t_obj	*s1;
+	t_obj	*s2;
 	t_tuple		*origin;
 	t_mat		*m;
+
+	(void)data;
 
 	world = malloc(sizeof(t_world));
 	if (!world)
@@ -19,15 +21,15 @@ t_world	*def_world(t_data *data)
 	origin = tuple(4, 0.0, 0.0, 0.0, 1.0);
 	m = material(tuple(3, 0.8, 1.0, 0.6), tuple(4, 0.1, 0.7, 0.2, 200.0));
 	s1 = sphere(copy_t(origin), copy_mat(m), 1.0);
-	s1->t_matrix = translate(4, 0.5, 0.5, 0.0);
+	set_transform(s1, translate(4, 0.5, 0.5, 0.0));
 	m = material(tuple(3, 1.0, 0.2, 1.0), tuple(4, 0.1, 0.9, 0.9, 200.0));
 	s2 = sphere(copy_t(origin),copy_mat(m), 0.5);
 	//free_m(s2->t_matrix, len_m(s2->t_matrix));
 	//s2->t_matrix = scale(4, 0.5, 0.5, 0.5);
-	s2->t_matrix = mxm(scale(4, 0.5, 0.5, 0.5), translate(4, 0.5, 0.0, 0.0));
+	set_transform(s2, mxm(scale(4, 0.5, 0.5, 0.5), translate(4, 0.5, 0.0, 0.0)));
 	world->object = ft_calloc(3, sizeof(t_obj *));
-	world->object[0] = object(s1, 'S');
-	world->object[1] = object(s2, 'S');
+	world->object[0] = s1;
+	world->object[1] = s2;
 	world->object[2] = NULL;
 	free_mat(m);
 	free_t(origin);
@@ -86,9 +88,9 @@ t_world	*def_world(void)
 	free_mat(m);
 	free_t(origin);
 	return (world);
-}
+}*/
 
-/* t_its	**add_its(t_its **intersections, t_its *obj_its, int *total_its)
+t_its	**add_its(t_its **intersections, t_its *obj_its, int *total_its)
 {
 	t_its	**temp;
 	int		i;
@@ -103,7 +105,7 @@ t_world	*def_world(void)
 	(*total_its)++;
 	return (temp);
 }
-
+/*
 t_its	**its_world(t_world *world, t_ray *ray)
 {
 	t_its	**intersections;
