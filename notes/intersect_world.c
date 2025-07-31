@@ -6,18 +6,82 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:57 by huidris           #+#    #+#             */
-/*   Updated: 2025/07/31 01:39:58 by huidris          ###   ########.fr       */
+/*   Updated: 2025/07/31 22:54:03 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
+t_its	**add_its(t_its **intersections, t_its *obj_its, int *total_its)
+{
+	t_its	**temp;
+	int		i;
+
+	temp = ft_calloc(*total_its + 2, sizeof(t_its *));
+	i = -1;
+	while (++i < *total_its)
+		temp[i] = intersections[i];
+	temp[*total_its] = obj_its;
+	temp[*total_its + 1] = NULL;
+	free(intersections);
+	(*total_its)++;
+	return (temp);
+}
+
+t_its	**merge_its_s(t_its **list1, t_its **list2)
+{
+	t_its	**merged;
+	int		len1;
+	int		len2;
+
+	len1 = 0;
+	len2 = 0;
+	while (list1[len1])
+		len1++;
+	while (list2[len2])
+		len2++;
+	merged = calloc(len1 + len2 + 1, sizeof(t_its *));
+	merged[len1 + len2] = NULL;
+	while (--len2 >= 0)
+		merged[len2 + len1] = list2[len2];
+	while (--len1 >= 0)
+		merged[len1] = list1[len1];
+	free(list1);
+	free(list2);
+	return (merged);
+}
+
+t_its	**its_world(t_world *world, t_ray *ray)
+{
+	t_its	**merged_list;
+	t_its	**its_list;
+	int		i;
+
+	i = -1;
+	merged_list = NULL;
+	while (world->object[++i])
+	{
+		its_list = intersect(ray, world->object[i]);
+		if (!merged_list)
+			merged_list = its_list;
+		else if (its_list)
+			merged_list = merge_its_s(merged_list, its_list);
+	}
+	if (!merged_list)
+		return (NULL);
+	i = 0;
+	while (merged_list[i])
+		i++;
+	return (merge(merged_list, i));
+}
+
+/*
 t_world	*def_world(t_data *data)
 {
 	t_world		*world;
 	t_light		*lit;
-	t_obj	*s1;
-	t_obj	*s2;
+	t_obj		*s1;
+	t_obj		*s2;
 	t_tuple		*origin;
 	t_mat		*m;
 
@@ -36,8 +100,6 @@ t_world	*def_world(t_data *data)
 	set_transform(s1, translate(4, 0.5, 0.5, 0.0));
 	m = material(tuple(3, 1.0, 0.2, 1.0), tuple(4, 0.1, 0.9, 0.9, 200.0));
 	s2 = sphere(copy_t(origin),copy_mat(m), 0.5);
-	//free_m(s2->t_matrix, len_m(s2->t_matrix));
-	//s2->t_matrix = scale(4, 0.5, 0.5, 0.5);
 	set_transform(s2, mxm(scale(4, 0.5, 0.5, 0.5), translate(4, 0.5, 0.0, 0.0)));
 	world->object = ft_calloc(3, sizeof(t_obj *));
 	world->object[0] = s1;
@@ -47,6 +109,36 @@ t_world	*def_world(t_data *data)
 	free_t(origin);
 	return (world);
 }
+*/
+
+/*
+t_its	**its_world(t_world *world, t_ray *ray)
+{
+	t_its	**intersections;
+	t_its	*obj_its[2];
+	int		total;
+	int		i;
+	int		j;
+
+	intersections = ft_calloc(1, sizeof(t_its *));
+	total = 0;
+	i = -1;
+	while (world->object[++i])
+	{
+		obj_its[0] = intersect(ray, world->object[i]);
+		j = -1;
+		while (++j < obj_its[0]->cnt)
+		{
+			obj_its[1] = its(obj_its[0]->obj, NULL, 1);
+			obj_its[1]->len = malloc(sizeof(double));
+			obj_its[1]->len[0] = obj_its[0]->len[j];
+			intersections = add_its(intersections, obj_its[1], &total);
+		}
+	}
+	intersections = merge(intersections, total);
+	return (intersections);
+} */
+
 /*
 t_world	*def_world(void)
 {
@@ -102,95 +194,6 @@ t_world	*def_world(void)
 	return (world);
 }*/
 
-t_its	**add_its(t_its **intersections, t_its *obj_its, int *total_its)
-{
-	t_its	**temp;
-	int		i;
-
-	temp = ft_calloc(*total_its + 2, sizeof(t_its *));
-	i = -1;
-	while (++i < *total_its)
-		temp[i] = intersections[i];
-	temp[*total_its] = obj_its;
-	temp[*total_its + 1] = NULL;
-	free(intersections);
-	(*total_its)++;
-	return (temp);
-}
-/*
-t_its	**its_world(t_world *world, t_ray *ray)
-{
-	t_its	**intersections;
-	t_its	*obj_its[2];
-	int		total;
-	int		i;
-	int		j;
-
-	intersections = ft_calloc(1, sizeof(t_its *));
-	total = 0;
-	i = -1;
-	while (world->object[++i])
-	{
-		obj_its[0] = intersect(ray, world->object[i]);
-		j = -1;
-		while (++j < obj_its[0]->cnt)
-		{
-			obj_its[1] = its(obj_its[0]->obj, NULL, 1);
-			obj_its[1]->len = malloc(sizeof(double));
-			obj_its[1]->len[0] = obj_its[0]->len[j];
-			intersections = add_its(intersections, obj_its[1], &total);
-		}
-	}
-	intersections = merge(intersections, total);
-	return (intersections);
-} */
-
-t_its	**merge_its_s(t_its **list1, t_its **list2)
-{
-	t_its	**merged;
-	int	len1;
-	int	len2;
-
-	len1 = 0;
-	len2 = 0;
-	while (list1[len1])
-		len1++;
-	while (list2[len2])
-		len2++;
-	merged = calloc(len1 + len2 + 1, sizeof(t_its *));
-	merged[len1 + len2] = NULL;
-	while (--len2 >= 0)
-		merged[len2 + len1] = list2[len2];
-	while (--len1 >= 0)
-		merged[len1] = list1[len1];
-	free(list1);
-	free(list2);
-	return (merged);
-}
-
-t_its	**its_world(t_world *world, t_ray *ray)
-{
-	t_its	**merged_list;
-	t_its	**its_list;
-	int	i;
-
-	i = -1;
-	merged_list = NULL;
-	while (world->object[++i])
-	{
-		its_list = intersect(ray, world->object[i]);
-		if (!merged_list)
-			merged_list = its_list;
-		else if (its_list)
-			merged_list = merge_its_s(merged_list, its_list);
-	}
-	if (!merged_list)
-		return (NULL);
-	i = 0;
-	while(merged_list[i])
-		i++;
-	return (merge(merged_list, i));
-}
 /*
 void	test_intersect_world(void)
 {

@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:53 by huidris           #+#    #+#             */
-/*   Updated: 2025/07/31 01:39:54 by huidris          ###   ########.fr       */
+/*   Updated: 2025/07/31 21:54:03 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,6 @@ t_its	**merge(t_its **ori, int size)
 	while (--mid >= 0)
 		left[mid] = ori[mid];
 	mid = floor(((double) size) / 2);
-	/* printf("Left: %d\n", mid);
-	while (--mid >= 0)
-		printf("%f ", left[mid]->len);
-	printf("\n"); */
 	mid = ceil(((double) size) / 2);
 	right = calloc(mid, sizeof(t_its *));
 	if (!right)
@@ -69,15 +65,8 @@ t_its	**merge(t_its **ori, int size)
 	while (++mid <= size)
 		right[size - mid] = ori[mid - 1];
 	mid = ceil(((double) size) / 2);
-	/* printf("Right: %d\n", mid);
-	mid = floor(((double) size) / 2);
-	while (++mid <= size)
-		printf("%f ", right[size - mid]->len);
-	printf("\n"); */
 	left = merge(left, floor(((double) size) / 2));
 	right = merge(right, ceil(((double) size) / 2));
 	sort(ori, left, right, size);
-	free(left);
-	free(right);
-	return (ori);
+	return (free(left), free(right), ori);
 }

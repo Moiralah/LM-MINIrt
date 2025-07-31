@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:33 by huidris           #+#    #+#             */
-/*   Updated: 2025/07/31 01:41:34 by huidris          ###   ########.fr       */
+/*   Updated: 2025/07/31 21:46:27 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ t_its	**intersect(t_ray *ray, t_obj *obj)
 		return (sphere_its(obj, ray));
 	if (obj->type == 'P')
 		return (plane_its(obj, ray));
-	// if (obj->type == 'C')
-	// 	return (cylinder_its(obj, ray));
+	if (obj->type == 'C')
+		return (cylinder_its(obj, ray));
 	if (obj->type == 'T')
 		return (test_its(obj, ray));
 	return (NULL);

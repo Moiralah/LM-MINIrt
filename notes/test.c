@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:55 by huidris           #+#    #+#             */
-/*   Updated: 2025/07/31 18:25:08 by huidris          ###   ########.fr       */
+/*   Updated: 2025/07/31 21:44:52 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,66 +264,66 @@
 	return (0);
 } */
 
-int main(void)
-{
-    t_img img;
-    t_camera *cam;
-    t_world *world;
-    t_light *lit;
-    t_obj *floor_plane;
-    t_obj *sphere_obj;
-    t_mat *floor_mat;
-    t_mat *sphere_mat;
-    void *mlx;
-    void *win;
+// int main(void)
+// {
+//     t_img img;
+//     t_camera *cam;
+//     t_world *world;
+//     t_light *lit;
+//     t_obj *floor_plane;
+//     t_obj *sphere_obj;
+//     t_mat *floor_mat;
+//     t_mat *sphere_mat;
+//     void *mlx;
+//     void *win;
 
-    // Setup MLX
-    mlx = mlx_init();
-    img.w = 500;
-    img.h = 500;
-    win = mlx_new_window(mlx, img.w, img.h, "Plane Render");
-    img.img = mlx_new_image(mlx, img.w, img.h);
-    img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.len, &img.endian);
+//     // Setup MLX
+//     mlx = mlx_init();
+//     img.w = 500;
+//     img.h = 500;
+//     win = mlx_new_window(mlx, img.w, img.h, "Plane Render");
+//     img.img = mlx_new_image(mlx, img.w, img.h);
+//     img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.len, &img.endian);
 
-    // Create world
-    world = malloc(sizeof(t_world));
+//     // Create world
+//     world = malloc(sizeof(t_world));
 
-    // Create light
-    lit = light(tuple(4, -10.0, 10.0, -10.0, 1.0), tuple(3, 1.0, 1.0, 1.0));
-    world->light = calloc(2, sizeof(t_light *));
-    world->light[0] = lit;
-    world->light[1] = NULL;
+//     // Create light
+//     lit = light(tuple(4, -10.0, 10.0, -10.0, 1.0), tuple(3, 1.0, 1.0, 1.0));
+//     world->light = calloc(2, sizeof(t_light *));
+//     world->light[0] = lit;
+//     world->light[1] = NULL;
 
-    // Create floor plane
-    floor_mat = material(tuple(3, 1.0, 0.9, 0.9), tuple(4, 0.1, 0.9, 0.0, 200.0));
-    floor_plane = plane(tuple(4, 0.0, 0.0, 0.0, 1.0), floor_mat);
+//     // Create floor plane
+//     floor_mat = material(tuple(3, 1.0, 0.9, 0.9), tuple(4, 0.1, 0.9, 0.0, 200.0));
+//     floor_plane = plane(tuple(4, 0.0, 0.0, 0.0, 1.0), floor_mat);
 
-    // Create sphere above the plane
-    sphere_mat = material(tuple(3, 1.0, 0.2, 1.0), tuple(4, 0.1, 0.7, 0.3, 200.0));
-    sphere_obj = sphere(tuple(4, 0.0, 1.0, 0.0, 1.0), sphere_mat, 1.0);
+//     // Create sphere above the plane
+//     sphere_mat = material(tuple(3, 1.0, 0.2, 1.0), tuple(4, 0.1, 0.7, 0.3, 200.0));
+//     sphere_obj = sphere(tuple(4, 0.0, 1.0, 0.0, 1.0), sphere_mat, 1.0);
 
-    // Add objects to world
-    world->object = calloc(3, sizeof(t_obj *));
-    world->object[0] = floor_plane;
-    world->object[1] = sphere_obj;
-    world->object[2] = NULL;
+//     // Add objects to world
+//     world->object = calloc(3, sizeof(t_obj *));
+//     world->object[0] = floor_plane;
+//     world->object[1] = sphere_obj;
+//     world->object[2] = NULL;
 
-    // Create camera
-    cam = camera(img.w, img.h, M_PI / 3);
-    cam->transform = view_transform(
-        tuple(4, 0.0, 1.5, -5.0, 1.0),  // from
-        tuple(4, 0.0, 1.0, 0.0, 1.0),   // to
-        tuple(4, 0.0, 1.0, 0.0, 0.0)    // up
-    );
-	cam->inverse_transform = inverse(cam->transform)
-	;
+//     // Create camera
+//     cam = camera(img.w, img.h, M_PI / 3);
+//     cam->transform = view_transform(
+//         tuple(4, 0.0, 1.5, -5.0, 1.0),  // from
+//         tuple(4, 0.0, 1.0, 0.0, 1.0),   // to
+//         tuple(4, 0.0, 1.0, 0.0, 0.0)    // up
+//     );
+// 	cam->inverse_transform = inverse(cam->transform)
+// 	;
 
-    // Render
-    render(&img, cam, world);
+//     // Render
+//     render(&img, cam, world);
 
-    // Display
-    mlx_put_image_to_window(mlx, win, img.img, 0, 0);
-    mlx_loop(mlx);
+//     // Display
+//     mlx_put_image_to_window(mlx, win, img.img, 0, 0);
+//     mlx_loop(mlx);
 
-    return 0;
-}
+//     return 0;
+// }

@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:38:50 by huidris           #+#    #+#             */
-/*   Updated: 2025/07/31 16:46:04 by huidris          ###   ########.fr       */
+/*   Updated: 2025/07/31 21:48:42 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,8 @@ void	set_transform(t_obj *obj, t_tuple **transform)
 		((t_sphere *)obj->data)->t_matrix = transform;
 	else if (obj->type == 'P')
 		((t_plane *)obj->data)->t_matrix = transform;
-	// else if (obj->type == 'C')
-	// 	((t_cylinder *)obj->data)->t_matrix = transform;
-	else if (obj->type == 'T')
-		((t_test_shape *)obj->data)->t_matrix = transform;
+	else if (obj->type == 'C')
+		((t_cylinder *)obj->data)->t_matrix = transform;
 }
 
 t_tuple	*sphere_n(t_obj *obj, t_tuple *p)
@@ -47,10 +45,8 @@ t_tuple	*normal_at(t_obj *obj, t_tuple *world_p)
 		obj_n = sphere_n(obj, obj_p);
 	else if (obj->type == 'P')
 		obj_n = tuple(4, 0.0, 1.0, 0.0, 0.0);
-//	else if (obj->type == 'C')
-//		obj_n = cylinder_n(obj, obj_p);
-	else if (obj->type == 'T')
-		obj_n = tuple(4, obj_p->val[0], obj_p->val[1], obj_p->val[2], 0);
+	else if (obj->type == 'C')
+		obj_n = cylinder_n(obj, obj_p);
 	transform_matrix = transpose(inverse(get_obj_tf(obj)));
 	world_normal_matrix = mxm(transform_matrix, transpose(matrix(2, obj_n)));
 	world_normal = (transpose(world_normal_matrix))[0];
@@ -100,7 +96,7 @@ t_its	**plane_its(t_obj *obj, t_ray *ray)
 
 // t_obj *test_shape(void)
 // {
-// 	t_test_shape *ts = malloc(sizeof(t_test_shape));
+	// 	t_test_shape *ts = malloc(sizeof(t_test_shape));
 // 	if (!ts)
 // 		return NULL;
 
@@ -113,26 +109,26 @@ t_its	**plane_its(t_obj *obj, t_ray *ray)
 // 	t_obj *obj = malloc(sizeof(t_obj));
 // 	if (!obj)
 // 	{
-// 		free(ts);
-// 		return NULL;
-// 	}
-// 	obj->data = ts;
-// 	obj->type = 'T';
+	// 		free(ts);
+	// 		return NULL;
+	// 	}
+	// 	obj->data = ts;
+	// 	obj->type = 'T';
 // 	return obj;
+// // }
+
+// t_its	**test_its(t_obj *obj, t_ray *ray)
+// {
+// 	t_test_shape	*ts;
+// 	t_ray			*local_ray;
+
+// 	ts = (t_test_shape *)obj->data;
+// 	local_ray = copy_ray(ray);
+// 	local_ray->ori = transform_ori(inverse(ts->t_matrix), ray->ori);
+// 	local_ray->dir = transform_dir(inverse(ts->t_matrix), ray->dir);
+// 	ts->saved_ray = local_ray;
+// 	return (NULL);
 // }
-
-t_its	**test_its(t_obj *obj, t_ray *ray)
-{
-	t_test_shape	*ts;
-	t_ray			*local_ray;
-
-	ts = (t_test_shape *)obj->data;
-	local_ray = copy_ray(ray);
-	local_ray->ori = transform_ori(inverse(ts->t_matrix), ray->ori);
-	local_ray->dir = transform_dir(inverse(ts->t_matrix), ray->dir);
-	ts->saved_ray = local_ray;
-	return (NULL);
-}
 
 // void test_intersect_transformed_shape(void)
 // {
@@ -150,18 +146,18 @@ t_its	**test_its(t_obj *obj, t_ray *ray)
 
 // t_tuple *normal_at(t_obj *obj, t_tuple *world_point)
 // {
-// 	t_tuple *obj_p = world_to_obj_point(get_obj_tf(obj), world_point);
-// 	t_tuple *obj_n;
+	// 	t_tuple *obj_p = world_to_obj_point(get_obj_tf(obj), world_point);
+	// 	t_tuple *obj_n;
 
-// 	if (obj->type == 'S')
-// 		obj_n = sphere_local_normal(obj, obj_p);
-// 	else if (obj->type == 'P')
-// 		obj_n = plane_local_normal(obj, obj_p);
-// //	else if (obj->type == 'C')
-// //		obj_n = cylinder_local_normal(obj, obj_p);
-// 	else if (obj->type == 'T')
-// 		obj_n = tuple(4, obj_p->val[0], obj_p->val[1], obj_p->val[2], 0);
-// 	t_tuple *world_normal = (mxm(transpose(inverse(get_obj_tf(obj))), &obj_n));
-// 	world_normal->val[3] = 0;
-// 	return norm(world_normal);
-// }
+	// 	if (obj->type == 'S')
+	// 		obj_n = sphere_local_normal(obj, obj_p);
+	// 	else if (obj->type == 'P')
+	// 		obj_n = plane_local_normal(obj, obj_p);
+	// //	else if (obj->type == 'C')
+	// //		obj_n = cylinder_local_normal(obj, obj_p);
+	// 	else if (obj->type == 'T')
+	// 		obj_n = tuple(4, obj_p->val[0], obj_p->val[1], obj_p->val[2], 0);
+	// 	t_tuple *world_normal = (mxm(transpose(inverse(get_obj_tf(obj))), &obj_n));
+	// 	world_normal->val[3] = 0;
+	// 	return norm(world_normal);
+	// }

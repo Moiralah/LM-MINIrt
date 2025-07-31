@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:38:47 by huidris           #+#    #+#             */
-/*   Updated: 2025/07/31 18:12:04 by huidris          ###   ########.fr       */
+/*   Updated: 2025/07/31 22:55:53 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_ray	*ray_for_pixel(t_camera *cam, int px, int py)
 	double	c[4];
 
 	c[XOFFSET] = (px + 0.5) * cam->pixel_size;
-	c[YOFFSET]= (py + 0.5) * cam->pixel_size;
+	c[YOFFSET] = (py + 0.5) * cam->pixel_size;
 	c[WORLD_X] = cam->half_width - c[XOFFSET];
 	c[WORLD_Y] = cam->half_height - c[YOFFSET];
 	inverse_transform = cam->inverse_transform;
@@ -82,7 +82,8 @@ void	render(t_img *canvas, t_camera *cam, t_world *world)
 		{
 			ray = ray_for_pixel(cam, x, y);
 			color = color_at(world, ray);
-			render_p(canvas, x, y, rgb_hex(color->val[0], color->val[1], color->val[2]));
+			render_p(canvas, x, y, rgb_hex(color->val[0],
+					color->val[1], color->val[2]));
 			free_ray(ray);
 		}
 	}

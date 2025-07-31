@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:24 by huidris           #+#    #+#             */
-/*   Updated: 2025/07/31 17:27:38 by huidris          ###   ########.fr       */
+/*   Updated: 2025/07/31 22:55:10 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_tuple	*shade_hit(t_world *world, t_comps *comps)
 {
 	t_tuple	**temp;
 	t_tuple	*colour;
-	int	i;
+	int		i;
 
 	temp = matrix(4, comps->point, comps->eyev, comps->normalv);
 	if (!temp)
@@ -44,7 +44,9 @@ t_tuple	*shade_hit(t_world *world, t_comps *comps)
 	i = 0;
 	colour = lighting(get_obj_mat(comps->obj), world->light[i], temp);
 	while (world->light[++i])
-		colour = add(colour, lighting(get_obj_mat(comps->obj), world->light[i], temp));
+		colour = add(colour, lighting(get_obj_mat(comps->obj),
+					world->light[i], temp));
+	free_m(temp, 4);
 	return (colour);
 }
 

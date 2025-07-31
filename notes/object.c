@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:26 by huidris           #+#    #+#             */
-/*   Updated: 2025/07/31 01:39:27 by huidris          ###   ########.fr       */
+/*   Updated: 2025/07/31 20:43:23 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ t_tuple	**get_obj_tf(t_obj *obj)
 		return (((t_sphere *)(obj->data))->t_matrix);
 	if (obj->type == 'P')
 		return (((t_plane *)(obj->data))->t_matrix);
-	// if (obj->type == 'C')
-	// 	return (((t_cylinder *)(obj->data))->t_matrix);
+	if (obj->type == 'C')
+		return (((t_cylinder *)(obj->data))->t_matrix);
 	if (obj->type == 'T')
 		return (((t_test_shape *)(obj->data))->t_matrix);
 	return (NULL);
@@ -39,8 +39,8 @@ t_tuple	*get_obj_ori(t_obj *obj)
 {
 	if (obj->type == 'S')
 		return (((t_sphere *)(obj->data))->ori);
-	// if (obj->type == 'C')
-	// 	return (((t_cylinder *)(obj->data))->ori);
+	if (obj->type == 'C')
+		return (((t_cylinder *)(obj->data))->ori);
 	return (NULL);
 }
 
@@ -50,8 +50,8 @@ t_mat	*get_obj_mat(t_obj *obj)
 		return (((t_sphere *)(obj->data))->mat);
 	if (obj->type == 'P')
 		return (((t_plane *)(obj->data))->mat);
-	// if (obj->type == 'C')
-	// 	return (((t_cylinder *)(obj->data))->mat);
+	if (obj->type == 'C')
+		return (((t_cylinder *)(obj->data))->mat);
 	return (NULL);
 }
 
