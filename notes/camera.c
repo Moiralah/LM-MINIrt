@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:38:47 by huidris           #+#    #+#             */
-/*   Updated: 2025/07/31 01:38:48 by huidris          ###   ########.fr       */
+/*   Updated: 2025/07/31 18:12:04 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_camera	*camera(int hsize, int vsize, double field_of_view)
 	cam->vsize = vsize;
 	cam->field_of_view = field_of_view;
 	cam->transform = identity(4);
+	cam->inverse_transform = inverse(cam->transform);
 	half_view = tan(field_of_view / 2);
 	aspect = (double) hsize / (double) vsize;
 	cam->half_width = half_view;
@@ -55,7 +56,7 @@ t_ray	*ray_for_pixel(t_camera *cam, int px, int py)
 	c[YOFFSET]= (py + 0.5) * cam->pixel_size;
 	c[WORLD_X] = cam->half_width - c[XOFFSET];
 	c[WORLD_Y] = cam->half_height - c[YOFFSET];
-	inverse_transform = inverse(cam->transform);
+	inverse_transform = cam->inverse_transform;
 	pixel = matrix(2, tuple(4, c[WORLD_X], c[WORLD_Y], -1.0, 1.0));
 	pixel = mxm(inverse_transform, transpose(pixel));
 	pixel = transpose(pixel);

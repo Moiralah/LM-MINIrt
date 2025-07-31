@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:38:50 by huidris           #+#    #+#             */
-/*   Updated: 2025/07/31 01:38:51 by huidris          ###   ########.fr       */
+/*   Updated: 2025/07/31 16:46:04 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_tuple	*normal_at(t_obj *obj, t_tuple *world_p)
 	return (norm(world_normal));
 }
 
-t_obj	*plane(t_tuple *origin, t_tuple *color)
+t_obj	*plane(t_tuple *origin, t_mat *mat)
 {
 	t_plane	*p;
 	t_obj	*obj;
@@ -76,8 +76,9 @@ t_obj	*plane(t_tuple *origin, t_tuple *color)
 		return (NULL);
 	p->t_matrix = translate(4, move->val[0], move->val[1], move->val[2]);
 	p->ori = w_ori;
-	p->mat = material(color, tuple(4, 0.1, 0.9, 0.9, 200.0));
+	p->mat = mat;
 	obj = object(p, 'P');
+	free_t(move);
 	return (obj);
 }
 

@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:13 by huidris           #+#    #+#             */
-/*   Updated: 2025/07/31 01:39:14 by huidris          ###   ########.fr       */
+/*   Updated: 2025/07/31 18:25:08 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ typedef struct s_material
 typedef struct s_camera
 {
 	t_tuple	**transform;
+	t_tuple	**inverse_transform;
 	double	half_width;
 	double	half_height;
 	double	pixel_size;
@@ -363,7 +364,7 @@ t_tuple		*sphere_n(t_obj *obj, t_tuple *p);
 
 t_tuple		*normal_at(t_obj *obj, t_tuple *world_p);
 
-t_obj		*plane(t_tuple *color);
+t_obj		*plane(t_tuple *origin, t_mat *mat);
 
 t_its		**plane_its(t_obj *obj, t_ray *ray);
 

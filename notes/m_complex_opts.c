@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:40:19 by huidris           #+#    #+#             */
-/*   Updated: 2025/07/31 01:40:20 by huidris          ###   ########.fr       */
+/*   Updated: 2025/07/31 20:24:37 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,3 +140,4 @@ double	det(t_tuple **m, int ori_size)
 	free_m(m, len_m(m));
 	return (ad - bc);
 }
+
