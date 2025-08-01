@@ -67,7 +67,7 @@ t_its	**cylinder_its(t_obj *obj, t_ray *r)
 	values[0] = pow(r->dir->val[0], 2) + pow(r->dir->val[2], 2);
 	if ((values[0] == 0) && (cy->closed))
 		return (check_cap(obj, cy, r));
-	else if (values[0])
+	else if (values[0] == 0)
 		return (NULL);
 	values[1] = (2 * r->ori->val[0] * r->dir->val[0]);
 	values[1] += (2 * r->ori->val[2] * r->dir->val[2]);
