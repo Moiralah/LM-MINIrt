@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-t_world	*def_world(void)
+/* t_world	*def_world(void)
 {
 	t_world		*world;
 	t_light		*lit;
@@ -13,7 +13,7 @@ t_world	*def_world(void)
 	if (!world)
 		return (NULL);
 	lit = light(tuple(4, -10.0, 10.0, -10.0, 1.0), tuple(3, 1.0, 1.0, 1.0));
-	world->light = calloc(2, sizeof(t_light *));
+	world->light = malloc(2 * sizeof(t_light *));
 	world->light[0] = lit;
 	world->light[1] = NULL;
 	origin = tuple(4, 0.0, 0.0, 0.0, 1.0);
@@ -32,9 +32,9 @@ t_world	*def_world(void)
 	free_mat(m);
 	free_t(origin);
 	return (world);
-}
+} */
 
-/* t_world	*def_world(void)
+t_world	*def_world(void)
 {
 	t_world		*world;
 	t_light		*lit;
@@ -44,6 +44,7 @@ t_world	*def_world(void)
 	t_sphere	*right;
 	t_sphere	*left;
 	t_sphere	*floor;
+	t_cylinder	*cy;
 	t_tuple		*origin;
 	t_mat		*m;
 
@@ -51,11 +52,11 @@ t_world	*def_world(void)
 	if (!world)
 		return (NULL);
 	lit = light(tuple(4, -10.0, 10.0, -10.0, 1.0), tuple(3, 1.0, 1.0, 1.0));
-	world->light = calloc(2, sizeof(t_light *));
-	world->light[0] = lit;
-	world->light[1] = NULL;
+	world->light = lit;
 	origin = tuple(4, 0.0, 0.0, 0.0, 1.0);
 	m = material(tuple(3, 1.0, 0.9, 0.9), tuple(4, 0.1, 0.9, 0.0, 200.0));
+	cy = cylinder(tuple(4, 0.0, 1.0, 0.0), copy_mat(m), 1.0, 4.0);
+	cy->t_matrix = rotate(4, 1, M_PI / 2.0);
 	floor = sphere(copy_t(origin), copy_mat(m), 1.0);
 	floor->t_matrix = scale(4, 10.0, 0.01, 10.0);
 	left_wall = sphere(copy_t(origin),copy_mat(m), 1.0);
@@ -75,18 +76,19 @@ t_world	*def_world(void)
 	m = material(tuple(3, 1.0, 0.8, 0.1), tuple(4, 0.1, 0.7, 0.3, 200.0));
 	left = sphere(copy_t(origin), copy_mat(m), 1.0);
 	left->t_matrix = mxm(translate(4, -1.5, 0.33, -0.75), scale(4, 0.33, 0.33, 0.33));
-	world->object = ft_calloc(7, sizeof(t_obj *));
+	world->object = ft_calloc(8, sizeof(t_obj *));
 	world->object[0] = object(floor, 'S');
 	world->object[1] = object(left_wall, 'S');
 	world->object[2] = object(right_wall, 'S');
 	world->object[3] = object(middle, 'S');
 	world->object[4] = object(right, 'S');
 	world->object[5] = object(left, 'S');
-	world->object[6] = NULL;
+	world->object[6] = object(cy, 'C');
+	world->object[7] = NULL;
 	free_mat(m);
 	free_t(origin);
 	return (world);
-} */
+}
 
 /* t_world	*world(t_data *data)
 {
@@ -184,6 +186,12 @@ t_its	**merge_its_s(t_its **list1, t_its **list2)
 
 	len1 = 0;
 	len2 = 0;
+	if (!list1 && !list2)
+		return (NULL);
+	if (!list1)
+		return (list2);
+	else if (!list2)
+		return (list1);
 	while (list1[len1])
 		len1++;
 	while (list2[len2])
@@ -209,7 +217,7 @@ t_its	**its_world(t_world *world, t_ray *ray)
 	merged_list = NULL;
 	while (world->object[++i])
 	{
-		its_list = intersect(ray, world->object[i]);
+		its_list = calculate_its(world->object[i], ray);
 		if (!merged_list)
 			merged_list = its_list;
 		else if (its_list)
