@@ -26,19 +26,17 @@ t_tuple	*shade_hit(t_world *world, t_comps *comps)
 	t_tuple	**temp;
 	t_tuple	*colour;
 	int	i;
-	int	q;
 
 	temp = matrix(4, comps->over_point, comps->eyev, comps->normalv);
 	if (!temp)
 		return (NULL);
-	q = 0;
 	i = shadowed(world, comps->over_point);
-	colour = lighting(get_obj_mat(comps->obj), world->light[q], temp, i);
-	while (world->light[++q])
+	colour = lighting(get_obj_mat(comps->obj), world->light, temp, i);
+	/* while (world->light[++q])
 	{
 		i = shadowed(world, comps->point);
 		colour = add(colour, lighting(get_obj_mat(comps->obj), world->light[q], temp, i));
-	}
+	} */
 	return (colour);
 }
 

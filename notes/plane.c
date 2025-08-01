@@ -33,7 +33,7 @@ t_its **test_its(t_obj *obj, t_ray *ray)
 	return NULL; // No real intersections
 }
 
-void test_intersect_transformed_shape(void)
+/* void test_intersect_transformed_shape(void)
 {
 	t_obj *s = test_shape();
 	t_tuple **tf = scale(4, 2.0, 2.0, 2.0, 0.0);
@@ -45,7 +45,7 @@ void test_intersect_transformed_shape(void)
 
 	print_t(saved->ori); // Should be (0, 0, -2.5)
 	print_t(saved->dir); // Should be (0, 0, 0.5)
-}
+} */
 
 t_tuple *sphere_local_normal(t_obj *obj, t_tuple *p)
 {
@@ -145,7 +145,7 @@ t_obj *plane(void)
     return obj;
 }
 
-int main()
+/* int main()
 {
 	test_intersect_transformed_shape();
-}
+} */
