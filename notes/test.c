@@ -180,7 +180,7 @@
 	return (0);
 } */
 
-int main(void)
+/* int main(void)
 {
 	t_img img;
 	t_camera *cam;
@@ -188,6 +188,7 @@ int main(void)
 	t_light *lit;
 	t_obj *floor_plane;
 	t_obj *sphere_obj;
+	t_obj *cy;
 	t_mat *floor_mat;
 	t_mat *sphere_mat;
 	void *mlx;
@@ -195,8 +196,8 @@ int main(void)
 
 	// Setup MLX
 	mlx = mlx_init();
-	img.w = 500;
-	img.h = 500;
+	img.w = 100;
+	img.h = 100;
 	win = mlx_new_window(mlx, img.w, img.h, "Plane Render");
 	img.img = mlx_new_image(mlx, img.w, img.h);
 	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.len, &img.endian);
@@ -209,18 +210,23 @@ int main(void)
 	world->light = lit;
 
 	// Create floor plane
-	floor_mat = material(tuple(3, 1.0, 0.9, 0.9), tuple(4, 0.1, 0.9, 0.0, 200.0));
+	floor_mat = material(tuple(3, 1.0, 0.9, 0.9), tuple(4, 0.1, 0.9, 0.9, 200.0));
 	floor_plane = plane(tuple(4, 0.0, 0.0, 0.0, 1.0), floor_mat);
+	// ((t_plane *)(floor_plane->data))->t_matrix = rotate(4, 3, 0.0, 0.0, 10.0);
+	// ((t_plane *)(floor_plane->data))->t_matrix = scale(4, 0.1, 0.1, 0.1);
 
 	// Create sphere above the plane
 	sphere_mat = material(tuple(3, 1.0, 0.2, 1.0), tuple(4, 0.1, 0.7, 0.3, 200.0));
 	sphere_obj = sphere(tuple(4, 0.0, 1.0, 0.0, 1.0), sphere_mat, 1.0);
+	sphere_mat = material(tuple(3, 1.0, 0.2, 1.0), tuple(4, 0.1, 0.7, 0.3, 200.0));
+	cy = cylinder(tuple(4, 0.0, -1.0, 0.0, 1.0), tuple(4, 0.5, 1.0 , 0.7), copy_mat(sphere_mat), tuple(2, 2.0, 2.0));
 
 	// Add objects to world
-	world->object = calloc(3, sizeof(t_obj *));
+	world->object = calloc(4, sizeof(t_obj *));
 	world->object[0] = floor_plane;
-	world->object[1] = sphere_obj;
-	world->object[2] = NULL;
+	world->object[1] = cy;
+	world->object[2] = sphere_obj;
+	world->object[3] = NULL;
 
 	// Create camera
 	cam = camera(img.w, img.h, M_PI / 3);
@@ -229,7 +235,7 @@ int main(void)
 	    tuple(4, 0.0, 1.0, 0.0, 1.0),   // to
 	    tuple(4, 0.0, 1.0, 0.0, 0.0)    // up
 	);
-	//cam->inverse_transform = inverse(cam->transform);
+	cam->inverse_transform = inverse(cam->transform);
 
 	// Render
 	render(&img, cam, world);
@@ -239,4 +245,36 @@ int main(void)
 	mlx_loop(mlx);
 
 	return 0;
+} */
+
+int	main(int ac, char **av)
+{
+	t_data		*data;
+	t_world		*w;
+	t_camera	*c;
+	void		*mlx;
+	void		*win;
+	t_img		img;
+
+	if (ac != 2)
+		return (perr("Invalid input. < ./miniRT xxx.rt >"), -1);
+	data = malloc(sizeof(t_data));
+	if (!data)
+		return (-1);
+	validate_data(av[1], data);
+	input_data(data);
+	w = world(data);
+	c = camera(img.w, img.h, data->c_fov);
+	c->transform = view_transform(data->c_ori, add(data->c_ori, data->c_dir), tuple(4, 0.0, 1.0, 0.0, 0.0));
+	c->inverse_transform = inverse(c->transform);
+	mlx = mlx_init();
+	img.w = 100;
+	img.h = 100;
+	win = mlx_new_window(mlx, img.w, img.h, "Render");
+	img.img = mlx_new_image(mlx, img.w, img.h);
+	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.len, &img.endian);
+	render(&img, c, w);
+	mlx_put_image_to_window(mlx, win, img.img, 0, 0);
+	mlx_loop(mlx);
+	return (0);
 }
