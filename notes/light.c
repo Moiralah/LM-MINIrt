@@ -59,10 +59,12 @@ t_tuple	*world_to_obj_point(t_tuple **t_matrix, t_tuple *world_point)
 	return (result);
 }
 
-t_tuple	*normal_at_cy(t_cylinder *cy, t_tuple *point)
+t_tuple	*cylinder_n(t_obj *obj, t_tuple *point)
 {
+	t_cylinder	*cy;
 	double	dist;
 
+	cy = (t_cylinder *)(obj->data);
 	dist = pow(point->val[0], 2) + pow(point->val[2], 2);
 	if ((dist < 1) && (point->val[1] >= (cy->max - EPSILON)))
 		return (tuple(4, 0.0, 1.0, 0.0, 0.0));
@@ -73,7 +75,7 @@ t_tuple	*normal_at_cy(t_cylinder *cy, t_tuple *point)
 	return (NULL);
 }
 
-t_tuple	*normal_at_obj(t_tuple **t_matrix, t_tuple *world_p, t_tuple *origin)
+/* t_tuple	*sphere_n(t_tuple **t_matrix, t_tuple *world_p, t_tuple *origin)
 {
 	t_tuple	**inverse_m;
 	t_tuple	**world_n;
@@ -97,7 +99,7 @@ t_tuple	*normal_at_obj(t_tuple **t_matrix, t_tuple *world_p, t_tuple *origin)
 	world_n[3]->val[0] = 0.0;
 	obj_p = norm((transpose(world_n))[0]);
 	return (free_m(inverse_m, 2), free_m(world_n, 2), free_m(obj_n, 2), obj_p);
-}
+} */
 
 t_tuple	*reflect(t_tuple *in, t_tuple *normal)
 {

@@ -28,9 +28,9 @@ typedef struct s_tuple
 
 typedef struct s_sp
 {
+	t_tuple		*color;
 	t_tuple		*ori;
 	double		rad;
-	t_tuple		*color;
 	struct s_sp	*next;
 }	t_sp;
 
@@ -44,29 +44,29 @@ typedef struct s_pl
 
 typedef struct s_cy
 {
-	t_tuple		*ori;
 	t_tuple		*normalv;
-	double		rad;
-	double		height;
 	t_tuple		*color;
+	t_tuple		*ori;
+	double		height;
+	double		rad;
 	struct s_cy	*next;
 }	t_cy;
 
 typedef struct s_data
 {
-	char	**data;
-	double	a_ratio;
-	t_tuple	*a_color;
-	t_tuple	*c_ori;
-	t_tuple	*c_dir;
-	double	c_fov;
-	t_tuple	*l_pos;
-	double	l_ratio;
-	t_tuple	*l_color;
-	int		obj_amt;
+	t_cy	*cy;
 	t_sp	*sp;
 	t_pl	*pl;
-	t_cy	*cy;
+	t_tuple	*a_color;
+	t_tuple	*l_color;
+	t_tuple	*l_pos;
+	t_tuple	*c_ori;
+	t_tuple	*c_dir;
+	char	**data;
+	double	a_ratio;
+	double	l_ratio;
+	double	c_fov;
+	int		obj_amt;
 }	t_data;
 
 typedef struct s_img
@@ -148,14 +148,14 @@ typedef struct s_ray
 
 typedef struct s_light
 {
-	t_tuple	*position;
 	t_tuple	*intensity;
+	t_tuple	*position;
 }	t_light;
 
 typedef struct s_world
 {
-	t_light	*light;
 	t_obj	**object;
+	t_light	*light;
 }	t_world;
 
 typedef struct s_comps
@@ -168,22 +168,6 @@ typedef struct s_comps
 	double	t;
 	bool	inside;
 }	t_comps;
-
-typedef struct s_test_shape
-{
-	t_tuple	**t_matrix;
-	t_tuple	**inverse;
-	t_tuple	**transpose;
-	t_mat	*mat;
-	t_ray	*saved_ray; // For testing ray transform logic
-}	t_test_shape;
-
-typedef struct s_plane
-{
-	t_tuple	**t_matrix;
-	t_tuple	*ori;
-	t_mat	*mat;
-}	t_plane;
 
 t_its		**its_s(int size, ...);
 
@@ -257,9 +241,11 @@ t_tuple		*add(t_tuple *tuple1, t_tuple *tuple2);
 
 t_tuple		*world_to_obj_point(t_tuple **t_matrix, t_tuple *world_point);
 
-t_tuple		*normal_at_cy(t_cylinder *cy, t_tuple *point);
+t_tuple		*cylinder_n(t_obj *obj, t_tuple *point);
 
-t_tuple		*normal_at_obj(t_tuple **t_m, t_tuple *world_p, t_tuple *ori);
+// t_tuple		*sphere_n(t_tuple **t_m, t_tuple *world_p, t_tuple *ori);
+
+t_tuple		*sphere_n(t_obj *ob, t_tuple *p);
 
 t_tuple		*reflect(t_tuple *in, t_tuple *normal);
 
@@ -279,7 +265,7 @@ t_obj		*object(void *data, char type);
 
 t_obj		*sphere(t_tuple *origin, t_mat *mat, double radius);
 
-t_cylinder	*cylinder(t_tuple *origin, t_mat *mat, double radius, double height);
+t_obj		*cylinder(t_tuple *origin, t_mat *mat, double radius, double height);
 
 t_light		*light(t_tuple *position, t_tuple *intensity);
 
@@ -291,7 +277,7 @@ t_mat		*copy_mat(t_mat *old);
 
 t_mat		*get_obj_mat(t_obj *obj);
 
-t_world		*def_world(t_data *data);
+t_world		*def_world(void);
 
 t_comps		*prepare_computations(t_its *intersection, t_ray *ray);
 
@@ -390,8 +376,6 @@ void		obj_amount(t_data *data);
 void		input_data(t_data *data);
 
 void		set_transform(t_obj *obj, t_tuple **transform);
-
-t_tuple		*sphere_n(t_obj *obj, t_tuple *p);
 
 t_tuple		*normal_at(t_obj *obj, t_tuple *world_p);
 
