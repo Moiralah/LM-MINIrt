@@ -57,6 +57,20 @@ t_tuple	*world_to_obj_point(t_tuple **t_matrix, t_tuple *world_point)
 	return (result);
 }
 
+t_tuple	*normal_at_cy(t_cylinder *cy, t_tuple *point)
+{
+	double	dist;
+
+	dist = pow(point->val[0], 2) + pow(point->val[2], 2);
+	if ((dist < 1) && (point->val[1] >= (cy->max - EPSILON)))
+		return (tuple(4, 0.0, 1.0, 0.0, 0.0));
+	else if ((dist < 1) && (point->val[1] <= (cy->min + EPSILON)))
+		return (tuple(4, 0.0, -1.0, 0.0, 0.0));
+	else
+		return (tuple(4, point->val[0], 0.0, point->val[2], 0.0));
+	return (NULL);
+}
+
 t_tuple	*normal_at_obj(t_tuple **t_matrix, t_tuple *world_p, t_tuple *origin)
 {
 	t_tuple	**inverse_m;
@@ -106,22 +120,15 @@ int	shadowed(t_world *w, t_tuple *point)
 	t_tuple	*to_light;
 	double	dist;
 
-	to_light = sub(w->light[0]->position, point);
+	to_light = sub(w->light->position, point);
 	dist = mag(to_light);
 	to_light = norm(to_light);
 	temp = ray(point, to_light);
 	its_list = its_world(w, temp);
 	its = hit(its_list);
 	if (!its)
-	{
-		// printf("No Hit\n");
 		return (0);
-	}
 	else if (its->len >= dist)
-	{
-		// printf("No Hit Len\n");
 		return (0);
-	}
-	// printf("Hit\n");
 	return (1);
 }
