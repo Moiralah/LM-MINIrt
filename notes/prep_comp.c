@@ -44,11 +44,6 @@ t_tuple	*shade_hit(t_world *world, t_comps *comps)
 		return (NULL);
 	i = shadowed(world, comps->over_point);
 	colour = lighting(get_obj_mat(comps->obj), world->light, temp, i);
-	/* while (world->light[++q])
-	{
-		i = shadowed(world, comps->point);
-		colour = add(colour, lighting(get_obj_mat(comps->obj), world->light[q], temp, i));
-	} */
 	return (colour);
 }
 
@@ -61,7 +56,7 @@ t_tuple	*color_at(t_world *world, t_ray *ray)
 
 	intersections = its_world(world, ray);
 	if (!intersections)
-		return (tuple(3, 0.0, 0.0, 0.0));
+		return (mult(world->a_color, world->a_ratio));
 	hit_its = hit(intersections);
 	if (!hit_its)
 	{
