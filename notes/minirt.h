@@ -156,6 +156,8 @@ typedef struct s_world
 {
 	t_obj	**object;
 	t_light	*light;
+	t_tuple	*a_color;
+	double	a_ratio;
 }	t_world;
 
 typedef struct s_comps
@@ -213,9 +215,11 @@ t_tuple		**translate(int m_size, ...);
 
 t_tuple		**scale(int m_size, ...);
 
-t_tuple		**rotate(int m_size, int axis, double degree);
+t_tuple		**rotate_axis(int m_size, int axis, double degree);
 
-t_tuple		**shear(t_tuple **ori_matrix, int axis, ...);
+t_tuple		**rotate(int m_size, int axis_amnt, ...);
+
+// t_tuple		**shear(t_tuple **ori_matrix, int axis, ...);
 
 t_tuple		**get_obj_tf(t_obj *obj);
 
@@ -265,7 +269,7 @@ t_obj		*object(void *data, char type);
 
 t_obj		*sphere(t_tuple *origin, t_mat *mat, double radius);
 
-t_obj		*cylinder(t_tuple *origin, t_mat *mat, double radius, double height);
+t_obj		*cylinder(t_tuple *origin, t_tuple *normal, t_mat *mat, t_tuple *dim);
 
 t_light		*light(t_tuple *position, t_tuple *intensity);
 
@@ -277,7 +281,9 @@ t_mat		*copy_mat(t_mat *old);
 
 t_mat		*get_obj_mat(t_obj *obj);
 
-t_world		*def_world(void);
+t_world		*world(t_data *data);
+
+//t_world		*def_world(void);
 
 t_comps		*prepare_computations(t_its *intersection, t_ray *ray);
 
