@@ -94,6 +94,18 @@ typedef struct s_camera
 	int		vsize;
 }	t_camera;
 
+typedef struct s_cylinder
+{
+	t_tuple	**t_matrix;
+	t_tuple	*ori;
+	t_mat	*mat;
+	double	rad;
+	double	max;
+	double	min;
+	double	h;
+	int	closed;
+}	t_cylinder;
+
 typedef struct s_sphere
 {
 	t_tuple	**t_matrix;
@@ -101,6 +113,13 @@ typedef struct s_sphere
 	t_mat	*mat;
 	double	rad;
 }	t_sphere;
+
+typedef struct s_plane
+{
+	t_tuple	**t_matrix;
+	t_tuple	*ori;
+	t_mat	*mat;
+}	t_plane;
 
 typedef struct s_its
 {
@@ -145,17 +164,13 @@ typedef struct s_test_shape {
 	t_ray	*saved_ray; // For testing ray transform logic
 }	t_test_shape;
 
-typedef struct s_plane
-{
-	t_tuple	**t_matrix;
-	t_mat	*mat;
-}	t_plane;
-
 t_its		**its_s(int size, ...);
 
 t_its		**merge(t_its **ori, int size);
 
-t_its		**sphere_its(t_obj *obj, t_ray *r);
+t_its		**merge_its_s(t_its **list1, t_its **list2);
+
+t_its		**calculate_its(t_obj *obj, t_ray *r);
 
 t_its		*its(t_obj *obj, double len_from_ori);
 
@@ -221,6 +236,8 @@ t_tuple		*add(t_tuple *tuple1, t_tuple *tuple2);
 
 t_tuple		*world_to_obj_point(t_tuple **t_matrix, t_tuple *world_point);
 
+t_tuple		*normal_at_cy(t_cylinder *cy, t_tuple *point);
+
 t_tuple		*normal_at_obj(t_tuple **t_m, t_tuple *world_p, t_tuple *ori);
 
 t_tuple		*reflect(t_tuple *in, t_tuple *normal);
@@ -240,6 +257,8 @@ t_tuple		*lighting(t_mat *mat, t_light *light, t_tuple **m, int shadowed);
 t_obj		*object(void *data, char type);
 
 t_sphere	*sphere(t_tuple *origin, t_mat *mat, double radius);
+
+t_cylinder	*cylinder(t_tuple *origin, t_mat *mat, double radius, double height);
 
 t_light		*light(t_tuple *position, t_tuple *intensity);
 
@@ -314,6 +333,8 @@ void		check_range(float min, float max, float value);
 int			check_freq(char **data, char *s, int *i);
 
 int			ft_arraylen(char **array);
+
+void		obj_amount(t_data *data);
 
 void		check_ambient(t_data *data);
 
