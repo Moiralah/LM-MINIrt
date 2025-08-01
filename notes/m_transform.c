@@ -74,7 +74,7 @@ t_tuple	**scale(int m_size, ...)
 }
 
 // Creates a rotation matrix for a given axis and angle.
-t_tuple	**rotate(int m_size, int axis, double degree)
+t_tuple	**rotate_axis(int m_size, int axis, double degree)
 {
 	t_tuple	**r;
 	int		i;
@@ -95,7 +95,33 @@ t_tuple	**rotate(int m_size, int axis, double degree)
 	return (r);
 }
 
-// Applies a shear transformation to a matrix.
+t_tuple	**rotate(int m_size, int axis_amnt, ...)
+{
+	t_tuple	**complete_r;
+	t_tuple	**temp;
+	t_tuple	**r;
+	va_list	val;
+	int	i;
+
+	va_start(val, axis_amnt);
+	i = 0;
+	complete_r = rotate_axis(m_size, i, va_arg(val, double));
+	print_m(complete_r);
+	while (++i < axis_amnt)
+	{
+		r = rotate_axis(m_size, i, va_arg(val, double));
+		if (!r)
+			return (free_m(complete_r, len_m(complete_r)), NULL);
+		temp = complete_r;
+		complete_r = mxm(r, complete_r);
+		print_m(complete_r);
+		free_m(temp, len_m(temp));
+		free_m(r, len_m(r));
+	}
+	return (complete_r);
+}
+
+/* Applies a shear transformation to a matrix.
 t_tuple	**shear(t_tuple **ori_matrix, int axis, ...)
 {
 	t_tuple	**id;
@@ -116,4 +142,4 @@ t_tuple	**shear(t_tuple **ori_matrix, int axis, ...)
 		id[axis]->val[i] = va_arg(vals, double);
 	}
 	return (id);
-}
+} */
