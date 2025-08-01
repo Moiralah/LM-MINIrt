@@ -12,66 +12,6 @@
 
 #include "minirt.h"
 
-/* void	cast_rays(t_img img, t_sphere *sphere, t_light *light, t_tuple *ori, int nohit)
-{
-	t_its	*its;
-	t_ray	*r;
-	t_tuple	*dir;
-	t_tuple	*temp;
-	t_tuple	*e;
-	t_tuple	*n;
-	t_tuple	*hit;
-	t_tuple	*hit_colour;
-	double	scaled_w;
-	double	scaled_h;
-	double	wall_size;
-	double	wall_p[2];
-	int		i[2];
-	int	colour_hex;
-
-	i[0] = img.w - 1;
-	i[1] = img.h - 1;
-	wall_size = 7.0 * RATIO;
-	scaled_w = wall_size / img.w;
-	scaled_h = wall_size / img.h;
-	while (i[0] >= 0)
-	{
-		// Calculate wall point in world coordinates
-		wall_p[0] = (wall_size / 2) - (scaled_w * i[0]);
-		wall_p[1] = (wall_size / 2) - (scaled_h * i[1]);
-
-		// Create direction vector from camera to wall point
-		dir = tuple(4.0, wall_p[0], wall_p[1], 0.0, 1.0);
-		temp = dir;
-		dir = sub(dir, ori);
-		free_t(temp);
-		temp = dir;
-		dir = norm(dir);
-		free_t(temp);
-		r = ray(tuple(4, 0.0, 0.0, -5.0, 1.0), dir);
-		its = sphere_its(r, sphere);
-		if (!its)
-			return (free_ray(r));
-		if ((!its->len) || (its->len[0] < 0))
-			render_p(&img, i[0], i[1], nohit);
-		else
-		{
-			hit = travel(r, its->len[0]);
-			n = normal_at_obj(get_obj_tf(its->obj), hit, tuple(4.0, 0.0, 0.0, 0.0, 1.0));
-			e = mult(r->dir, -1);
-			hit_colour = lighting(get_obj_mat(its->obj), light, matrix(4, hit, e, n));
-			//print_t(hit_colour);
-			colour_hex = rgb_hex(hit_colour->val[0], hit_colour->val[1], hit_colour->val[2]);
-			render_p(&img, i[0], i[1], colour_hex);
-		}
-		i[1]--;
-		if ((i[1] < 0) && (i[0]--))
-			i[1] = img.h - 1;
-		free_ray(r);
-		free_its(its);
-	}
-} */
-
 /* int	main(void)
 {
 	t_sphere	*s1;
@@ -179,7 +119,7 @@
 	print_t(colour);
 } */
 
-int	main(void)
+/* int	main(void)
 {
 	t_world		*w;
 	t_camera	*c;
@@ -215,7 +155,7 @@ int	main(void)
 	mlx_destroy_display(mlx);
 	free(mlx);
 	return (0);
-}
+} */
 
 /* int	main(void)
 {
@@ -240,66 +180,63 @@ int	main(void)
 	return (0);
 } */
 
-// int main(void)
-// {
-//     t_img img;
-//     t_camera *cam;
-//     t_world *world;
-//     t_light *lit;
-//     t_obj *floor_plane;
-//     t_obj *sphere_obj;
-//     t_mat *floor_mat;
-//     t_mat *sphere_mat;
-//     void *mlx;
-//     void *win;
+int main(void)
+{
+	t_img img;
+	t_camera *cam;
+	t_world *world;
+	t_light *lit;
+	t_obj *floor_plane;
+	t_obj *sphere_obj;
+	t_mat *floor_mat;
+	t_mat *sphere_mat;
+	void *mlx;
+	void *win;
 
-//     // Setup MLX
-//     mlx = mlx_init();
-//     img.w = 500;
-//     img.h = 500;
-//     win = mlx_new_window(mlx, img.w, img.h, "Plane Render");
-//     img.img = mlx_new_image(mlx, img.w, img.h);
-//     img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.len, &img.endian);
+	// Setup MLX
+	mlx = mlx_init();
+	img.w = 500;
+	img.h = 500;
+	win = mlx_new_window(mlx, img.w, img.h, "Plane Render");
+	img.img = mlx_new_image(mlx, img.w, img.h);
+	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.len, &img.endian);
 
-//     // Create world
-//     world = malloc(sizeof(t_world));
+	// Create world
+	world = malloc(sizeof(t_world));
 
-//     // Create light
-//     lit = light(tuple(4, -10.0, 10.0, -10.0, 1.0), tuple(3, 1.0, 1.0, 1.0));
-//     world->light = calloc(2, sizeof(t_light *));
-//     world->light[0] = lit;
-//     world->light[1] = NULL;
+	// Create light
+	lit = light(tuple(4, -10.0, 10.0, -10.0, 1.0), tuple(3, 1.0, 1.0, 1.0));
+	world->light = lit;
 
-//     // Create floor plane
-//     floor_mat = material(tuple(3, 1.0, 0.9, 0.9), tuple(4, 0.1, 0.9, 0.0, 200.0));
-//     floor_plane = plane(tuple(4, 0.0, 0.0, 0.0, 1.0), floor_mat);
+	// Create floor plane
+	floor_mat = material(tuple(3, 1.0, 0.9, 0.9), tuple(4, 0.1, 0.9, 0.0, 200.0));
+	floor_plane = plane(tuple(4, 0.0, 0.0, 0.0, 1.0), floor_mat);
 
-//     // Create sphere above the plane
-//     sphere_mat = material(tuple(3, 1.0, 0.2, 1.0), tuple(4, 0.1, 0.7, 0.3, 200.0));
-//     sphere_obj = sphere(tuple(4, 0.0, 1.0, 0.0, 1.0), sphere_mat, 1.0);
+	// Create sphere above the plane
+	sphere_mat = material(tuple(3, 1.0, 0.2, 1.0), tuple(4, 0.1, 0.7, 0.3, 200.0));
+	sphere_obj = sphere(tuple(4, 0.0, 1.0, 0.0, 1.0), sphere_mat, 1.0);
 
-//     // Add objects to world
-//     world->object = calloc(3, sizeof(t_obj *));
-//     world->object[0] = floor_plane;
-//     world->object[1] = sphere_obj;
-//     world->object[2] = NULL;
+	// Add objects to world
+	world->object = calloc(3, sizeof(t_obj *));
+	world->object[0] = floor_plane;
+	world->object[1] = sphere_obj;
+	world->object[2] = NULL;
 
-//     // Create camera
-//     cam = camera(img.w, img.h, M_PI / 3);
-//     cam->transform = view_transform(
-//         tuple(4, 0.0, 1.5, -5.0, 1.0),  // from
-//         tuple(4, 0.0, 1.0, 0.0, 1.0),   // to
-//         tuple(4, 0.0, 1.0, 0.0, 0.0)    // up
-//     );
-// 	cam->inverse_transform = inverse(cam->transform)
-// 	;
+	// Create camera
+	cam = camera(img.w, img.h, M_PI / 3);
+	cam->transform = view_transform(
+	    tuple(4, 0.0, 1.5, -5.0, 1.0),  // from
+	    tuple(4, 0.0, 1.0, 0.0, 1.0),   // to
+	    tuple(4, 0.0, 1.0, 0.0, 0.0)    // up
+	);
+	//cam->inverse_transform = inverse(cam->transform);
 
-//     // Render
-//     render(&img, cam, world);
+	// Render
+	render(&img, cam, world);
 
-//     // Display
-//     mlx_put_image_to_window(mlx, win, img.img, 0, 0);
-//     mlx_loop(mlx);
+	// Display
+	mlx_put_image_to_window(mlx, win, img.img, 0, 0);
+	mlx_loop(mlx);
 
-//     return 0;
-// }
+	return 0;
+}
