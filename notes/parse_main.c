@@ -87,7 +87,7 @@ void	input_data(t_data *data)
 // {
 // 	t_data	*data;
 
-	if (ac != 2)
+	/* if (ac != 2)
 		return (perr("Invalid input. < ./miniRT xxx.rt >"), 1);
 	data = malloc(sizeof(t_data));
 	if (!data)
@@ -96,4 +96,4 @@ void	input_data(t_data *data)
 	print_content(data);
 	input_data(data);
 	world(data);
-}
+} */
