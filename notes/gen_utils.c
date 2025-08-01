@@ -44,8 +44,8 @@ t_its	**merge(t_its **ori, int size)
 		return (NULL);
 	while (--mid >= 0)
 		left[mid] = ori[mid];
-	mid = floor(((double) size) / 2);
-	/* printf("Left: %d\n", mid);
+	/* mid = floor(((double) size) / 2);
+	printf("Left: %d\n", mid);
 	while (--mid >= 0)
 		printf("%f ", left[mid]->len);
 	printf("\n"); */
@@ -56,8 +56,8 @@ t_its	**merge(t_its **ori, int size)
 	mid = floor(((double) size) / 2);
 	while (++mid <= size)
 		right[size - mid] = ori[mid - 1];
-	mid = ceil(((double) size) / 2);
-	/* printf("Right: %d\n", mid);
+	/* mid = ceil(((double) size) / 2);
+	printf("Right: %d\n", mid);
 	mid = floor(((double) size) / 2);
 	while (++mid <= size)
 		printf("%f ", right[size - mid]->len);
