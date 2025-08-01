@@ -1,17 +1,15 @@
 #include "minirt.h"
 
-t_its	**intersect(t_ray *ray, t_obj *obj)
+/* t_its	**intersect(t_ray *ray, t_obj *obj)
 {
 	if (obj->type == 'S')
 		return (sphere_its(obj, ray));
-	if (obj->type == 'P')
+	else if (obj->type == 'P')
 		return (plane_its(obj, ray));
-	// if (obj->type == 'C')
-	// 	return (cylinder_its(obj, ray));
-	if (obj->type == 'T')
-		return (test_its(obj, ray));
+	else if (obj->type == 'C')
+	 	return (cylinder_its(obj, ray));
 	return (NULL);
-}
+} */
 
 t_tuple	*transform_ori(t_tuple **t_matrix, t_tuple *ori)
 {
