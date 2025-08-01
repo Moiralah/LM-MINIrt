@@ -52,141 +52,47 @@ t_its	**its_world(t_world *world, t_ray *ray)
 	return (merge(merged_list, i));
 }
 
-/*
-t_world	*def_world(t_data *data)
-{
-	t_world		*world;
-	t_light		*lit;
-	t_obj		*s1;
-	t_obj		*s2;
-	t_tuple		*origin;
-	t_mat		*m;
-
-	(void)data;
-
-	world = malloc(sizeof(t_world));
-	if (!world)
-		return (NULL);
-	lit = light(tuple(4, -10.0, 10.0, -10.0, 1.0), tuple(3, 1.0, 1.0, 1.0));
-	world->light = malloc(2 * sizeof(t_light *));
-	world->light[0] = lit;
-	world->light[1] = NULL;
-	origin = tuple(4, 0.0, 0.0, 0.0, 1.0);
-	m = material(tuple(3, 0.8, 1.0, 0.6), tuple(4, 0.1, 0.7, 0.2, 200.0));
-	s1 = sphere(copy_t(origin), copy_mat(m), 1.0);
-	set_transform(s1, translate(4, 0.5, 0.5, 0.0));
-	m = material(tuple(3, 1.0, 0.2, 1.0), tuple(4, 0.1, 0.9, 0.9, 200.0));
-	s2 = sphere(copy_t(origin),copy_mat(m), 0.5);
-	set_transform(s2, mxm(scale(4, 0.5, 0.5, 0.5), translate(4, 0.5, 0.0, 0.0)));
-	world->object = ft_calloc(3, sizeof(t_obj *));
-	world->object[0] = s1;
-	world->object[1] = s2;
-	world->object[2] = NULL;
-	free_mat(m);
-	free_t(origin);
-	return (world);
-} */
-
-/* t_world	*def_world(void)
-{
-	t_world		*world;
-	t_light		*lit;
-	t_sphere	*right_wall;
-	t_sphere	*left_wall;
-	t_sphere	*middle;
-	t_sphere	*right;
-	t_sphere	*left;
-	t_sphere	*floor;
-	t_cylinder	*cy;
-	t_tuple		*origin;
-	t_mat		*m;
-
-	world = malloc(sizeof(t_world));
-	if (!world)
-		return (NULL);
-	lit = light(tuple(4, -10.0, 10.0, -10.0, 1.0), tuple(3, 1.0, 1.0, 1.0));
-	world->light = lit;
-	origin = tuple(4, 0.0, 0.0, 0.0, 1.0);
-	m = material(tuple(3, 1.0, 0.9, 0.9), tuple(4, 0.1, 0.9, 0.0, 200.0));
-	cy = cylinder(tuple(4, 0.0, 1.0, 0.0), copy_mat(m), 1.0, 4.0);
-	cy->t_matrix = rotate(4, 1, M_PI / 2.0);
-	floor = sphere(copy_t(origin), copy_mat(m), 1.0);
-	floor->t_matrix = scale(4, 10.0, 0.01, 10.0);
-	left_wall = sphere(copy_t(origin),copy_mat(m), 1.0);
-	left_wall->t_matrix = mxm(rotate(4, 0, M_PI / 2.0), scale(4, 10.0, 0.01, 10.0));
-	left_wall->t_matrix = mxm(rotate(4, 1, -M_PI / 4.0), left_wall->t_matrix);
-	left_wall->t_matrix = mxm(translate(4, 0.0, 0.0, 5.0), left_wall->t_matrix);
-	right_wall = sphere(copy_t(origin),copy_mat(m), 1.0);
-	right_wall->t_matrix = mxm(rotate(4, 0, M_PI / 2.0), scale(4, 10.0, 0.01, 10.0));
-	right_wall->t_matrix = mxm(rotate(4, 1, M_PI / 4.0), right_wall->t_matrix);
-	right_wall->t_matrix = mxm(translate(4, 0.0, 0.0, 5.0), right_wall->t_matrix);
-	m = material(tuple(3, 0.5, 1.0, 0.5), tuple(4, 0.1, 0.7, 0.3, 200.0));
-	middle = sphere(copy_t(origin), copy_mat(m), 1.0);
-	middle->t_matrix = translate(4, -0.5, 1.0, 0.5);
-	m = material(tuple(3, 0.5, 1.0, 0.1), tuple(4, 0.1, 0.7, 0.3, 200.0));
-	right = sphere(copy_t(origin), copy_mat(m), 1.0);
-	right->t_matrix = mxm(translate(4, 1.5, 0.5, -0.5), scale(4, 0.5, 0.5, 0.5));
-	m = material(tuple(3, 1.0, 0.8, 0.1), tuple(4, 0.1, 0.7, 0.3, 200.0));
-	left = sphere(copy_t(origin), copy_mat(m), 1.0);
-	left->t_matrix = mxm(translate(4, -1.5, 0.33, -0.75), scale(4, 0.33, 0.33, 0.33));
-	world->object = ft_calloc(8, sizeof(t_obj *));
-	world->object[0] = object(floor, 'S');
-	world->object[1] = object(left_wall, 'S');
-	world->object[2] = object(right_wall, 'S');
-	world->object[3] = object(middle, 'S');
-	world->object[4] = object(right, 'S');
-	world->object[5] = object(left, 'S');
-	world->object[6] = object(cy, 'C');
-	world->object[7] = NULL;
-	free_mat(m);
-	free_t(origin);
-	return (world);
-} */
-
-/* t_world	*world(t_data *data)
+t_world	*world(t_data *data)
 {
 	t_world		*w;
-	t_cylinder	*c;
-	t_sphere	*s;
-	t_plane		*p;
 	t_mat		*m;
 	double		sh;
 	double		sp;
 	double		df;
 	int		i;
 
-	spclr = 0.9;
-	diff = 0.9;
+	sp = 0.9;
+	df = 0.9;
+	sh = 200.0;
 	w = malloc(sizeof(t_world));
 	if (!w)
 		return (NULL);
-	w->light = light(data->l_ori, mult(l_color, l_ratio));
+	w->a_ratio = data->a_ratio;
+	w->a_color = copy_t(data->a_color);
+	w->light = light(data->l_pos, mult(data->l_color, data->l_ratio));
 	w->object = malloc((data->obj_amt + 1) * sizeof(t_obj *));
 	w->object[data->obj_amt] = NULL;
 	i = -1;
-	while (w->sp)
+	while (data->sp)
 	{
-		m = material(w->sp->color, tuple(4, data->a_ratio, sp, df, sh));
-		s = sphere(w->sp->ori, m, w->sp->rad);
-		w->object[++i] = s;
-		w->sp = w->sp->next;
+		m = material(data->sp->color, tuple(4, data->a_ratio, sp, df, sh));
+		w->object[++i] = sphere(data->sp->ori, m, data->sp->rad);
+		data->sp = data->sp->next;
 	}
-	while (w->pl)
+	while (data->pl)
 	{
-		m = material(w->pl->color, tuple(4, data->a_ratio, sp, df, sh));
-		p = plane(w->pl->ori, m, w->pl->rad);
-		w->object[++i] = p;
-		w->pl = w->pl->next;
+		m = material(data->pl->color, tuple(4, data->a_ratio, sp, df, sh));
+		w->object[++i] = plane(data->pl->ori, m);
+		data->pl = data->pl->next;
 	}
-	while (w->cy)
+	while (data->cy)
 	{
-		m = material(w->cy->color, tuple(4, data->a_ratio, sp, df, sh));
-		c = cylinder(w->cy->ori, m, w->cy->normalv, w->cy->rad, w->cy->height);
-		w->object[++i] = c;
-		w->cy = w->cy->next;
+		m = material(data->cy->color, tuple(4, data->a_ratio, sp, df, sh));
+		w->object[++i] = cylinder(data->cy->ori, data->cy->normalv, m, tuple(2, data->cy->rad, data->cy->height));
+		data->cy = data->cy->next;
 	}
 	return (w);
-} */
+}
 
 /* t_its	**add_its(t_its **intersections, t_its *obj_its, int *total_its)
 {
