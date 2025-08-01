@@ -207,11 +207,23 @@ int	main(void)
 
 /* int	main(void)
 {
-	t_world	*w;
-	t_tuple	*p;
+	// t_its		**its;
+	// t_obj		*obj;
+	t_cylinder	*c;
+	t_tuple		*p;
+	// t_ray		*r; 
 
-	w = def_world();
-	p = tuple(4, 10.0, -10.0, 10.0, 1.0);
-	printf("%d\n", shadowed(w, p));
+	c = cylinder(tuple(4, 0.0, 0.0, 0.0, 1.0), NULL, 1.0, 1.0);
+	p = tuple(4, 0.0, 2.0, 0.5, 1.0);
+	print_t(normal_at_cy(c, p));
+	// r = ray(tuple(4, 0.0, -1.0, -2.0, 1.0), norm(tuple(4, 0.0, 1.0, 1.0, 0.0)));
+	obj = object(c, 'C');
+	its = calculate_its(obj, r);
+	if (!its)
+		printf("No Hits\n");
+	else if (its[1])
+		printf("%f | %f\n", its[0]->len, its[1]->len);
+	else
+		printf("%f\n", its[0]->len);
 	return (0);
 } */
