@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   its_obj.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/31 01:40:04 by huidris           #+#    #+#             */
+/*   Updated: 2025/07/31 17:25:25 by huidris          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 // Creates a list of intersections for a given size.
@@ -56,6 +68,6 @@ void	free_its_s(t_its **its_s)
 // Frees the memory allocated for a single intersection.
 void	free_its(t_its *its)
 {
-	free(its->obj);
+	//free(its->obj);
 	free(its);
 }

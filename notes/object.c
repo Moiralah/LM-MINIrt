@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   object.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/31 01:39:26 by huidris           #+#    #+#             */
+/*   Updated: 2025/07/31 20:43:23 by huidris          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 t_obj	*object(void *data, char type)
@@ -43,14 +55,24 @@ t_mat	*get_obj_mat(t_obj *obj)
 	return (NULL);
 }
 
-t_sphere	*sphere(t_tuple *origin, t_mat *mat, double radius)
+t_obj	*sphere(t_tuple *origin, t_mat *mat, double radius)
 {
 	t_sphere	*new_sphere;
+	t_obj		*obj;
+	t_tuple		*w_ori;
+	t_tuple		*move;
+	t_tuple		**temp[2];
 
+	w_ori = tuple(4, 0.0, 0.0, 0.0, 1.0);
+	move = sub(origin, w_ori);
 	new_sphere = calloc(1, sizeof(t_sphere));
-	new_sphere->t_matrix = identity(origin->size);
+	temp[0] = translate(4, move->val[0], move->val[1], move->val[2]);
+	temp[1] = scale(4, radius, radius, radius);
+	new_sphere->t_matrix = mxm(temp[1], temp[0]);
+	free_m(temp[0], len_m(temp[0]));
+	free_m(temp[1], len_m(temp[1]));
 	new_sphere->mat = mat;
-	new_sphere->ori = origin;
+	new_sphere->ori = w_ori;
 	new_sphere->rad = radius;
 	return (new_sphere);
 }

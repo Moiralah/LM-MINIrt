@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   prep_comp.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/31 01:41:24 by huidris           #+#    #+#             */
+/*   Updated: 2025/07/31 22:55:10 by huidris          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 t_comps	*prepare_computations(t_its *intersection, t_ray *ray)
@@ -11,7 +23,7 @@ t_comps	*prepare_computations(t_its *intersection, t_ray *ray)
 	comps->obj = intersection->obj;
 	comps->point = travel(ray, comps->t);
 	comps->eyev = mult(ray->dir, -1.0);
-	comps->normalv = normal_at_obj(get_obj_tf(comps->obj), comps->point, tuple(4, 0.0, 0.0, 0.0, 1.0));
+	comps->normalv = normal_at(comps->obj, comps->point);
 	comps->over_point = add(comps->point, mult(comps->normalv, EPSILON));
 	comps->inside = false;
 	if (dot(comps->normalv, comps->eyev) >= 0)
@@ -25,7 +37,7 @@ t_tuple	*shade_hit(t_world *world, t_comps *comps)
 {
 	t_tuple	**temp;
 	t_tuple	*colour;
-	int	i;
+	int		i;
 
 	temp = matrix(4, comps->over_point, comps->eyev, comps->normalv);
 	if (!temp)
@@ -51,9 +63,14 @@ t_tuple	*color_at(t_world *world, t_ray *ray)
 	if (!intersections)
 		return (tuple(3, 0.0, 0.0, 0.0));
 	hit_its = hit(intersections);
+	if (!hit_its)
+	{
+		free_its_s(intersections);
+		return (tuple(3, 0.0, 0.0, 0.0));
+	}
 	comps = prepare_computations(hit_its, ray);
 	color = shade_hit(world, comps);
-	//free_its_s(intersections);
+	free_its_s(intersections);
 	free_comps(comps);
 	return (color);
 }

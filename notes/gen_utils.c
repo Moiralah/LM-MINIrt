@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   gen_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/31 01:39:53 by huidris           #+#    #+#             */
+/*   Updated: 2025/07/31 21:54:03 by huidris          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 // Merges two sorted arrays of intersections.
@@ -65,7 +77,5 @@ t_its	**merge(t_its **ori, int size)
 	left = merge(left, floor(((double) size) / 2));
 	right = merge(right, ceil(((double) size) / 2));
 	sort(ori, left, right, size);
-	free(left);
-	free(right);
-	return (ori);
+	return (free(left), free(right), ori);
 }

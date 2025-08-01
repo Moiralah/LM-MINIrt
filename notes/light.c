@@ -1,14 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   light.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/31 01:38:29 by huidris           #+#    #+#             */
+/*   Updated: 2025/07/31 01:39:00 by huidris          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
-
-/* t_tuple	*eye(t_ray *ray)
-{
-	return (mult(ray->dir->val, -1.0, 4));
-}
-
-t_tuple	*light(t_tuple *light_pos, t_tuple *point_pos)
-{
-	return (sub(light_pos->val, point_pos->val, 4));
-} */
 
 t_light	*light(t_tuple *position, t_tuple *intensity)
 {
@@ -98,7 +100,7 @@ t_tuple	*normal_at_obj(t_tuple **t_matrix, t_tuple *world_p, t_tuple *origin)
 }
 
 t_tuple	*reflect(t_tuple *in, t_tuple *normal)
-{	
+{
 	t_tuple	*result;
 	t_tuple	*temp;
 	double	dot_product;
