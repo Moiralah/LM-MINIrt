@@ -13,38 +13,6 @@
 #include "minirt.h"
 
 // Computes the intersections of a ray with a sphere.
-/* t_its	*sphere_its(t_ray *r, t_sphere *sphere)
-{
-	t_obj		*obj;
-	t_ray		*new_ray;
-	t_tuple		*rto;
-	double		*result;
-	double		rtc;
-	double		h;
-
-	obj = object(sphere, 'S');
-	if (!obj)
-		return (NULL);
-	new_ray = transform(r, inverse(sphere->t_matrix));
-	rto = sub(sphere->ori, new_ray->ori);
-	rtc = dot(rto, new_ray->dir);
-	h = pow(mag(rto), 2) - pow(rtc, 2);
-	print_t(rto);
-	printf("%f | %f\n", rtc, h);
-	if (sqrt(h) > sphere->rad)
-		return (free_t(rto), its(obj, NULL, 0));
-	h = pow(mag(rto), 2) - pow(rtc, 2);
-	result = calloc(2, sizeof(double));
-	if (!result)
-		return (free_t(rto), free(obj), NULL);
-	h = sqrt(pow(sphere->rad, 2) - h);
-	result[0] = rtc - h;
-	result[1] = rtc + h;
-	if (result[0] == result[1])
-		return (free_t(rto), its(obj, result, 1));
-	return (free_t(rto), its(obj, result, 2));
-} */
-
 t_its	**sphere_its(t_obj *obj, t_ray *r)
 {
 	t_tuple		*rto;
@@ -97,8 +65,10 @@ t_its	**cylinder_its(t_obj *obj, t_ray *r)
 
 	cy = (t_cylinder *)(obj->data);
 	values[0] = pow(r->dir->val[0], 2) + pow(r->dir->val[2], 2);
-	if (values[0] == 0)
+	if ((values[0] == 0) && (cy->closed))
 		return (check_cap(obj, cy, r));
+	else if (values[0])
+		return (NULL);
 	values[1] = (2 * r->ori->val[0] * r->dir->val[0]);
 	values[1] += (2 * r->ori->val[2] * r->dir->val[2]);
 	values[2] = pow(r->ori->val[0], 2) + pow(r->ori->val[2], 2) - 1;
@@ -109,7 +79,9 @@ t_its	**cylinder_its(t_obj *obj, t_ray *r)
 	len[1] = (-values[1] + sqrt(values[3])) / (2 * values[0]);
 	hit[0] = travel(r, len[0]);
 	hit[1] = travel(r, len[1]);
-	hits = check_cap(obj, cy, r);
+	hits = NULL;
+	if (cy->closed)
+		hits = check_cap(obj, cy, r);
 	if ((hit[0]->val[1] > cy->min) && (hit[0]->val[1] < cy->max))
 		hits = merge_its_s(its_s(1, its(obj, len[0])), hits);
 	if ((hit[1]->val[1] > cy->min) && (hit[1]->val[1] < cy->max))
