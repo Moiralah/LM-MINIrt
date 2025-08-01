@@ -57,8 +57,8 @@ t_mat	*get_obj_mat(t_obj *obj)
 
 t_obj	*sphere(t_tuple *origin, t_mat *mat, double radius)
 {
-	t_sphere	*new_sphere;
 	t_obj		*obj;
+	t_sphere	*new_sphere;
 	t_tuple		*w_ori;
 	t_tuple		*move;
 	t_tuple		**temp[2];
@@ -74,11 +74,13 @@ t_obj	*sphere(t_tuple *origin, t_mat *mat, double radius)
 	new_sphere->mat = mat;
 	new_sphere->ori = w_ori;
 	new_sphere->rad = radius;
-	return (new_sphere);
+	obj = object(new_sphere, 'S');
+	return (obj);
 }
 
-t_cylinder	*cylinder(t_tuple *origin, t_mat *mat, double rad, double h)
+t_obj	*cylinder(t_tuple *origin, t_mat *mat, double rad, double h)
 {
+	t_obj		*obj;
 	t_cylinder	*new_cy;
 	t_tuple		**temp[2];
 	t_tuple		*w_ori;
@@ -106,5 +108,6 @@ t_cylinder	*cylinder(t_tuple *origin, t_mat *mat, double rad, double h)
 	new_cy->min = -1.0;
 	new_cy->h = h;
 	new_cy->closed = 1;
-	return (new_cy);
+	obj = object(new_cy, 'C');
+	return (obj);
 }
