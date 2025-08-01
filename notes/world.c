@@ -28,29 +28,6 @@ t_its	**add_its(t_its **intersections, t_its *obj_its, int *total_its)
 	return (temp);
 }
 
-t_its	**merge_its_s(t_its **list1, t_its **list2)
-{
-	t_its	**merged;
-	int		len1;
-	int		len2;
-
-	len1 = 0;
-	len2 = 0;
-	while (list1[len1])
-		len1++;
-	while (list2[len2])
-		len2++;
-	merged = calloc(len1 + len2 + 1, sizeof(t_its *));
-	merged[len1 + len2] = NULL;
-	while (--len2 >= 0)
-		merged[len2 + len1] = list2[len2];
-	while (--len1 >= 0)
-		merged[len1] = list1[len1];
-	free(list1);
-	free(list2);
-	return (merged);
-}
-
 t_its	**its_world(t_world *world, t_ray *ray)
 {
 	t_its	**merged_list;
@@ -61,7 +38,7 @@ t_its	**its_world(t_world *world, t_ray *ray)
 	merged_list = NULL;
 	while (world->object[++i])
 	{
-		its_list = intersect(ray, world->object[i]);
+		its_list = calculate_its(world->object[i], ray);
 		if (!merged_list)
 			merged_list = its_list;
 		else if (its_list)
@@ -110,7 +87,7 @@ t_world	*def_world(t_data *data)
 	return (world);
 } */
 
-t_world	*def_world(void)
+/* t_world	*def_world(void)
 {
 	t_world		*world;
 	t_light		*lit;
@@ -164,7 +141,7 @@ t_world	*def_world(void)
 	free_mat(m);
 	free_t(origin);
 	return (world);
-}
+} */
 
 /* t_world	*world(t_data *data)
 {
@@ -282,50 +259,3 @@ t_its	**merge_its_s(t_its **list1, t_its **list2)
 	free(list2);
 	return (merged);
 }
-
-t_its	**its_world(t_world *world, t_ray *ray)
-{
-	t_its	**merged_list;
-	t_its	**its_list;
-	int	i;
-
-	i = -1;
-	merged_list = NULL;
-	while (world->object[++i])
-	{
-		its_list = calculate_its(world->object[i], ray);
-		if (!merged_list)
-			merged_list = its_list;
-		else if (its_list)
-			merged_list = merge_its_s(merged_list, its_list);
-	}
-	if (!merged_list)
-		return (NULL);
-	i = 0;
-	while(merged_list[i])
-		i++;
-	return (merge(merged_list, i));
-}
-/*
-void	test_intersect_world(void)
-{
-	t_its	**xs;
-	t_world	*world;
-	t_ray	*r;
-	int	cnt;
-	int	i;
-
-	world = def_world();
-	r = ray(tuple(4, 0.0, 0.0, -5.0, 1.0), tuple(4, 0.0, 0.0, 1.0, 0.0));
-	xs = its_world(world, r);
-	cnt = 0;
-	while (xs && xs[cnt])
-		cnt++;
-	printf("xs.count = %d\n", cnt);
-	i = -1;
-	while (++i < cnt)
-		printf("xs[%d].t = %f\n", i, xs[i]->len);
-	free_its_s(xs);
-	free_ray(r);
-}
-*/
