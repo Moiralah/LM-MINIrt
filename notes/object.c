@@ -63,17 +63,17 @@ void	apply_transform(t_obj *obj, t_tuple **transform)
 
 	if (obj->type == 'S')
 	{
-		t = ((t_sphere *)obj->data)->t_matrix;
-		((t_sphere *)obj->data)->t_matrix = mxm(transform, t);
+		t = ((t_sphere *)obj->data)->inv_tf;
+		((t_sphere *)obj->data)->inv_tf = mxm(transform, t);
 	}
 	else if (obj->type == 'P')
 	{
-		t = ((t_plane *)obj->data)->t_matrix;
-		((t_plane *)obj->data)->t_matrix = mxm(transform, t);
+		t = ((t_plane *)obj->data)->inv_tf;
+		((t_plane *)obj->data)->inv_tf = mxm(transform, t);
 	}
 	else if (obj->type == 'C')
 	{
-		t = ((t_cylinder *)obj->data)->t_matrix;
-		((t_cylinder *)obj->data)->t_matrix = mxm(transform, t);
+		t = ((t_cylinder *)obj->data)->inv_tf;
+		((t_cylinder *)obj->data)->inv_tf = mxm(transform, t);
 	}
 }

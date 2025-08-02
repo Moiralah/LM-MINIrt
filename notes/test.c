@@ -255,15 +255,29 @@ void	start_engine(t_world *w, t_camera *c, int hsize, int vsize)
 	void		*win;
 	t_img		img;
 
+	mlx = mlx_init();
 	img.w = hsize;
 	img.h = vsize;
 	img.img = mlx_new_image(mlx, img.w, img.h);
 	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.len, &img.endian);
-	mlx = mlx_init();
 	win = mlx_new_window(mlx, img.w, img.h, "Render");
 	render(&img, c, w);
 	mlx_put_image_to_window(mlx, win, img.img, 0, 0);
 	mlx_loop(mlx);
+}
+
+t_camera	*set_up_cam(t_data *data, int hsize, int vsize)
+{
+	t_camera	*cam;
+	t_tuple		**orient;
+	t_tuple		*cam_dir;
+	t_tuple		*up;
+
+	cam_dir = sub(data->c_dir, data->c_ori);
+	up = tuple(4, 0.0, 1.0, 0.0, 0.0);
+	orient = matrix(3, data->c_ori, add(data->c_ori, cam_dir), up);
+	cam = camera(orient, data->c_fov, hsize, vsize);
+	return (cam);
 }
 
 int	main(int ac, char **av)
@@ -283,7 +297,7 @@ int	main(int ac, char **av)
 	validate_data(av[1], data);
 	input_data(data);
 	w = world(data);
-	c = camera(size[0], size[1], data->c_fov);
+	c = set_up_cam(data, size[0], size[1]);
 	start_engine(w, c, size[0], size[1]);
 	return (0);
 }

@@ -48,7 +48,7 @@ t_tuple	*tuple(int size, ...)
 	if (size)
 	{
 		new_t->val = ft_calloc(size, sizeof(double));
-		if (!new_v->val)
+		if (!new_t->val)
 			return (NULL);
 	}
 	va_start(doubles, size);

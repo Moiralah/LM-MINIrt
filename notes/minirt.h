@@ -381,10 +381,10 @@ t_tuple		*normal_at(t_obj *obj, t_tuple *world_p);
 
 t_obj		*plane(t_tuple *origin, t_mat *mat);
 
+t_its		**cylinder_its(t_obj *obj, t_cylinder *cy, t_ray *r);
+
+t_its		**sphere_its(t_obj *obj, t_sphere *sp, t_ray *r);
+
 t_its		**plane_its(t_obj *obj, t_ray *ray);
-
-t_its		**test_its(t_obj *obj, t_ray *ray);
-
-t_obj		*test_shape(void);
 
 #endif

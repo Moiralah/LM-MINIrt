@@ -36,7 +36,7 @@ t_tuple	*shade_hit(t_world *world, t_comps *comps)
 #define DIFFUSE				7
 #define SPECULAR 			8
 
-t_tuple	*diff_spclr(t_mat *mat, t_tuple *t, double light_dot_normal)
+void	diff_spclr(t_mat *mat, t_light *l, t_tuple **t, double light_dot_normal)
 {
 	double	reflect_dot_eye;
 	double	factor;
@@ -49,7 +49,7 @@ t_tuple	*diff_spclr(t_mat *mat, t_tuple *t, double light_dot_normal)
 	else
 	{
 		factor = pow(reflect_dot_eye, mat->shininess);
-		t[SPECULAR] = mult(light->intensity, (mat->specular * factor));
+		t[SPECULAR] = mult(l->intensity, (mat->specular * factor));
 	}
 }
 
@@ -73,7 +73,7 @@ t_tuple	*lighting(t_mat *material, t_light *light, t_tuple **m, int shadowed)
 		t[SPECULAR] = tuple(3, 0.0, 0.0, 0.0);
 	}
 	else
-		diff_spclr();
+		diff_spclr(material, light, t, light_dot_normal);
 	return (add(add(t[AMBIENT], t[DIFFUSE]), t[SPECULAR]));
 }
 

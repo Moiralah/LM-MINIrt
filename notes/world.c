@@ -12,30 +12,30 @@
 
 #include "minirt.h"
 
-void	add_objs(t_data *d, t_world *w)
+void	add_objs(t_data *d, t_world *w, double *n)
 {
 	t_tuple	**v;
-	t_mat	m;
+	t_mat	*m;
 	t_tuple	*dim;
 	int		i;
 
 	i = -1;
 	while (d->sp)
 	{
-		m = material(d->sp->color, tuple(4, d->a_ratio, sp, df, sh));
+		m = material(d->sp->color, tuple(4, d->a_ratio, n[0], n[1], n[2]));
 		w->obj[++i] = sphere(d->sp->ori, m, d->sp->rad);
 		d->sp = d->sp->next;
 	}
 	while (d->pl)
 	{
-		m = material(d->pl->color, tuple(4, d->a_ratio, sp, df, sh));
+		m = material(d->pl->color, tuple(4, d->a_ratio, n[0], n[1], n[2]));
 		w->obj[++i] = plane(d->pl->ori, m);
 		d->pl = d->pl->next;
 	}
 	while (d->cy)
 	{
-		m = material(d->cy->color, tuple(4, d->a_ratio, sp, df, sh));
-		v = matrix(2, d->cy->ori, d->cy->normalv);
+		m = material(d->cy->color, tuple(4, d->a_ratio, n[0], n[1], n[2]));
+		v = matrix(2, d->cy->ori, d->cy->n);
 		dim = tuple(4, d->cy->rad, d->cy->h, 1.0, -1.0);
 		w->obj[++i] = cylinder(v, m, dim, 1);
 		d->cy = d->cy->next;
@@ -45,14 +45,13 @@ void	add_objs(t_data *d, t_world *w)
 t_world	*world(t_data *data)
 {
 	t_world		*world;
-	t_mat		*mat;
 	double		mat_vals[3];
 
 	mat_vals[0] = 0.9;
 	mat_vals[1] = 0.9;
 	mat_vals[2] = 200.0;
 	world = ft_calloc(1, sizeof(t_world));
-	if (!w)
+	if (!world)
 		return (NULL);
 	world->a_ratio = data->a_ratio;
 	world->a_color = copy_t(data->a_color);
@@ -60,8 +59,8 @@ t_world	*world(t_data *data)
 	world->obj = ft_calloc(data->obj_amt + 1, sizeof(t_obj *));
 	if (!world->obj)
 		return (NULL);
-	add_objs(data, world);
-	return (w);
+	add_objs(data, world, mat_vals);
+	return (world);
 }
 
 t_its	**its_world(t_world *world, t_ray *ray)
@@ -133,7 +132,7 @@ t_tuple	*world_to_obj_point(t_tuple **t_matrix, t_tuple *world_point)
 	{
 		obj_p[1] = transpose(obj_p[0]);
 		result = obj_p[1][0];
-		free_m(obj_p[1]);
+		free_m(obj_p[1], len_m(obj_p[1]));
 	}
 	free_m(obj_p[0], len_m(obj_p[0]));
 	return (result);

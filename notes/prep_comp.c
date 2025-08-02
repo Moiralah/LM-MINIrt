@@ -22,7 +22,7 @@ int	initialise_tuples(t_comps *comps, t_ray *ray)
 		return (free_t(comps->point), 0);
 	comps->normalv = normal_at(comps->obj, comps->point);
 	if (!comps->normalv)
-		return (free_t(comps->point), free_t(comps->eyev), NULL);
+		return (free_t(comps->point), free_t(comps->eyev), 0);
 	comps->over_point = add(comps->point, mult(comps->normalv, EPSILON));
 	if (!comps->over_point)
 	{
@@ -45,7 +45,7 @@ t_comps	*prepare_computations(t_its *intersection, t_ray *ray)
 	comps->t = intersection->len;
 	comps->obj = intersection->obj;
 	comps->inside = false;
-	if !(initialise_tuples(comps, ray))
+	if (!initialise_tuples(comps, ray))
 		return (free(comps), NULL);
 	if (dot(comps->normalv, comps->eyev) >= 0)
 		return (comps);

@@ -16,23 +16,24 @@ t_ray	*create_ray(t_tuple **inv_m, double world_x, double world_y)
 {
 	t_tuple	*world[2];
 	t_tuple	*dir[2];
+	t_tuple	*obj_p[2];
 
 	world[0] = tuple(4, world_x, world_y, -1.0, 1.0);
 	if (!world[0])
 		return (NULL);
-	obj_pixel = world_to_obj_point(inverse_matrix, world[0]);
+	obj_p[0] = world_to_obj_point(inv_m, world[0]);
 	free_t(world[0]);
-	if (obj_pixel)
+	if (obj_p[0])
 		return (NULL);
 	world[1] = tuple(4, 0.0, 0.0, 0.0, 1.0);
 	if (!world[1])
-		return (free_t(obj_pixel), NULL);
-	obj_p = world_to_obj_point(inverse_matrix, world[1]);
-	if (obj_p)
-		return (free_t(obj_pixel), free_t(world[1]), NULL);
-	dir[0] = sub(obj_pixel, obj_p);
-	free_t(obj_pixel);
-	free_t(obj_p);
+		return (free_t(obj_p[0]), NULL);
+	obj_p[1] = world_to_obj_point(inv_m, world[1]);
+	if (obj_p[1])
+		return (free_t(obj_p[0]), free_t(world[1]), NULL);
+	dir[0] = sub(obj_p[0], obj_p[1]);
+	free_t(obj_p[0]);
+	free_t(obj_p[1]);
 	if (!dir[0])
 		return (NULL);
 	dir[1] = norm(dir[0]);
@@ -56,7 +57,7 @@ t_ray	*ray_for_pixel(t_camera *cam, int px, int py)
 	c[WORLD_X] = cam->half_width - c[XOFFSET];
 	c[WORLD_Y] = cam->half_height - c[YOFFSET];
 	inverse_transform = cam->inverse_transform;
-	return (create_ray(inverse_matrix, c[WORLD_X], C[WORLD_Y]));
+	return (create_ray(inverse_transform, c[WORLD_X], c[WORLD_Y]));
 }
 
 // Converts RGB values (0.0 to 1.0) to a hexadecimal color representation.

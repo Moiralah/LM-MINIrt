@@ -16,7 +16,7 @@ t_obj	*sphere(t_tuple *origin, t_mat *mat, double radius)
 	temp[0] = scale(4, radius, radius, radius);
 	temp[1] = translate(4, move->val[0], move->val[1], move->val[2]);
 	free_t(move);
-	new_sphere->t_matrix = mxm(temp[1], temp[0]);
+	new_sphere->inv_tf = mxm(temp[1], temp[0]);
 	free_m(temp[0], len_m(temp[0]));
 	free_m(temp[1], len_m(temp[1]));
 	new_sphere->mat = mat;
@@ -26,7 +26,7 @@ t_obj	*sphere(t_tuple *origin, t_mat *mat, double radius)
 	return (obj);
 }
 
-t_tuple	**set_cy_transform(t_cylinder *cy, t_tuple **val_m)
+void	set_cy_transform(t_cylinder *cy, t_tuple **val_m, t_tuple *dim)
 {
 	t_tuple		**temp[2];
 	t_tuple		*w_ori;
@@ -35,7 +35,7 @@ t_tuple	**set_cy_transform(t_cylinder *cy, t_tuple **val_m)
 
 	w_ori = tuple(4, 0.0, 0.0, 0.0, 1.0);
 	if (!w_ori)
-		return (NULL);
+		return ;
 	cy->ori = w_ori;
 	move = sub(val_m[0], w_ori);
 	deg[0] = val_m[1]->val[0] * 90;
@@ -43,13 +43,13 @@ t_tuple	**set_cy_transform(t_cylinder *cy, t_tuple **val_m)
 	deg[2] = val_m[1]->val[2] * 90;
 	temp[0] = rotate(4, 3, deg[0], deg[1], deg[2]);
 	temp[1] = scale(4, dim->val[0], dim->val[1], dim->val[0]);
-	cy->t_matrix = mxm(temp[1], temp[0]);
+	cy->inv_tf = mxm(temp[1], temp[0]);
 	free_m(temp[0], len_m(temp[0]));
 	free_m(temp[1], len_m(temp[1]));
-	temp[0] = new_cy->t_matrix;
+	temp[0] = cy->inv_tf;
 	temp[1] = translate(4, move->val[0], move->val[1], move->val[2]);
 	free_t(move);
-	cy->t_matrix = mxm(temp[1], new_cy->t_matrix);
+	cy->inv_tf = mxm(temp[1], cy->inv_tf);
 	free_m(temp[0], len_m(temp[0]));
 }
 
@@ -65,7 +65,7 @@ t_obj	*cylinder(t_tuple **val_m, t_mat *mat, t_tuple *dim, int closed)
 	new_cy->max = dim->val[2];
 	new_cy->min = dim->val[3];
 	new_cy->closed = closed;
-	set_cy_transform(new_cy, val_m);
+	set_cy_transform(new_cy, val_m, dim);
 	obj = object(new_cy, 'C');
 	return (obj);
 }
@@ -82,7 +82,7 @@ t_obj	*plane(t_tuple *origin, t_mat *mat)
 	p = ft_calloc(1, sizeof(t_plane));
 	if (!p)
 		return (NULL);
-	p->t_matrix = translate(4, move->val[0], move->val[1], move->val[2]);
+	p->inv_tf = translate(4, move->val[0], move->val[1], move->val[2]);
 	free_t(move);
 	p->ori = w_ori;
 	p->mat = mat;

@@ -29,9 +29,9 @@ t_its	**calculate_its(t_obj *obj, t_ray *r)
 	if (!new_ray)
 		return (free_t(ray_values[0]), free_t(ray_values[1]), NULL);
 	if (obj->type == 'S')
-		return (sphere_its(obj, new_ray));
+		return (sphere_its(obj, (t_sphere *)(obj->data), new_ray));
 	else if (obj->type == 'P')
-		return (plane_its(obj, (t_sphere *)(obj->data), new_ray));
+		return (plane_its(obj, new_ray));
 	else if (obj->type == 'C')
 		return (cylinder_its(obj, (t_cylinder *)(obj->data), new_ray));
 	return (free_ray(new_ray), NULL);
