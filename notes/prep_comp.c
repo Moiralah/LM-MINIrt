@@ -12,33 +12,62 @@
 
 #include "minirt.h"
 
+int	initialise_tuples(t_comps *comps, t_ray *ray)
+{
+	comps->point = travel(ray, comps->t);
+	if (!comps->point)
+		return (0);
+	comps->eyev = mult(ray->dir, -1.0);
+	if (!comps->eyev)
+		return (free_t(comps->point), 0);
+	comps->normalv = normal_at(comps->obj, comps->point);
+	if (!comps->normalv)
+		return (free_t(comps->point), free_t(comps->eyev), NULL);
+	comps->over_point = add(comps->point, mult(comps->normalv, EPSILON));
+	if (!comps->over_point)
+	{
+		free_t(comps->point);
+		free_t(comps->eyev);
+		free_t(comps->normalv);
+		return (0);
+	}
+	return (1);
+}
+
 t_comps	*prepare_computations(t_its *intersection, t_ray *ray)
 {
 	t_comps	*comps;
+	t_tuple	*temp;
 
 	comps = malloc(sizeof(t_comps));
 	if (!comps)
 		return (NULL);
 	comps->t = intersection->len;
 	comps->obj = intersection->obj;
-	comps->point = travel(ray, comps->t);
-	comps->eyev = mult(ray->dir, -1.0);
-	comps->normalv = normal_at(comps->obj, comps->point);
-	comps->over_point = add(comps->point, mult(comps->normalv, EPSILON));
 	comps->inside = false;
+	if !(initialise_tuples(comps, ray))
+		return (free(comps), NULL);
 	if (dot(comps->normalv, comps->eyev) >= 0)
 		return (comps);
 	comps->inside = true;
+	temp = comps->normalv;
 	comps->normalv = mult(comps->normalv, -1.0);
+	free_t(temp);
+	if (!comps->normalv)
+	{
+		free_t(comps->point);
+		free_t(comps->eyev);
+		free_t(comps->normalv);
+		return (free_t(comps->over_point), free(comps), NULL);
+	}
 	return (comps);
 }
 
 void	free_comps(t_comps *comps)
 {
-	if (!comps)
-		return ;
 	free_t(comps->point);
 	free_t(comps->eyev);
 	free_t(comps->normalv);
+	free_t(comps->over_point);
 	free(comps);
 }

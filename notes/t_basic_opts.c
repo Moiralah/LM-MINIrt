@@ -20,10 +20,12 @@ t_tuple	*mult(t_tuple *t, double value)
 
 	i = -1;
 	new_v = tuple(0.0);
-	new_v->val = malloc(t->size * sizeof(double));
-	new_v->size = t->size;
 	if (!new_v)
 		return (NULL);
+	new_v->val = malloc(t->size * sizeof(double));
+	if (!new_v->val)
+		return (NULL);
+	new_v->size = t->size;
 	while (++i < t->size)
 	{
 		new_v->val[i] = t->val[i];
@@ -43,10 +45,12 @@ t_tuple	*sub(t_tuple *tuple1, t_tuple *tuple2)
 	if (tuple1->size != tuple2->size)
 		return (NULL);
 	new_v = tuple(0.0);
-	new_v->val = malloc(tuple1->size * sizeof(double));
-	new_v->size = tuple1->size;
 	if (!new_v)
 		return (NULL);
+	new_v->val = malloc(tuple1->size * sizeof(double));
+	if (!new_v->val)
+		return (NULL);
+	new_v->size = tuple1->size;
 	while (++i < tuple1->size)
 		new_v->val[i] = tuple1->val[i] - tuple2->val[i];
 	return (new_v);
@@ -62,10 +66,12 @@ t_tuple	*add(t_tuple *tuple1, t_tuple *tuple2)
 	if (tuple1->size != tuple2->size)
 		return (NULL);
 	new_v = tuple(0.0);
-	new_v->val = malloc(tuple1->size * sizeof(double));
-	new_v->size = tuple1->size;
 	if (!new_v)
 		return (NULL);
+	new_v->val = malloc(tuple1->size * sizeof(double));
+	if (!new_v->val)
+		return (NULL);
+	new_v->size = tuple1->size;
 	while (++i < tuple1->size)
 		new_v->val[i] = tuple1->val[i] + tuple2->val[i];
 	return (new_v);

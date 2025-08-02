@@ -53,6 +53,7 @@ t_tuple	**translate(int m_size, ...)
 		return (NULL);
 	while (++i < (m_size - 1))
 		m[i]->val[m_size - 1] = va_arg(doubles, double);
+	va_end(doubles);
 	return (m);
 }
 
@@ -70,6 +71,7 @@ t_tuple	**scale(int m_size, ...)
 		return (NULL);
 	while (++i < (m_size - 1))
 		s[i]->val[i] = va_arg(doubles, double);
+	va_end(doubles);
 	return (s);
 }
 
@@ -101,12 +103,11 @@ t_tuple	**rotate(int m_size, int axis_amnt, ...)
 	t_tuple	**temp;
 	t_tuple	**r;
 	va_list	val;
-	int	i;
+	int		i;
 
 	va_start(val, axis_amnt);
 	i = 0;
 	complete_r = rotate_axis(m_size, i, va_arg(val, double));
-	print_m(complete_r);
 	while (++i < axis_amnt)
 	{
 		r = rotate_axis(m_size, i, va_arg(val, double));
@@ -114,10 +115,10 @@ t_tuple	**rotate(int m_size, int axis_amnt, ...)
 			return (free_m(complete_r, len_m(complete_r)), NULL);
 		temp = complete_r;
 		complete_r = mxm(r, complete_r);
-		print_m(complete_r);
 		free_m(temp, len_m(temp));
 		free_m(r, len_m(r));
 	}
+	va_end(val);
 	return (complete_r);
 }
 

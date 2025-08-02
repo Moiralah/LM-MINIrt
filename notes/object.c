@@ -16,24 +16,26 @@ t_obj	*object(void *data, char type)
 {
 	t_obj	*new_obj;
 
-	new_obj = calloc(1, sizeof(t_obj));
+	new_obj = ft_calloc(1, sizeof(t_obj));
+	if (!new_obj)
+		return (NULL);
 	new_obj->data = data;
 	new_obj->type = type;
 	return (new_obj);
 }
 
-t_tuple	**get_obj_tf(t_obj *obj)
+t_tuple	**get_inv_tf(t_obj *obj)
 {
 	if (obj->type == 'S')
-		return (((t_sphere *)(obj->data))->t_matrix);
+		return (((t_sphere *)(obj->data))->inv_tf);
 	if (obj->type == 'P')
-		return (((t_plane *)(obj->data))->t_matrix);
+		return (((t_plane *)(obj->data))->inv_tf);
 	if (obj->type == 'C')
-		return (((t_cylinder *)(obj->data))->t_matrix);
+		return (((t_cylinder *)(obj->data))->inv_tf);
 	return (NULL);
 }
 
-t_tuple	*get_obj_ori(t_obj *obj)
+/* t_tuple	*get_obj_ori(t_obj *obj)
 {
 	if (obj->type == 'S')
 		return (((t_sphere *)(obj->data))->ori);
@@ -42,7 +44,7 @@ t_tuple	*get_obj_ori(t_obj *obj)
 	if (obj->type == 'C')
 		return (((t_cylinder *)(obj->data))->ori);
 	return (NULL);
-}
+} */
 
 t_mat	*get_obj_mat(t_obj *obj)
 {

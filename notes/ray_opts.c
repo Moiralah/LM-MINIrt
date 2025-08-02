@@ -12,6 +12,31 @@
 
 #include "minirt.h"
 
+t_its	**calculate_its(t_obj *obj, t_ray *r)
+{
+	t_ray		*new_ray;
+	t_tuple		**inverse_m;
+	t_tuple		*ray_values[2];
+
+	inverse_m = get_inv_tf(obj);
+	ray_values[0] = transform_ori(inverse_m, r->ori);
+	if (!ray_values[0])
+		return (NULL);
+	ray_values[1] = transform_dir(inverse_m, r->dir);
+	if (!ray_values[1])
+		return (free_t(ray_values[0]), NULL);
+	new_ray = ray(ray_values[0], ray_values[1]);
+	if (!new_ray)
+		return (free_t(ray_values[0]), free_t(ray_values[1]), NULL);
+	if (obj->type == 'S')
+		return (sphere_its(obj, new_ray));
+	else if (obj->type == 'P')
+		return (plane_its(obj, (t_sphere *)(obj->data), new_ray));
+	else if (obj->type == 'C')
+		return (cylinder_its(obj, (t_cylinder *)(obj->data), new_ray));
+	return (free_ray(new_ray), NULL);
+}
+
 // Calculates the position of a ray at a given time.
 t_tuple	*travel(t_ray *ray, double time)
 {
@@ -19,8 +44,12 @@ t_tuple	*travel(t_ray *ray, double time)
 	t_tuple	*new_pos;
 
 	velo = mult(ray->dir, time);
+	if (!velo)
+		return (NULL);
 	new_pos = add(ray->ori, velo);
 	free_t(velo);
+	if (!new_pos)
+		return (NULL);
 	return (new_pos);
 }
 
@@ -31,7 +60,7 @@ t_tuple	*transform_ori(t_tuple **t_matrix, t_tuple *ori)
 	t_tuple	**trans;
 	t_tuple	*new_ori;
 
-	temp_m = matrix(2, ori);
+	temp_m = matrix(1, ori);
 	if (!temp_m)
 		return (NULL);
 	if (!t_matrix)
@@ -59,7 +88,7 @@ t_tuple	*transform_dir(t_tuple **t_matrix, t_tuple *dir)
 	t_tuple	**trans;
 	t_tuple	*new_dir;
 
-	temp_m = matrix(2, dir);
+	temp_m = matrix(1, dir);
 	if (!temp_m)
 		return (NULL);
 	if (!t_matrix)

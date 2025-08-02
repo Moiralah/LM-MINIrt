@@ -41,17 +41,22 @@ t_tuple	*tuple(int size, ...)
 	va_list	doubles;
 	int		i;
 
-	new_t = calloc(1, sizeof(t_tuple));
+	new_t = ft_calloc(1, sizeof(t_tuple));
 	if (!new_t)
 		return (NULL);
 	new_t->val = NULL;
 	if (size)
-		new_t->val = calloc(size, sizeof(double));
+	{
+		new_t->val = ft_calloc(size, sizeof(double));
+		if (!new_v->val)
+			return (NULL);
+	}
 	va_start(doubles, size);
 	i = -1;
 	while (++i < size)
 		new_t->val[i] = va_arg(doubles, double);
 	new_t->size = size;
+	va_end(doubles);
 	return (new_t);
 }
 

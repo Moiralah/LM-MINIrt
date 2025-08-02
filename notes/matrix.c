@@ -20,11 +20,11 @@ t_tuple	**matrix(int size, ...)
 	int		i;
 
 	i = -1;
-	matrix = calloc(size, sizeof(t_tuple *));
+	matrix = ft_calloc(size + 1, sizeof(t_tuple *));
 	if (!matrix)
 		return (NULL);
 	va_start(tuples, size);
-	while (++i < (size - 1))
+	while (++i < size)
 		matrix[i] = va_arg(tuples, t_tuple *);
 	matrix[i] = NULL;
 	return (matrix);
@@ -41,7 +41,6 @@ t_tuple	**copy_m(t_tuple **old)
 	new = matrix(size);
 	if (!new)
 		return (NULL);
-	new[size] = NULL;
 	while (++i < size)
 	{
 		new[i] = copy_t(old[i]);
@@ -57,7 +56,7 @@ int	len_m(t_tuple **m)
 	int	h;
 
 	h = 0;
-	while (m[h])
+	while (m && m[h])
 		h++;
 	return (h);
 }

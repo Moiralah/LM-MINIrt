@@ -15,7 +15,6 @@
 # define EPSILON 0.0001
 # include <stdio.h>
 # include <stdbool.h>
-# include <stdbool.h>
 # include <math.h>
 # include "../minilibx-linux/mlx.h"
 # include "../libft/libft.h"
@@ -44,11 +43,11 @@ typedef struct s_pl
 
 typedef struct s_cy
 {
-	t_tuple		*normalv;
 	t_tuple		*color;
 	t_tuple		*ori;
-	double		height;
+	t_tuple		*n;
 	double		rad;
+	double		h;
 	struct s_cy	*next;
 }	t_cy;
 
@@ -97,31 +96,30 @@ typedef struct s_material
 
 typedef struct s_camera
 {
-	t_tuple	**transform;
 	t_tuple	**inverse_transform;
 	double	half_width;
 	double	half_height;
 	double	pixel_size;
-	double	field_of_view;
+	double	fov;
 	int		hsize;
 	int		vsize;
 }	t_camera;
 
 typedef struct s_cylinder
 {
-	t_tuple	**t_matrix;
+	t_tuple	**inv_tf;
 	t_tuple	*ori;
 	t_mat	*mat;
 	double	rad;
 	double	max;
 	double	min;
 	double	h;
-	int	closed;
+	int		closed;
 }	t_cylinder;
 
 typedef struct s_sphere
 {
-	t_tuple	**t_matrix;
+	t_tuple	**inv_tf;
 	t_tuple	*ori;
 	t_mat	*mat;
 	double	rad;
@@ -129,7 +127,7 @@ typedef struct s_sphere
 
 typedef struct s_plane
 {
-	t_tuple	**t_matrix;
+	t_tuple	**inv_tf;
 	t_tuple	*ori;
 	t_mat	*mat;
 }	t_plane;
@@ -154,7 +152,7 @@ typedef struct s_light
 
 typedef struct s_world
 {
-	t_obj	**object;
+	t_obj	**obj;
 	t_light	*light;
 	t_tuple	*a_color;
 	double	a_ratio;
@@ -221,7 +219,7 @@ t_tuple		**rotate(int m_size, int axis_amnt, ...);
 
 // t_tuple		**shear(t_tuple **ori_matrix, int axis, ...);
 
-t_tuple		**get_obj_tf(t_obj *obj);
+t_tuple		**get_inv_tf(t_obj *obj);
 
 t_tuple		**view_transform(t_tuple *from, t_tuple *to, t_tuple *up);
 
@@ -253,7 +251,7 @@ t_tuple		*sphere_n(t_obj *ob, t_tuple *p);
 
 t_tuple		*reflect(t_tuple *in, t_tuple *normal);
 
-t_tuple		*get_obj_ori(t_obj *obj);
+// t_tuple		*get_obj_ori(t_obj *obj);
 
 t_tuple		*shade_hit(t_world *world, t_comps *comps);
 
@@ -273,8 +271,6 @@ t_obj		*cylinder(t_tuple **val_m, t_mat *mat, t_tuple *dim, int closed);
 
 t_light		*light(t_tuple *position, t_tuple *intensity);
 
-t_light		*copy_light(t_light *old);
-
 t_mat		*material(t_tuple *color, t_tuple *values);
 
 t_mat		*copy_mat(t_mat *old);
@@ -287,7 +283,7 @@ t_world		*world(t_data *data);
 
 t_comps		*prepare_computations(t_its *intersection, t_ray *ray);
 
-t_camera	*camera(int hsize, int vsize, double field_of_view);
+t_camera	*camera(t_tuple **tm, double fov, int hsize, int vsize);
 
 double		det(t_tuple **m, int size);
 
@@ -318,8 +314,6 @@ void		free_mat(t_mat *material);
 void		free_t(t_tuple *tuple);
 
 void		free_ray(t_ray *ray);
-
-void		free_its(t_its *its);
 
 void		free_its_s(t_its **its_s);
 

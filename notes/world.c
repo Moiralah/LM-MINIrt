@@ -12,45 +12,55 @@
 
 #include "minirt.h"
 
-t_world	*world(t_data *data)
+void	add_objs(t_data *d, t_world *w)
 {
-	t_world		*w;
-	t_mat		*m;
-	double		sh;
-	double		sp;
-	double		df;
+	t_tuple	**v;
+	t_mat	m;
+	t_tuple	*dim;
 	int		i;
 
-	sp = 0.9;
-	df = 0.9;
-	sh = 200.0;
-	w = malloc(sizeof(t_world));
+	i = -1;
+	while (d->sp)
+	{
+		m = material(d->sp->color, tuple(4, d->a_ratio, sp, df, sh));
+		w->obj[++i] = sphere(d->sp->ori, m, d->sp->rad);
+		d->sp = d->sp->next;
+	}
+	while (d->pl)
+	{
+		m = material(d->pl->color, tuple(4, d->a_ratio, sp, df, sh));
+		w->obj[++i] = plane(d->pl->ori, m);
+		d->pl = d->pl->next;
+	}
+	while (d->cy)
+	{
+		m = material(d->cy->color, tuple(4, d->a_ratio, sp, df, sh));
+		v = matrix(2, d->cy->ori, d->cy->normalv);
+		dim = tuple(4, d->cy->rad, d->cy->h, 1.0, -1.0);
+		w->obj[++i] = cylinder(v, m, dim, 1);
+		d->cy = d->cy->next;
+	}
+}
+
+t_world	*world(t_data *data)
+{
+	t_world		*world;
+	t_mat		*mat;
+	double		mat_vals[3];
+
+	mat_vals[0] = 0.9;
+	mat_vals[1] = 0.9;
+	mat_vals[2] = 200.0;
+	world = ft_calloc(1, sizeof(t_world));
 	if (!w)
 		return (NULL);
-	w->a_ratio = data->a_ratio;
-	w->a_color = copy_t(data->a_color);
-	w->light = light(data->l_pos, mult(data->l_color, data->l_ratio));
-	w->object = malloc((data->obj_amt + 1) * sizeof(t_obj *));
-	w->object[data->obj_amt] = NULL;
-	i = -1;
-	while (data->sp)
-	{
-		m = material(data->sp->color, tuple(4, data->a_ratio, sp, df, sh));
-		w->object[++i] = sphere(data->sp->ori, m, data->sp->rad);
-		data->sp = data->sp->next;
-	}
-	while (data->pl)
-	{
-		m = material(data->pl->color, tuple(4, data->a_ratio, sp, df, sh));
-		w->object[++i] = plane(data->pl->ori, m);
-		data->pl = data->pl->next;
-	}
-	while (data->cy)
-	{
-		m = material(data->cy->color, tuple(4, data->a_ratio, sp, df, sh));
-		w->object[++i] = cylinder(matrix(3, data->cy->ori, data->cy->normalv), m, tuple(2, data->cy->rad, data->cy->height, 1.0, -1.0), 1);
-		data->cy = data->cy->next;
-	}
+	world->a_ratio = data->a_ratio;
+	world->a_color = copy_t(data->a_color);
+	world->light = light(data->l_pos, mult(data->l_color, data->l_ratio));
+	world->obj = ft_calloc(data->obj_amt + 1, sizeof(t_obj *));
+	if (!world->obj)
+		return (NULL);
+	add_objs(data, world);
 	return (w);
 }
 
@@ -62,9 +72,9 @@ t_its	**its_world(t_world *world, t_ray *ray)
 
 	i = -1;
 	merged_list = NULL;
-	while (world->object[++i])
+	while (world->obj[++i])
 	{
-		its_list = calculate_its(world->object[i], ray);
+		its_list = calculate_its(world->obj[i], ray);
 		if (!merged_list)
 			merged_list = its_list;
 		else if (its_list)
@@ -81,8 +91,8 @@ t_its	**its_world(t_world *world, t_ray *ray)
 t_its	**merge_its_s(t_its **list1, t_its **list2)
 {
 	t_its	**merged;
-	int	len1;
-	int	len2;
+	int		len1;
+	int		len2;
 
 	len1 = 0;
 	len2 = 0;
@@ -96,7 +106,7 @@ t_its	**merge_its_s(t_its **list1, t_its **list2)
 		len1++;
 	while (list2[len2])
 		len2++;
-	merged = calloc(len1 + len2 + 1, sizeof(t_its *));
+	merged = ft_calloc(len1 + len2 + 1, sizeof(t_its *));
 	merged[len1 + len2] = NULL;
 	while (--len2 >= 0)
 		merged[len2 + len1] = list2[len2];
@@ -105,4 +115,26 @@ t_its	**merge_its_s(t_its **list1, t_its **list2)
 	free(list1);
 	free(list2);
 	return (merged);
+}
+
+t_tuple	*world_to_obj_point(t_tuple **t_matrix, t_tuple *world_point)
+{
+	t_tuple	**point_m[2];
+	t_tuple	**obj_p[2];
+	t_tuple	*result;
+
+	result = NULL;
+	point_m[0] = matrix(1, world_point);
+	point_m[1] = transpose(point_m[0]);
+	free(point_m[0]);
+	obj_p[0] = mxm(t_matrix, point_m[1]);
+	free_m(point_m[1], len_m(point_m[1]));
+	if (obj_p[0])
+	{
+		obj_p[1] = transpose(obj_p[0]);
+		result = obj_p[1][0];
+		free_m(obj_p[1]);
+	}
+	free_m(obj_p[0], len_m(obj_p[0]));
+	return (result);
 }

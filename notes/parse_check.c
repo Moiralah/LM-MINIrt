@@ -43,38 +43,41 @@ void	check_name(char *av)
 {
 	int	i;
 
-	i = 0;
-	while (av[i] != '\0')
-		i++;
-	if (av[i - 3] == '.')
-		if (av[i - 2] == 'r')
-			if (av[i - 1] == 't')
-				return ;
+	i = ft_strlen(av);
+	if ((av[i - 3] == '.') && (av[i - 2] == 'r') && (av[i - 1] == 't'))
+		return ;
 	return (perr("Invalid file format. File need '.rt' format."), exit(1));
 }
 
 void	check_range(float min, float max, float value)
 {
-	if (value < min || value > max)
-		return (perr("Value out of range: %f. Expected range: [%f, %f].",
-				value, min, max), exit(1));
+	if ((value >= min) && (value <= max))
+		return ;
+	perr("Value out of range: %f", value);
+	perr("Expected range: [%f, %f].", min, max);
+	exit(1);
 }
 
 void	check_format(char **data)
 {
 	int	i;
 
-	i = 0;
-	while (data[i])
+	i = -1;
+	while (data[++i])
 	{
-		if (ft_strncmp(data[i], "A ", 2) != 0
-			&& ft_strncmp(data[i], "C ", 2) != 0
-			&& ft_strncmp(data[i], "L ", 2) != 0
-			&& ft_strncmp(data[i], "sp ", 3) != 0
-			&& ft_strncmp(data[i], "pl ", 3) != 0
-			&& ft_strncmp(data[i], "cy ", 3) != 0)
-			return (perr("Error: 'A', 'C', 'L', 'sp', 'pl', or 'cy' only."),
-				exit(1));
-		i++;
+		if (ft_strncmp(data[i], "A ", 2) == 0)
+			continue ;
+		else if (ft_strncmp(data[i], "C ", 2) == 0)
+			continue ;
+		else if (ft_strncmp(data[i], "L ", 2) == 0)
+			continue ;
+		else if (ft_strncmp(data[i], "sp ", 3) != 0)
+			continue ;
+		else if (ft_strncmp(data[i], "pl ", 3) != 0)
+			continue ;
+		else if (ft_strncmp(data[i], "cy ", 3) != 0)
+			continue ;
+		perr("Error: 'A', 'C', 'L', 'sp', 'pl', or 'cy' only.");
+		exit(1);
 	}
 }

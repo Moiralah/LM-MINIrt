@@ -87,25 +87,13 @@ void	input_data(t_data *data)
 	obj_amount(data);
 }
 
-// void print_content(t_data *data)
-// {
-// 	if (!data || !data->data)
-// 		return;
-// 	for (int i = 0; data->data[i]; i++)
-// 		printf("%s\n", data->data[i]);
-// }
+void	print_content(t_data *data)
+{
+	int	i;
 
-// int	main(int ac, char **av)
-// {
-// 	t_data	*data;
-
-	/* if (ac != 2)
-		return (perr("Invalid input. < ./miniRT xxx.rt >"), 1);
-	data = malloc(sizeof(t_data));
-	if (!data)
-		return (1);
-	validate_data(av[1], data);
-	print_content(data);
-	input_data(data);
-	world(data);
-} */
+	i = -1;
+	if (!data || !data->data)
+		return ;
+	while (data->data[++i])
+		printf("%s\n", data->data[i]);
+}

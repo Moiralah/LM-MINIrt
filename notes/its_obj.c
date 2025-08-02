@@ -20,13 +20,14 @@ t_its	**its_s(int size, ...)
 	int		i;
 
 	i = -1;
-	its_list = calloc(size + 1, sizeof(t_its *));
+	its_list = ft_calloc(size + 1, sizeof(t_its *));
 	if (!its_list)
 		return (NULL);
 	va_start(its_s, size);
 	while (++i < size)
 		its_list[i] = va_arg(its_s, t_its *);
 	its_list[i] = NULL;
+	va_end(its_s);
 	return (merge(its_list, i));
 }
 
@@ -35,7 +36,9 @@ t_its	*its(t_obj *obj, double len_from_ori)
 {
 	t_its	*new_its;
 
-	new_its = calloc(1, sizeof(t_its));
+	new_its = ft_calloc(1, sizeof(t_its));
+	if (!new_its)
+		return (NULL);
 	new_its->obj = obj;
 	new_its->len = len_from_ori;
 	return (new_its);
@@ -47,9 +50,7 @@ t_its	*hit(t_its **its_s)
 	int	i;
 
 	i = 0;
-	if (!its_s)
-		return (NULL);
-	while ((its_s[i]) && (its_s[i]->len <= 0))
+	while (its_s && its_s[i] && (its_s[i]->len <= 0))
 		i++;
 	return (its_s[i]);
 }
@@ -61,13 +62,6 @@ void	free_its_s(t_its **its_s)
 
 	i = -1;
 	while (its_s[++i])
-		free_its(its_s[i]);
+		free(its_s[i]);
 	free(its_s);
-}
-
-// Frees the memory allocated for a single intersection.
-void	free_its(t_its *its)
-{
-	//free(its->obj);
-	free(its);
 }

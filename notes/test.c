@@ -180,7 +180,7 @@
 	return (0);
 } */
 
-int main(void)
+/* int main(void)
 {
 	t_img img;
 	t_camera *cam;
@@ -247,36 +247,43 @@ int main(void)
 	mlx_loop(mlx);
 
 	return 0;
-}
+} */
 
-/* int	main(int ac, char **av)
+void	start_engine(t_world *w, t_camera *c, int hsize, int vsize)
 {
-	t_data		*data;
-	t_world		*w;
-	t_camera	*c;
 	void		*mlx;
 	void		*win;
 	t_img		img;
 
+	img.w = hsize;
+	img.h = vsize;
+	img.img = mlx_new_image(mlx, img.w, img.h);
+	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.len, &img.endian);
+	mlx = mlx_init();
+	win = mlx_new_window(mlx, img.w, img.h, "Render");
+	render(&img, c, w);
+	mlx_put_image_to_window(mlx, win, img.img, 0, 0);
+	mlx_loop(mlx);
+}
+
+int	main(int ac, char **av)
+{
+	t_data		*data;
+	t_world		*w;
+	t_camera	*c;
+	int			size[2];
+
 	if (ac != 2)
 		return (perr("Invalid input. < ./miniRT xxx.rt >"), -1);
+	size[0] = 100;
+	size[1] = 100;
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (-1);
 	validate_data(av[1], data);
 	input_data(data);
 	w = world(data);
-	c = camera(img.w, img.h, data->c_fov);
-	c->transform = view_transform(data->c_ori, add(data->c_ori, data->c_dir), tuple(4, 0.0, 1.0, 0.0, 0.0));
-	c->inverse_transform = inverse(c->transform);
-	mlx = mlx_init();
-	img.w = 100;
-	img.h = 100;
-	win = mlx_new_window(mlx, img.w, img.h, "Render");
-	img.img = mlx_new_image(mlx, img.w, img.h);
-	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.len, &img.endian);
-	render(&img, c, w);
-	mlx_put_image_to_window(mlx, win, img.img, 0, 0);
-	mlx_loop(mlx);
+	c = camera(size[0], size[1], data->c_fov);
+	start_engine(w, c, size[0], size[1]);
 	return (0);
-} */
+}

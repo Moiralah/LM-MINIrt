@@ -51,13 +51,13 @@ t_its	**merge(t_its **ori, int size)
 	mid = floor(((double) size) / 2);
 	if (mid == 0)
 		return (ori);
-	left = calloc(mid, sizeof(t_its *));
+	left = ft_calloc(mid, sizeof(t_its *));
 	if (!left)
 		return (NULL);
 	while (--mid >= 0)
 		left[mid] = ori[mid];
 	mid = ceil(((double) size) / 2);
-	right = calloc(mid, sizeof(t_its *));
+	right = ft_calloc(mid, sizeof(t_its *));
 	if (!right)
 		return (NULL);
 	mid = floor(((double) size) / 2);

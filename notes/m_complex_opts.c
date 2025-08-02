@@ -12,60 +12,47 @@
 
 #include "minirt.h"
 
-// Multiplies two matrices.
-t_tuple	**mxm(t_tuple **m1, t_tuple **m2)
+void	split(t_tuple **m, t_tuple **mnrs)
 {
-	t_tuple	**new_m;
-	int		h;
-	int		w;
-	int		i;
+	t_tuple	**mnr;
+	int		row;
+	int		col;
 
-	h = len_m(m1);
-	w = m2[0]->size;
-	new_m = matrix(h);
-	if (!new_m)
-		return (NULL);
-	m2 = transpose(m2);
-	while (--h >= 0)
+	row = -1;
+	while (m[++row])
 	{
-		new_m[h] = tuple(w);
-		if (!new_m[h])
-			return (free_m(new_m, h), NULL);
-		i = -1;
-		while (++i < w)
-			new_m[h]->val[i] = dot(m1[h], m2[i]);
+		mnrs[row] = tuple(m[row]->size);
+		if (!mnrs[row])
+			continue ;
+		col = -1;
+		while (++col < m[row]->size)
+		{
+			mnr = subm(m, row, col);
+			if (!mnr)
+				continue ;
+			mnrs[row]->val[col] = det(mnr, len_m(mnr)) * pow(-1, row + col);
+			free_m(mnr, len_m(mnr));
+		}
 	}
-	return (new_m);
 }
 
 // Calculates the inverse of a matrix.
 t_tuple	**inverse(t_tuple **m)
 {
+	t_tuple	**trans;
 	t_tuple	**mnrs;
-	t_tuple	**mnr;
-	int		row;
-	int		col;
 
 	if (!det(m, len_m(m)))
 		return (NULL);
-	row = -1;
 	mnrs = matrix(len_m(m));
 	if (!mnrs)
 		return (NULL);
-	while (m[++row])
-	{
-		mnrs[row] = tuple(m[row]->size);
-		col = -1;
-		while (++col < m[row]->size)
-		{
-			mnr = subm(m, row, col);
-			mnrs[row]->val[col] = det(mnr, len_m(mnr)) * pow(-1, row + col);
-			free_m(mnr, len_m(mnr));
-		}
-	}
-	mnrs = transpose(mnrs);
-	mult_m(mnrs, 1 / det(m, len_m(m)));
-	return (mnrs);
+	split(m, mnrs);
+	trans = transpose(mnrs);
+	if (!trans)
+		return (free_m(mnrs, len_m(mnrs)), NULL);
+	mult_m(trans, 1 / det(m, len_m(m)));
+	return (free_m(mnrs, len_m(mnrs)), trans);
 }
 
 // Creates a submatrix by removing a specified row and column.
@@ -74,11 +61,11 @@ t_tuple	**subm(t_tuple **m, int row, int col)
 	t_tuple	**new_m;
 	int		i[4];
 
-	i[0] = 0;
-	while (m[i[0]])
-		i[0]++;
+	i[0] = len_m(m);
 	i[1] = i[0] - 1;
 	new_m = matrix(i[0]);
+	if (!new_m)
+		return (NULL);
 	while (--i[0] >= 0)
 	{
 		if (i[0] == row)
@@ -102,16 +89,22 @@ t_tuple	**subm(t_tuple **m, int row, int col)
 t_tuple	**transpose(t_tuple **m)
 {
 	t_tuple	**new_m;
+	int		len;
 	int		h;
 	int		w;
 
 	w = m[0]->size;
+	len = len_m(m);
 	new_m = matrix(w + 1);
+	if (!new_m)
+		return (NULL);
 	while (--w >= 0)
 	{
-		h = len_m(m);
+		h = len;
 		new_m[w] = tuple(0);
-		new_m[w]->val = malloc(h * sizeof(double));
+		if (!new_m[w])
+			return (free_m(new_m, w), NULL);
+		new_m[w]->val = ft_calloc(h, sizeof(double));
 		new_m[w]->size = h;
 		while (--h >= 0)
 			new_m[w]->val[h] = m[h]->val[w];
@@ -125,18 +118,22 @@ double	det(t_tuple **m, int ori_size)
 	double	total;
 	double	ad;
 	double	bc;
+	int		len;
 	int		col;
 
-	total = 0;
+	total = 0.0;
 	col = -1;
-	while ((len_m(m) > 2) && (++col < len_m(m)))
+	if (!m)
+		return (0.0);
+	len = len_m(m);
+	while ((len > 2) && (++col < len))
 		total += m[0]->val[col] * det(subm(m, 0, col), ori_size) * pow(-1, col);
-	if (len_m(m) == ori_size)
+	if (len == ori_size)
 		return (total);
-	else if (len_m(m) > 2)
-		return (free_m(m, len_m(m)), total);
+	else if (len > 2)
+		return (free_m(m, len), total);
 	ad = m[0]->val[0] * m[1]->val[1];
 	bc = m[0]->val[1] * m[1]->val[0];
-	free_m(m, len_m(m));
+	free_m(m, len);
 	return (ad - bc);
 }
