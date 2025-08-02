@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:55 by huidris           #+#    #+#             */
-/*   Updated: 2025/07/31 21:44:52 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/02 17:22:20 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@
 	// t_obj		*obj;
 	t_cylinder	*c;
 	t_tuple		*p;
-	// t_ray		*r; 
+	// t_ray		*r;
 
 	c = cylinder(tuple(4, 0.0, 0.0, 0.0, 1.0), NULL, 1.0, 1.0);
 	p = tuple(4, 0.0, 2.0, 0.5, 1.0);
@@ -180,7 +180,8 @@
 	return (0);
 } */
 
-/* int main(void)
+/*
+int main(void)
 {
 	t_img img;
 	t_camera *cam;
@@ -196,14 +197,16 @@
 
 	// Setup MLX
 	mlx = mlx_init();
-	img.w = 100;
-	img.h = 100;
+	img.w = 1000;
+	img.h = 500;
 	win = mlx_new_window(mlx, img.w, img.h, "Plane Render");
 	img.img = mlx_new_image(mlx, img.w, img.h);
 	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.len, &img.endian);
 
 	// Create world
 	world = malloc(sizeof(t_world));
+	world->a_color = tuple(3, 0.2, 0.2, 0.2);
+	world->a_ratio = 0.2;
 
 	// Create light
 	lit = light(tuple(4, -10.0, 10.0, -10.0, 1.0), tuple(3, 1.0, 1.0, 1.0));
@@ -245,7 +248,8 @@
 	mlx_loop(mlx);
 
 	return 0;
-} */
+}
+*/
 
 int	main(int ac, char **av)
 {
@@ -264,12 +268,12 @@ int	main(int ac, char **av)
 	validate_data(av[1], data);
 	input_data(data);
 	w = world(data);
+	img.w = 300;
+	img.h = 300;
 	c = camera(img.w, img.h, data->c_fov);
 	c->transform = view_transform(data->c_ori, add(data->c_ori, data->c_dir), tuple(4, 0.0, 1.0, 0.0, 0.0));
 	c->inverse_transform = inverse(c->transform);
 	mlx = mlx_init();
-	img.w = 100;
-	img.h = 100;
 	win = mlx_new_window(mlx, img.w, img.h, "Render");
 	img.img = mlx_new_image(mlx, img.w, img.h);
 	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.len, &img.endian);

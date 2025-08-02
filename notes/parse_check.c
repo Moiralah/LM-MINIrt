@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:09 by huidris           #+#    #+#             */
-/*   Updated: 2025/07/31 01:41:10 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/01 22:36:01 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	check_char(char *line, char *s)
 void	check_range(float min, float max, float value)
 {
 	if (value < min || value > max)
-		return (perr("Value out of range: %f. Expected range: [%f, %f].",
+		return (printf("Error: Value out of range: %f. Expected range: [%f, %f].",
 				value, min, max), exit(1));
 }
 

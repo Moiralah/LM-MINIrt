@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:38:47 by huidris           #+#    #+#             */
-/*   Updated: 2025/07/31 22:55:53 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/01 23:50:57 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	render(t_img *canvas, t_camera *cam, t_world *world)
 	int		x;
 
 	y = -1;
+	printf("Start Rendering...\n");
 	while (++y < (cam->vsize - 1))
 	{
 		x = -1;

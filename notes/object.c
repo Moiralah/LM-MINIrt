@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:26 by huidris           #+#    #+#             */
-/*   Updated: 2025/07/31 20:43:23 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/02 00:43:08 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ t_obj	*cylinder(t_tuple *origin, t_tuple *normal, t_mat *mat, t_tuple *dim)
 	if (!w_ori)
 		return (NULL);
 	move = sub(origin, w_ori);
-	print_t(move);
+	//print_t(move);
 	if (!move)
 		return (NULL);
 	new_cy = calloc(1, sizeof(t_cylinder));
@@ -110,7 +110,7 @@ t_obj	*cylinder(t_tuple *origin, t_tuple *normal, t_mat *mat, t_tuple *dim)
 	new_cy->mat = mat;
 	new_cy->ori = w_ori;
 	new_cy->rad = dim->val[0];
-	new_cy->max = 1.0; 
+	new_cy->max = 1.0;
 	new_cy->min = -1.0;
 	new_cy->h = dim->val[1];
 	new_cy->closed = 1;

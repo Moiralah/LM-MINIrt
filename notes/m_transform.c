@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:38 by huidris           #+#    #+#             */
-/*   Updated: 2025/07/31 01:39:41 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/01 23:52:21 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ t_tuple	**rotate(int m_size, int axis_amnt, ...)
 	va_start(val, axis_amnt);
 	i = 0;
 	complete_r = rotate_axis(m_size, i, va_arg(val, double));
-	print_m(complete_r);
 	while (++i < axis_amnt)
 	{
 		r = rotate_axis(m_size, i, va_arg(val, double));
@@ -114,7 +113,6 @@ t_tuple	**rotate(int m_size, int axis_amnt, ...)
 			return (free_m(complete_r, len_m(complete_r)), NULL);
 		temp = complete_r;
 		complete_r = mxm(r, complete_r);
-		print_m(complete_r);
 		free_m(temp, len_m(temp));
 		free_m(r, len_m(r));
 	}

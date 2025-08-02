@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:20 by huidris           #+#    #+#             */
-/*   Updated: 2025/07/31 01:41:21 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/01 19:36:49 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	set_sphere(char *line, t_data *data)
 	new_sp->ori = tuple(4, ft_atof(temp[1]),
 			ft_atof(temp[2]), ft_atof(temp[3]), 1);
 	new_sp->rad = ft_atof(temp[4]) / 2;
-	new_sp->color = tuple(3, ft_atof(temp[5]),
-			ft_atof(temp[6]), ft_atof(temp[7]));
+	new_sp->color = tuple(3, ft_atof(temp[5])/255.0,
+			ft_atof(temp[6])/255.0, ft_atof(temp[7])/255.0);
 	new_sp->next = NULL;
 	if (!data->sp)
 		data->sp = new_sp;
@@ -50,8 +50,8 @@ void	set_plane(char *line, t_data *data)
 			ft_atof(temp[2]), ft_atof(temp[3]), 1);
 	new_pl->normalv = tuple(4, ft_atof(temp[4]),
 			ft_atof(temp[5]), ft_atof(temp[6]), 0);
-	new_pl->color = tuple(3, ft_atof(temp[7]),
-			ft_atof(temp[8]), ft_atof(temp[9]));
+	new_pl->color = tuple(3, ft_atof(temp[7])/255.0,
+			ft_atof(temp[8])/255.0, ft_atof(temp[9])/255.0);
 	new_pl->next = NULL;
 	if (!data->pl)
 		data->pl = new_pl;
@@ -79,8 +79,8 @@ void	set_cylinder(char *line, t_data *data)
 			ft_atof(temp[5]), ft_atof(temp[6]), 0);
 	new_cy->rad = ft_atof(temp[7]) / 2;
 	new_cy->height = ft_atof(temp[8]);
-	new_cy->color = tuple(3, ft_atof(temp[9]),
-			ft_atof(temp[10]), ft_atof(temp[11]));
+	new_cy->color = tuple(3, ft_atof(temp[9])/255.0,
+			ft_atof(temp[10])/255.0, ft_atof(temp[11])/255.0);
 	new_cy->next = NULL;
 	if (!data->cy)
 		data->cy = new_cy;

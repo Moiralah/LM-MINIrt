@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:13 by huidris           #+#    #+#             */
-/*   Updated: 2025/07/31 18:25:08 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/01 23:10:37 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -344,8 +344,6 @@ void		content(char *file, t_data *data);
 void		check_range(float min, float max, float value);
 
 int			check_freq(char **data, char *s, int *i);
-
-int			ft_arraylen(char **array);
 
 void		obj_amount(t_data *data);
 
