@@ -6,39 +6,11 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:09 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/01 22:36:01 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/02 18:04:20 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-void	check_name(char *av)
-{
-	int	i;
-
-	i = 0;
-	while (av[i] != '\0')
-		i++;
-	if (av[i - 3] == '.')
-		if (av[i - 2] == 'r')
-			if (av[i - 1] == 't')
-				return ;
-	return (perr("Invalid file format. File need '.rt' format."), exit(1));
-}
-
-int	check_char(char *line, char *s)
-{
-	if (ft_strncmp(line, s, ft_strlen(s)) != 0)
-		return (0);
-	return (1);
-}
-
-void	check_range(float min, float max, float value)
-{
-	if (value < min || value > max)
-		return (printf("Error: Value out of range: %f. Expected range: [%f, %f].",
-				value, min, max), exit(1));
-}
 
 int	check_freq(char **data, char *s, int *i)
 {
@@ -58,6 +30,34 @@ int	check_freq(char **data, char *s, int *i)
 		k++;
 	}
 	return (j);
+}
+
+int	check_char(char *line, char *s)
+{
+	if (ft_strncmp(line, s, ft_strlen(s)) != 0)
+		return (0);
+	return (1);
+}
+
+void	check_name(char *av)
+{
+	int	i;
+
+	i = 0;
+	while (av[i] != '\0')
+		i++;
+	if (av[i - 3] == '.')
+		if (av[i - 2] == 'r')
+			if (av[i - 1] == 't')
+				return ;
+	return (perr("Invalid file format. File need '.rt' format."), exit(1));
+}
+
+void	check_range(float min, float max, float value)
+{
+	if (value < min || value > max)
+		return (perr("Value out of range: %f. Expected range: [%f, %f].",
+				value, min, max), exit(1));
 }
 
 void	check_format(char **data)

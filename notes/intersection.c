@@ -12,6 +12,22 @@
 
 #include "minirt.h"
 
+t_its	**plane_its(t_obj *obj, t_ray *ray)
+{
+	t_tuple	**inv;
+	t_tuple	*origin;
+	t_tuple	*dir;
+	double	t;
+
+	inv = inverse(get_obj_tf(obj));
+	origin = transform_ori(inv, ray->ori);
+	dir = transform_dir(inv, ray->dir);
+	if (fabs(dir->val[1]) < __DBL_EPSILON__)
+		return (NULL);
+	t = -origin->val[1] / dir->val[1];
+	return (its_s(1, its(obj, t)));
+}
+
 // Computes the intersections of a ray with a sphere.
 t_its	**sphere_its(t_obj *obj, t_ray *r)
 {
@@ -77,6 +93,13 @@ t_its	**cylinder_its(t_obj *obj, t_ray *r)
 		return (NULL);
 	len[0] = (-values[1] - sqrt(values[3])) / (2 * values[0]);
 	len[1] = (-values[1] + sqrt(values[3])) / (2 * values[0]);
+	double	temp;
+	if (len[0] > len[1])
+	{
+		temp = len[0];
+		len[0] = len[1];
+		len[1] = temp;
+	}
 	hit[0] = travel(r, len[0]);
 	hit[1] = travel(r, len[1]);
 	hits = NULL;

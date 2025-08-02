@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:55 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/02 17:22:20 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/02 18:02:51 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,6 @@
 	return (0);
 } */
 
-/*
 int main(void)
 {
 	t_img img;
@@ -195,13 +194,8 @@ int main(void)
 	void *mlx;
 	void *win;
 
-	// Setup MLX
-	mlx = mlx_init();
 	img.w = 1000;
 	img.h = 500;
-	win = mlx_new_window(mlx, img.w, img.h, "Plane Render");
-	img.img = mlx_new_image(mlx, img.w, img.h);
-	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.len, &img.endian);
 
 	// Create world
 	world = malloc(sizeof(t_world));
@@ -215,19 +209,20 @@ int main(void)
 	// Create floor plane
 	floor_mat = material(tuple(3, 1.0, 0.9, 0.9), tuple(4, 0.1, 0.9, 0.9, 200.0));
 	floor_plane = plane(tuple(4, 0.0, 0.0, 0.0, 1.0), floor_mat);
-	// ((t_plane *)(floor_plane->data))->t_matrix = rotate(4, 3, 0.0, 0.0, 10.0);
-	// ((t_plane *)(floor_plane->data))->t_matrix = scale(4, 0.1, 0.1, 0.1);
 
 	// Create sphere above the plane
 	sphere_mat = material(tuple(3, 1.0, 0.2, 1.0), tuple(4, 0.1, 0.7, 0.3, 200.0));
 	sphere_obj = sphere(tuple(4, 0.0, 1.0, 0.0, 1.0), sphere_mat, 1.0);
-	sphere_mat = material(tuple(3, 1.0, 0.2, 1.0), tuple(4, 0.1, 0.7, 0.3, 200.0));
-	cy = cylinder(tuple(4, 0.0, -1.0, 0.0, 1.0), tuple(4, 0.5, 1.0 , 0.7), copy_mat(sphere_mat), tuple(2, 2.0, 2.0));
+	apply_transform(sphere_obj, translate(4, -1.0, 0.0, 0.0));
+
+	sphere_mat = material(tuple(3, 1.0, 0.0, 0.0), tuple(4, 0.1, 0.7, 0.3, 200.0));
+	cy = cylinder(matrix(3, tuple(4, 0.0, 1.0, 0.0, 1.0), tuple(4, 0.0, 1.0 , 0.0)), sphere_mat, tuple(4, 0.5, 1.0, 1.0, -1.0), 1);
 
 	// Add objects to world
 	world->object = calloc(4, sizeof(t_obj *));
 	world->object[0] = floor_plane;
 	world->object[1] = cy;
+	// world->object[2] = NULL;
 	world->object[2] = sphere_obj;
 	world->object[3] = NULL;
 
@@ -240,6 +235,12 @@ int main(void)
 	);
 	cam->inverse_transform = inverse(cam->transform);
 
+	// Setup MLX
+	mlx = mlx_init();
+	win = mlx_new_window(mlx, img.w, img.h, "Plane Render");
+	img.img = mlx_new_image(mlx, img.w, img.h);
+	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.len, &img.endian);
+
 	// Render
 	render(&img, cam, world);
 
@@ -249,9 +250,8 @@ int main(void)
 
 	return 0;
 }
-*/
 
-int	main(int ac, char **av)
+/* int	main(int ac, char **av)
 {
 	t_data		*data;
 	t_world		*w;
@@ -281,4 +281,4 @@ int	main(int ac, char **av)
 	mlx_put_image_to_window(mlx, win, img.img, 0, 0);
 	mlx_loop(mlx);
 	return (0);
-}
+} */

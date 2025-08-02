@@ -12,16 +12,17 @@
 
 #include "minirt.h"
 
-/* t_its	**intersect(t_ray *ray, t_obj *obj)
+// Calculates the position of a ray at a given time.
+t_tuple	*travel(t_ray *ray, double time)
 {
-	if (obj->type == 'S')
-		return (sphere_its(obj, ray));
-	else if (obj->type == 'P')
-		return (plane_its(obj, ray));
-	else if (obj->type == 'C')
-	 	return (cylinder_its(obj, ray));
-	return (NULL);
-} */
+	t_tuple	*velo;
+	t_tuple	*new_pos;
+
+	velo = mult(ray->dir, time);
+	new_pos = add(ray->ori, velo);
+	free_t(velo);
+	return (new_pos);
+}
 
 t_tuple	*transform_ori(t_tuple **t_matrix, t_tuple *ori)
 {
@@ -77,16 +78,4 @@ t_tuple	*transform_dir(t_tuple **t_matrix, t_tuple *dir)
 	free_m(trans, len_m(trans));
 	new_dir = temp_m[0];
 	return (free(temp_m), new_dir);
-}
-
-// Calculates the position of a ray at a given time.
-t_tuple	*travel(t_ray *ray, double time)
-{
-	t_tuple	*velo;
-	t_tuple	*new_pos;
-
-	velo = mult(ray->dir, time);
-	new_pos = add(ray->ori, velo);
-	free_t(velo);
-	return (new_pos);
 }
