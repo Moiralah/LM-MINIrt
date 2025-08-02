@@ -39,53 +39,25 @@ t_camera	*camera(int hsize, int vsize, double field_of_view)
 	return (cam);
 }
 
-#define XOFFSET 0
-#define YOFFSET 1
-#define WORLD_X 2
-#define WORLD_Y 3
+#define FORWARD 0
+#define UPNORM 1
+#define LEFT 2
+#define TRUEUP 3
 
-t_ray	*ray_for_pixel(t_camera *cam, int px, int py)
+t_tuple	**view_transform(t_tuple *from, t_tuple *to, t_tuple *up)
 {
-	t_tuple	**inverse_transform;
-	t_tuple	**origin;
-	t_tuple	**pixel;
-	t_tuple	*direction;
-	double	c[4];
+	t_tuple	*v[4];
+	t_tuple	**view_matrix;
+	t_tuple	**orientation;
+	t_tuple	**translation_matrix;
 
-	c[XOFFSET] = (px + 0.5) * cam->pixel_size;
-	c[YOFFSET] = (py + 0.5) * cam->pixel_size;
-	c[WORLD_X] = cam->half_width - c[XOFFSET];
-	c[WORLD_Y] = cam->half_height - c[YOFFSET];
-	inverse_transform = cam->inverse_transform;
-	pixel = matrix(2, tuple(4, c[WORLD_X], c[WORLD_Y], -1.0, 1.0));
-	pixel = mxm(inverse_transform, transpose(pixel));
-	pixel = transpose(pixel);
-	origin = matrix(2, tuple(4, 0.0, 0.0, 0.0, 1.0));
-	origin = mxm(inverse_transform, transpose(origin));
-	origin = transpose(origin);
-	direction = norm(sub(pixel[0], origin[0]));
-	return (ray(origin[0], direction));
-}
-
-void	render(t_img *canvas, t_camera *cam, t_world *world)
-{
-	t_ray	*ray;
-	t_tuple	*color;
-	int		y;
-	int		x;
-
-	y = -1;
-	while (++y < (cam->vsize - 1))
-	{
-		x = -1;
-		while (++x < (cam->hsize - 1))
-		{
-			ray = ray_for_pixel(cam, x, y);
-			color = color_at(world, ray);
-			render_p(canvas, x, y, rgb_hex(color->val[0],
-					color->val[1], color->val[2]));
-			free_ray(ray);
-		}
-	}
-	printf("Rendered\n");
+	v[FORWARD] = norm(sub(to, from));
+	v[UPNORM] = norm(up);
+	v[LEFT] = cross(v[FORWARD], v[UPNORM]);
+	v[TRUEUP] = cross(v[LEFT], v[FORWARD]);
+	orientation = matrix(5, v[LEFT], v[TRUEUP], mult(v[FORWARD], -1.0), NULL);
+	orientation[3] = tuple(4, 0.0, 0.0, 0.0, 1.0);
+	translation_matrix = translate(4, -from->val[0], -from->val[1], -from->val[2]);
+	view_matrix = mxm(orientation, translation_matrix);
+	return (view_matrix);
 }

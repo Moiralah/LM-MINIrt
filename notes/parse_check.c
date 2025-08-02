@@ -12,34 +12,6 @@
 
 #include "minirt.h"
 
-void	check_name(char *av)
-{
-	int	i;
-
-	i = 0;
-	while (av[i] != '\0')
-		i++;
-	if (av[i - 3] == '.')
-		if (av[i - 2] == 'r')
-			if (av[i - 1] == 't')
-				return ;
-	return (perr("Invalid file format. File need '.rt' format."), exit(1));
-}
-
-int	check_char(char *line, char *s)
-{
-	if (ft_strncmp(line, s, ft_strlen(s)) != 0)
-		return (0);
-	return (1);
-}
-
-void	check_range(float min, float max, float value)
-{
-	if (value < min || value > max)
-		return (perr("Value out of range: %f. Expected range: [%f, %f].",
-				value, min, max), exit(1));
-}
-
 int	check_freq(char **data, char *s, int *i)
 {
 	int	j;
@@ -58,6 +30,34 @@ int	check_freq(char **data, char *s, int *i)
 		k++;
 	}
 	return (j);
+}
+
+int	check_char(char *line, char *s)
+{
+	if (ft_strncmp(line, s, ft_strlen(s)) != 0)
+		return (0);
+	return (1);
+}
+
+void	check_name(char *av)
+{
+	int	i;
+
+	i = 0;
+	while (av[i] != '\0')
+		i++;
+	if (av[i - 3] == '.')
+		if (av[i - 2] == 'r')
+			if (av[i - 1] == 't')
+				return ;
+	return (perr("Invalid file format. File need '.rt' format."), exit(1));
+}
+
+void	check_range(float min, float max, float value)
+{
+	if (value < min || value > max)
+		return (perr("Value out of range: %f. Expected range: [%f, %f].",
+				value, min, max), exit(1));
 }
 
 void	check_format(char **data)
