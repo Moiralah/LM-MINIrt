@@ -269,7 +269,7 @@ t_obj		*object(void *data, char type);
 
 t_obj		*sphere(t_tuple *origin, t_mat *mat, double radius);
 
-t_obj		*cylinder(t_tuple *origin, t_tuple *normal, t_mat *mat, t_tuple *dim);
+t_obj		*cylinder(t_tuple **val_m, t_mat *mat, t_tuple *dim, int closed);
 
 t_light		*light(t_tuple *position, t_tuple *intensity);
 
@@ -381,7 +381,7 @@ void		obj_amount(t_data *data);
 
 void		input_data(t_data *data);
 
-void		set_transform(t_obj *obj, t_tuple **transform);
+void		apply_transform(t_obj *obj, t_tuple **transform);
 
 t_tuple		*normal_at(t_obj *obj, t_tuple *world_p);
 
