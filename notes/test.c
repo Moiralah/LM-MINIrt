@@ -275,6 +275,7 @@ t_camera	*set_up_cam(t_data *data, int hsize, int vsize)
 	up = tuple(4, 0.0, 1.0, 0.0, 0.0);
 	orient = matrix(3, data->c_ori, add(data->c_ori, data->c_dir), up);
 	cam = camera(orient, data->c_fov, hsize, vsize);
+	free_m(orient, 3);
 	return (cam);
 }
 
@@ -296,6 +297,10 @@ int	main(int ac, char **av)
 	input_data(data);
 	w = world(data);
 	c = set_up_cam(data, size[0], size[1]);
+	free_data(data);
 	start_engine(w, c, size[0], size[1]);
+	free_world(w);
+	free(c->inverse_transform);
+	free(c);
 	return (0);
 }
