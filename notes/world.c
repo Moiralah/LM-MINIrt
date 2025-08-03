@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:57 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/03 16:40:49 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/03 18:20:45 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,7 @@
 t_world	*world(t_data *data)
 {
 	t_world		*w;
-	t_mat		*m;
-	double		sh;
-	double		sp;
-	double		df;
-	int			i;
 
-	sp = 0.9;
-	df = 0.9;
-	sh = 200.0;
 	w = malloc(sizeof(t_world));
 	if (!w)
 		return (NULL);
@@ -32,31 +24,43 @@ t_world	*world(t_data *data)
 	w->light = light(data->l_pos, mult(data->l_color, data->l_ratio));
 	w->object = malloc((data->obj_amt + 1) * sizeof(t_obj *));
 	w->object[data->obj_amt] = NULL;
-	i = -1;
-	while (data->sp)
-	{
-		m = material(data->sp->color, tuple(4, data->a_ratio, sp, df, sh));
-		w->object[++i] = sphere(data->sp->ori, m, data->sp->rad);
-		data->sp = data->sp->next;
-	}
-	while (data->pl)
-	{
-		m = material(data->pl->color, tuple(4, data->a_ratio, sp, df, sh));
-		w->object[++i] = plane(data->pl->ori, m);
-		data->pl = data->pl->next;
-	}
-	while (data->cy)
-	{
-		m = material(data->cy->color, tuple(4, data->a_ratio, sp, df, sh));
-		w->object[++i] = cylinder(matrix(3, data->cy->ori, data->cy->normalv),
-				m, tuple(2, data->cy->rad, data->cy->height, 1.0, -1.0), 1);
-		data->cy = data->cy->next;
-	}
+	set_obj(w, data);
 	w->c = camera(WIDTH, HEIGHT, data->c_fov);
 	w->c->transform = view_transform(data->c_ori, add(data->c_ori, data->c_dir),
 			tuple(4, 0.0, 1.0, 0.0, 0.0));
 	w->c->inverse_transform = inverse(w->c->transform);
 	return (w);
+}
+
+#define SP	0.9
+#define DF	0.9
+#define SH	200.0
+
+void	set_obj(t_world *w, t_data *data)
+{
+	t_mat		*m;
+	int			i;
+
+	i = -1;
+	while (data->sp)
+	{
+		m = material(data->sp->color, tuple(4, data->a_ratio, SP, DF, SH));
+		w->object[++i] = sphere(data->sp->ori, m, data->sp->rad);
+		data->sp = data->sp->next;
+	}
+	while (data->pl)
+	{
+		m = material(data->pl->color, tuple(4, data->a_ratio, SP, DF, SH));
+		w->object[++i] = plane(data->pl->ori, m);
+		data->pl = data->pl->next;
+	}
+	while (data->cy)
+	{
+		m = material(data->cy->color, tuple(4, data->a_ratio, SP, DF, SH));
+		w->object[++i] = cylinder(matrix(3, data->cy->ori, data->cy->normalv),
+				m, tuple(2, data->cy->rad, data->cy->height, 1.0, -1.0), 1);
+		data->cy = data->cy->next;
+	}
 }
 
 t_its	**its_world(t_world *world, t_ray *ray)
