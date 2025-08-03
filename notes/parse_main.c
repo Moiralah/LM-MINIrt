@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:12 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/02 22:43:20 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/03 18:24:57 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,16 +91,15 @@ void	validate_data(char *file, t_data *data)
 
 t_data	*input_data(char *av)
 {
-	int	i;
-	t_data *data;
+	int		i;
+	t_data	*data;
 
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (NULL);
 	validate_data(av, data);
-
-	i = 0;
-	while (data->data[i])
+	i = -1;
+	while (data->data[++i])
 	{
 		if (ft_strncmp(data->data[i], "A ", 2) == 0)
 			set_ambient(data->data[i], data);
@@ -114,7 +113,6 @@ t_data	*input_data(char *av)
 			set_plane(data->data[i], data);
 		else if (ft_strncmp(data->data[i], "cy ", 3) == 0)
 			set_cylinder(data->data[i], data);
-		i++;
 	}
 	obj_amount(data);
 	return (data);
