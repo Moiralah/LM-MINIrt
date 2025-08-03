@@ -57,23 +57,34 @@ t_mat	*get_obj_mat(t_obj *obj)
 	return (NULL);
 }
 
+void	free_obj(t_obj *obj)
+{
+	if (obj->type == 'S')
+		free_sphere((t_sphere *)(obj->data));
+	if (obj->type == 'P')
+		free_plane((t_plane *)(obj->data));
+	if (obj->type == 'C')
+		free_cylinder((t_cylinder *)(obj->data));
+}
+
 void	apply_transform(t_obj *obj, t_tuple **transform)
 {
-	t_tuple	**t;
+	t_tuple	**final_tf;
+	t_tuple	**inv_tf;
 
+	inv_tf = get_inv_tf(obj);
+	if (!inv_tf)
+		final_tf = transform;
+	else
+	{
+		final_tf = mxm(transform, inv_tf);
+		free_m(transform, len_m(transform));
+		free_m(inv_tf, len_m(inv_tf));
+	}
 	if (obj->type == 'S')
-	{
-		t = ((t_sphere *)obj->data)->inv_tf;
-		((t_sphere *)obj->data)->inv_tf = mxm(transform, t);
-	}
+		((t_sphere *)obj->data)->inv_tf = final_tf;
 	else if (obj->type == 'P')
-	{
-		t = ((t_plane *)obj->data)->inv_tf;
-		((t_plane *)obj->data)->inv_tf = mxm(transform, t);
-	}
+		((t_plane *)obj->data)->inv_tf = final_tf;
 	else if (obj->type == 'C')
-	{
-		t = ((t_cylinder *)obj->data)->inv_tf;
-		((t_cylinder *)obj->data)->inv_tf = mxm(transform, t);
-	}
+		((t_cylinder *)obj->data)->inv_tf = final_tf;
 }
