@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:44 by huidris           #+#    #+#             */
-/*   Updated: 2025/07/31 22:05:27 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/04 01:00:50 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ t_tuple	*color_at(t_world *world, t_ray *ray)
 	}
 	free_its_s(intersections);
 	comps = prepare_computations(hit_its, ray);
-	if (comps)
-		return (NULL);
+	if (!comps)
+		return (mult(world->a_color, world->a_ratio));
 	color = shade_hit(world, comps);
 	free_comps(comps);
 	return (color);

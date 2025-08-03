@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:40 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/04 00:57:40 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/04 00:59:20 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,10 @@ void	render(t_img *canvas, t_camera *cam, t_world *world)
 	int		x;
 
 	y = -1;
-	while (++y < (cam->vsize - 1))
+	while (++y < (cam->vsize))
 	{
 		x = -1;
-		while (++x < (cam->hsize - 1))
+		while (++x < (cam->hsize))
 		{
 			ray = ray_for_pixel(cam, x, y);
 			color = color_at(world, ray);
