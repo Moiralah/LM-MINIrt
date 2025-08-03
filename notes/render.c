@@ -98,6 +98,7 @@ void	render(t_img *canvas, t_camera *cam, t_world *world)
 			color = color_at(world, ray);
 			render_p(canvas, x, y, rgb_hex(color->val[0],
 					color->val[1], color->val[2]));
+			free_t(color);
 			free_ray(ray);
 		}
 	}
