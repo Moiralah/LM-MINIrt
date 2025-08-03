@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   plane.c                                            :+:      :+:    :+:   */
+/*   normal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:38:50 by huidris           #+#    #+#             */
-/*   Updated: 2025/07/31 21:48:42 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/02 22:18:50 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ t_tuple	*cylinder_n(t_obj *obj, t_tuple *point)
 {
 	t_cylinder	*cy;
 	double		dist;
-	
+
 	cy = (t_cylinder *)(obj->data);
 	dist = pow(point->val[0], 2) + pow(point->val[2], 2);
 	if ((dist < 1) && (point->val[1] >= (cy->max - EPSILON)))
 		return (tuple(4, 0.0, 1.0, 0.0, 0.0));
 	else if ((dist < 1) && (point->val[1] <= (cy->min + EPSILON)))
-			return (tuple(4, 0.0, -1.0, 0.0, 0.0));
+		return (tuple(4, 0.0, -1.0, 0.0, 0.0));
 	else
 		return (tuple(4, point->val[0], 0.0, point->val[2], 0.0));
 	return (NULL);

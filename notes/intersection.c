@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:40:00 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/01 23:56:58 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/02 22:18:19 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ t_its	**cylinder_its(t_obj *obj, t_ray *r)
 	t_tuple		*hit[2];
 	double		values[4];
 	double		len[2];
+	double		temp;
 
 	cy = (t_cylinder *)(obj->data);
 	values[0] = pow(r->dir->val[0], 2) + pow(r->dir->val[2], 2);
@@ -93,7 +94,6 @@ t_its	**cylinder_its(t_obj *obj, t_ray *r)
 		return (NULL);
 	len[0] = (-values[1] - sqrt(values[3])) / (2 * values[0]);
 	len[1] = (-values[1] + sqrt(values[3])) / (2 * values[0]);
-	double	temp;
 	if (len[0] > len[1])
 	{
 		temp = len[0];

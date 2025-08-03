@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:12 by huidris           #+#    #+#             */
-/*   Updated: 2025/07/31 01:41:13 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/02 22:43:20 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,31 @@ void	remove_commas(char *str)
 	{
 		if (str[i] == ',')
 			str[i] = ' ';
+		i++;
+	}
+}
+
+void	check_number(t_data *data)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (data->data[i])
+	{
+		j = 1;
+		while (data->data[i][j])
+		{
+			if (j == 1 && (data->data[i][j] == 'p' || data->data[i][j] == 'l'
+				|| data->data[i][j] == 'y' || data->data[i][j] == ' '))
+				j++;
+			if (data->data[i][j] == '.' || data->data[i][j] == ' '
+				|| data->data[i][j] == '-')
+				j++;
+			if (data->data[i][j] < '0' || data->data[i][j] > '9')
+				return (perr("Error: Invalid number format."), exit(1));
+			j++;
+		}
 		i++;
 	}
 }
@@ -55,6 +80,7 @@ void	validate_data(char *file, t_data *data)
 	check_name(file);
 	content(file, data);
 	check_format(data->data);
+	check_number(data);
 	check_ambient(data);
 	check_camera(data);
 	check_light(data);
@@ -63,9 +89,15 @@ void	validate_data(char *file, t_data *data)
 	check_cylinder(data);
 }
 
-void	input_data(t_data *data)
+t_data	*input_data(char *av)
 {
 	int	i;
+	t_data *data;
+
+	data = malloc(sizeof(t_data));
+	if (!data)
+		return (NULL);
+	validate_data(av, data);
 
 	i = 0;
 	while (data->data[i])
@@ -85,27 +117,5 @@ void	input_data(t_data *data)
 		i++;
 	}
 	obj_amount(data);
+	return (data);
 }
-
-// void print_content(t_data *data)
-// {
-// 	if (!data || !data->data)
-// 		return;
-// 	for (int i = 0; data->data[i]; i++)
-// 		printf("%s\n", data->data[i]);
-// }
-
-// int	main(int ac, char **av)
-// {
-// 	t_data	*data;
-
-	/* if (ac != 2)
-		return (perr("Invalid input. < ./miniRT xxx.rt >"), 1);
-	data = malloc(sizeof(t_data));
-	if (!data)
-		return (1);
-	validate_data(av[1], data);
-	print_content(data);
-	input_data(data);
-	world(data);
-} */

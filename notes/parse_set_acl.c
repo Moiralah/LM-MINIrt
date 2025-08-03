@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:16 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/01 19:35:12 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/02 22:10:08 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	set_ambient(char *line, t_data *data)
 
 	temp = ft_split(line, ' ');
 	data->a_ratio = ft_atof(temp[1]);
-	data->a_color = tuple(3, ft_atof(temp[2])/255.0,
-			ft_atof(temp[3])/255.0, ft_atof(temp[4])/255.0);
+	data->a_color = tuple(3, ft_atof(temp[2]) / 255.0,
+			ft_atof(temp[3]) / 255.0, ft_atof(temp[4]) / 255.0);
 	free2d(temp);
 }
 
@@ -44,7 +44,7 @@ void	set_light(char *line, t_data *data)
 	data->l_pos = tuple(4, ft_atof(temp[1]),
 			ft_atof(temp[2]), ft_atof(temp[3]), 1);
 	data->l_ratio = ft_atof(temp[4]);
-	data->l_color = tuple(3, ft_atof(temp[5])/255.0,
-			ft_atof(temp[6])/255.0, ft_atof(temp[7])/255.0);
+	data->l_color = tuple(3, ft_atof(temp[5]) / 255.0,
+			ft_atof(temp[6]) / 255.0, ft_atof(temp[7]) / 255.0);
 	free2d(temp);
 }

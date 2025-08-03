@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:57 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/02 00:39:51 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/03 16:40:49 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_world	*world(t_data *data)
 	double		sh;
 	double		sp;
 	double		df;
-	int		i;
+	int			i;
 
 	sp = 0.9;
 	df = 0.9;
@@ -48,9 +48,14 @@ t_world	*world(t_data *data)
 	while (data->cy)
 	{
 		m = material(data->cy->color, tuple(4, data->a_ratio, sp, df, sh));
-		w->object[++i] = cylinder(matrix(3, data->cy->ori, data->cy->normalv), m, tuple(2, data->cy->rad, data->cy->height, 1.0, -1.0), 1);
+		w->object[++i] = cylinder(matrix(3, data->cy->ori, data->cy->normalv),
+				m, tuple(2, data->cy->rad, data->cy->height, 1.0, -1.0), 1);
 		data->cy = data->cy->next;
 	}
+	w->c = camera(WIDTH, HEIGHT, data->c_fov);
+	w->c->transform = view_transform(data->c_ori, add(data->c_ori, data->c_dir),
+			tuple(4, 0.0, 1.0, 0.0, 0.0));
+	w->c->inverse_transform = inverse(w->c->transform);
 	return (w);
 }
 
@@ -81,8 +86,8 @@ t_its	**its_world(t_world *world, t_ray *ray)
 t_its	**merge_its_s(t_its **list1, t_its **list2)
 {
 	t_its	**merged;
-	int	len1;
-	int	len2;
+	int		len1;
+	int		len2;
 
 	len1 = 0;
 	len2 = 0;

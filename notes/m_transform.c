@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:38 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/01 23:52:21 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/02 22:06:52 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ t_tuple	**rotate(int m_size, int axis_amnt, ...)
 	t_tuple	**temp;
 	t_tuple	**r;
 	va_list	val;
-	int	i;
+	int		i;
 
 	va_start(val, axis_amnt);
 	i = 0;

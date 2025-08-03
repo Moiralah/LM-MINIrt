@@ -6,19 +6,25 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:13 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/01 23:10:37 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/03 17:41:22 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
-# define EPSILON 0.0001
+# define WIDTH	300
+# define HEIGHT	300
 # include <stdio.h>
-# include <stdbool.h>
 # include <stdbool.h>
 # include <math.h>
 # include "../minilibx-linux/mlx.h"
 # include "../libft/libft.h"
+
+typedef struct	s_mlx_data
+{
+	void	*mlx;
+	void	*win;
+}	t_mlx_data;
 
 typedef struct s_tuple
 {
@@ -116,7 +122,7 @@ typedef struct s_cylinder
 	double	max;
 	double	min;
 	double	h;
-	int	closed;
+	int		closed;
 }	t_cylinder;
 
 typedef struct s_sphere
@@ -154,10 +160,11 @@ typedef struct s_light
 
 typedef struct s_world
 {
-	t_obj	**object;
-	t_light	*light;
-	t_tuple	*a_color;
-	double	a_ratio;
+	t_obj		**object;
+	t_light		*light;
+	t_tuple		*a_color;
+	double		a_ratio;
+	t_camera	*c;
 }	t_world;
 
 typedef struct s_comps
@@ -377,7 +384,7 @@ void		set_cylinder(char *line, t_data *data);
 
 void		obj_amount(t_data *data);
 
-void		input_data(t_data *data);
+t_data		*input_data(char *av);
 
 void		apply_transform(t_obj *obj, t_tuple **transform);
 

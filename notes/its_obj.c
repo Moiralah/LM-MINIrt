@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:40:04 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/01 19:52:58 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/02 22:21:37 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,13 @@ void	free_its_s(t_its **its_s)
 
 	i = -1;
 	while (its_s[++i])
-		free_its(its_s[i]);
+		free(its_s[i]);
 	free(its_s);
 }
 
-// Frees the memory allocated for a single intersection.
-void	free_its(t_its *its)
-{
-	//free(its->obj);
-	free(its);
-}
+// // Frees the memory allocated for a single intersection.
+// void	free_its(t_its *its)
+// {
+// 	//free(its->obj);
+// 	free(its);
+// }

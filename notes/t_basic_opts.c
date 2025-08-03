@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:47 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/01 23:53:32 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/02 22:14:22 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_tuple	*mult(t_tuple *t, double value)
 	int		i;
 
 	i = -1;
-	if(!t)
+	if (!t)
 		return (NULL);
 	new_v = tuple(0);
 	new_v->val = ft_calloc(1, t->size * sizeof(double));

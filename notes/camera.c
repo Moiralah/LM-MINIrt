@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:38:47 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/02 17:58:40 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/03 16:18:31 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ t_camera	*camera(int hsize, int vsize, double field_of_view)
 }
 
 #define FORWARD 0
-#define UPNORM 1
-#define LEFT 2
-#define TRUEUP 3
+#define UPNORM 	1
+#define LEFT 	2
+#define TRUEUP 	3
 
 t_tuple	**view_transform(t_tuple *from, t_tuple *to, t_tuple *up)
 {
@@ -57,7 +57,8 @@ t_tuple	**view_transform(t_tuple *from, t_tuple *to, t_tuple *up)
 	v[TRUEUP] = cross(v[LEFT], v[FORWARD]);
 	orientation = matrix(5, v[LEFT], v[TRUEUP], mult(v[FORWARD], -1.0), NULL);
 	orientation[3] = tuple(4, 0.0, 0.0, 0.0, 1.0);
-	translation_matrix = translate(4, -from->val[0], -from->val[1], -from->val[2]);
+	translation_matrix = translate(4, -from->val[0],
+			-from->val[1], -from->val[2]);
 	view_matrix = mxm(orientation, translation_matrix);
 	return (view_matrix);
 }
