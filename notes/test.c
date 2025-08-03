@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:55 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/03 22:58:10 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/04 00:42:12 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	main(int ac, char **av)
 	mlx_hook(data.win, 17, 1L << 0, exiting, &data);
 	mlx_loop(data.mlx);
 	free_world(w);
-	free(c->inverse_transform);
-	free(c);
+	free(w->c->inverse_transform);
+	free(w->c);
 	return (0);
 }

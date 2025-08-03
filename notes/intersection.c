@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:40:00 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/03 22:37:48 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/04 00:40:49 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,6 @@ t_its	**its_caps(t_obj *obj, t_cylinder *cy, t_ray *r)
 	t_tuple		*hit;
 	double		t;
 
-	caps[0] = NULL;
-	caps[1] = NULL;
-	t = (cy->min - r->ori->val[1]) / r->dir->val[1];
 	bot = NULL;
 	top = NULL;
 	t = (cy->min - r->ori->val[1]) / r->dir->val[1];
@@ -76,8 +73,6 @@ t_its	**its_caps(t_obj *obj, t_cylinder *cy, t_ray *r)
 	if (!hit)
 		return (NULL);
 	if ((pow(hit->val[0], 2) + pow(hit->val[2], 2)) <= 1)
-		caps[0] = its_s(1, its(obj, t));
-	t = (cy->max - r->ori->val[1]) / r->dir->val[1];
 		bot = its_s(1, its(obj, t));
 	t = (cy->max - r->ori->val[1]) / r->dir->val[1];
 	free_t(hit);
@@ -117,7 +112,6 @@ t_its	**cylinder_its(t_obj *obj, t_cylinder *cy, t_ray *r)
 	t_its		**hits;
 	double		values[4];
 	double		len[2];
-	double		temp;
 
 	hits = NULL;
 	if (cy->closed)

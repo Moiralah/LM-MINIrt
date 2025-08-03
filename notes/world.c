@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:57 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/03 23:04:17 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/04 00:43:00 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 t_world	*world(t_data *data)
 {
-	t_world		*w;
+	t_world	*w;
+	t_tuple	*up;
+	t_tuple	**orient;
 
 	w = malloc(sizeof(t_world));
 	if (!w)
@@ -22,13 +24,12 @@ t_world	*world(t_data *data)
 	w->a_ratio = data->a_ratio;
 	w->a_color = copy_t(data->a_color);
 	w->light = light(data->l_pos, mult(data->l_color, data->l_ratio));
-	w->object = malloc((data->obj_amt + 1) * sizeof(t_obj *));
-	w->object[data->obj_amt] = NULL;
+	w->obj = malloc((data->obj_amt + 1) * sizeof(t_obj *));
+	w->obj[data->obj_amt] = NULL;
 	set_obj(w, data);
-	w->c = camera(WIDTH, HEIGHT, data->c_fov);
-	w->c->transform = view_transform(data->c_ori, add(data->c_ori, data->c_dir),
-			tuple(4, 0.0, 1.0, 0.0, 0.0));
-	w->c->inverse_transform = inverse(w->c->transform);
+	up = tuple(4, 0.0, 1.0, 0.0, 0.0);
+	orient = matrix(3, data->c_ori, add(data->c_ori, data->c_dir), up);
+	w->c = camera(orient, data->c_fov, WIDTH, HEIGHT);
 	return (w);
 }
 
@@ -42,23 +43,23 @@ void	set_obj(t_world *w, t_data *data)
 	int			i;
 
 	i = -1;
-	while (d->sp)
+	while (data->sp)
 	{
 		m = material(data->sp->color, tuple(4, data->a_ratio, SP, DF, SH));
-		w->object[++i] = sphere(data->sp->ori, m, data->sp->rad);
+		w->obj[++i] = sphere(data->sp->ori, m, data->sp->rad);
 		data->sp = data->sp->next;
 	}
-	while (d->pl)
+	while (data->pl)
 	{
 		m = material(data->pl->color, tuple(4, data->a_ratio, SP, DF, SH));
-		w->object[++i] = plane(data->pl->ori, m);
+		w->obj[++i] = plane(data->pl->ori, m);
 		data->pl = data->pl->next;
 	}
-	while (d->cy)
+	while (data->cy)
 	{
 		m = material(data->cy->color, tuple(4, data->a_ratio, SP, DF, SH));
-		w->object[++i] = cylinder(matrix(3, data->cy->ori, data->cy->normalv),
-				m, tuple(2, data->cy->rad, data->cy->height, 1.0, -1.0), 1);
+		w->obj[++i] = cylinder(matrix(3, data->cy->ori, data->cy->n),
+				m, tuple(2, data->cy->rad, data->cy->h, 1.0, -1.0), 1);
 		data->cy = data->cy->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:13 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/03 22:39:49 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/04 00:41:38 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,10 +160,11 @@ typedef struct s_light
 
 typedef struct s_world
 {
-	t_obj	**obj;
-	t_light	*light;
-	t_tuple	*a_color;
-	double	a_ratio;
+	t_obj		**obj;
+	t_light		*light;
+	t_tuple		*a_color;
+	double		a_ratio;
+	t_camera	*c;
 }	t_world;
 
 typedef struct s_comps
@@ -406,5 +407,7 @@ t_its		**cylinder_its(t_obj *obj, t_cylinder *cy, t_ray *r);
 t_its		**sphere_its(t_obj *obj, t_sphere *sp, t_ray *r);
 
 t_its		**plane_its(t_obj *obj, t_ray *ray);
+
+void		set_obj(t_world *world, t_data *data);
 
 #endif
