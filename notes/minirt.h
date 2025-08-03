@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:13 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/03 17:41:22 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/03 20:01:26 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,14 @@
 # define MINIRT_H
 # define WIDTH	300
 # define HEIGHT	300
+# define EPSILON	0.00001
 # include <stdio.h>
 # include <stdbool.h>
 # include <math.h>
 # include "../minilibx-linux/mlx.h"
 # include "../libft/libft.h"
 
-typedef struct	s_mlx_data
+typedef struct s_mlx_data
 {
 	void	*mlx;
 	void	*win;
@@ -397,5 +398,7 @@ t_its		**plane_its(t_obj *obj, t_ray *ray);
 t_its		**test_its(t_obj *obj, t_ray *ray);
 
 t_obj		*test_shape(void);
+
+void		set_obj(t_world *w, t_data *data);
 
 #endif
