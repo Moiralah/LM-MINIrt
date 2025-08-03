@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strnormalize_spaces.c                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/03 21:30:55 by huidris           #+#    #+#             */
+/*   Updated: 2025/08/03 21:32:16 by huidris          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 static int	is_whitespace(char c)
@@ -40,7 +52,8 @@ static void	remove_trailing_space(char *result, size_t *j)
 		(*j)--;
 }
 
-// Normalizes multiple consecutive spaces to single spaces while preserving newlines
+// Normalizes multiple consecutive spaces to single spaces while
+// preserving newlines
 char	*ft_strnormalize_spaces(const char *s)
 {
 	size_t	i;
