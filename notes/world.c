@@ -54,11 +54,12 @@ t_world	*world(t_data *data)
 	if (!world)
 		return (NULL);
 	world->a_ratio = data->a_ratio;
-	world->a_color = copy_t(data->a_color);
+	world->a_color = data->a_color;
 	world->light = light(data->l_pos, mult(data->l_color, data->l_ratio));
 	world->obj = ft_calloc(data->obj_amt + 1, sizeof(t_obj *));
 	if (!world->obj)
 		return (NULL);
+	world->obj[data->obj_amt] = NULL;
 	add_objs(data, world, mat_vals);
 	return (world);
 }
@@ -87,35 +88,6 @@ t_its	**its_world(t_world *world, t_ray *ray)
 	return (merge(merged_list, i));
 }
 
-t_its	**merge_its_s(t_its **list1, t_its **list2)
-{
-	t_its	**merged;
-	int		len1;
-	int		len2;
-
-	len1 = 0;
-	len2 = 0;
-	if (!list1 && !list2)
-		return (NULL);
-	if (!list1)
-		return (list2);
-	else if (!list2)
-		return (list1);
-	while (list1[len1])
-		len1++;
-	while (list2[len2])
-		len2++;
-	merged = ft_calloc(len1 + len2 + 1, sizeof(t_its *));
-	merged[len1 + len2] = NULL;
-	while (--len2 >= 0)
-		merged[len2 + len1] = list2[len2];
-	while (--len1 >= 0)
-		merged[len1] = list1[len1];
-	free(list1);
-	free(list2);
-	return (merged);
-}
-
 t_tuple	*world_to_obj_point(t_tuple **t_matrix, t_tuple *world_point)
 {
 	t_tuple	**point_m[2];
@@ -136,4 +108,16 @@ t_tuple	*world_to_obj_point(t_tuple **t_matrix, t_tuple *world_point)
 	}
 	free_m(obj_p[0], len_m(obj_p[0]));
 	return (result);
+}
+
+void	free_world(t_world * world)
+{
+	int	i;
+
+	i = -1;
+	while (world->obj[++i])
+		free_obj(world->obj[i]);
+	free_light(world->light);
+	free_t(world->a_color);
+	free(world);
 }
