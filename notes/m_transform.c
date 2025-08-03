@@ -31,9 +31,9 @@ t_tuple	**identity(int size)
 		q = -1;
 		while (++q < size)
 		{
-			id[i]->val[q] = 0;
+			id[i]->val[q] = 0.0;
 			if (i == q)
-				id[i]->val[q] = 1;
+				id[i]->val[q] = 1.0;
 		}
 	}
 	return (id);
@@ -53,6 +53,7 @@ t_tuple	**translate(int m_size, ...)
 		return (NULL);
 	while (++i < (m_size - 1))
 		m[i]->val[m_size - 1] = va_arg(doubles, double);
+	va_end(doubles);
 	return (m);
 }
 
@@ -70,6 +71,7 @@ t_tuple	**scale(int m_size, ...)
 		return (NULL);
 	while (++i < (m_size - 1))
 		s[i]->val[i] = va_arg(doubles, double);
+	va_end(doubles);
 	return (s);
 }
 
@@ -116,6 +118,7 @@ t_tuple	**rotate(int m_size, int axis_amnt, ...)
 		free_m(temp, len_m(temp));
 		free_m(r, len_m(r));
 	}
+	va_end(val);
 	return (complete_r);
 }
 

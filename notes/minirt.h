@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:13 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/03 20:01:26 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/03 22:39:49 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ typedef struct s_pl
 
 typedef struct s_cy
 {
-	t_tuple		*normalv;
 	t_tuple		*color;
 	t_tuple		*ori;
-	double		height;
+	t_tuple		*n;
 	double		rad;
+	double		h;
 	struct s_cy	*next;
 }	t_cy;
 
@@ -104,19 +104,18 @@ typedef struct s_material
 
 typedef struct s_camera
 {
-	t_tuple	**transform;
 	t_tuple	**inverse_transform;
 	double	half_width;
 	double	half_height;
 	double	pixel_size;
-	double	field_of_view;
+	double	fov;
 	int		hsize;
 	int		vsize;
 }	t_camera;
 
 typedef struct s_cylinder
 {
-	t_tuple	**t_matrix;
+	t_tuple	**inv_tf;
 	t_tuple	*ori;
 	t_mat	*mat;
 	double	rad;
@@ -128,7 +127,7 @@ typedef struct s_cylinder
 
 typedef struct s_sphere
 {
-	t_tuple	**t_matrix;
+	t_tuple	**inv_tf;
 	t_tuple	*ori;
 	t_mat	*mat;
 	double	rad;
@@ -136,7 +135,7 @@ typedef struct s_sphere
 
 typedef struct s_plane
 {
-	t_tuple	**t_matrix;
+	t_tuple	**inv_tf;
 	t_tuple	*ori;
 	t_mat	*mat;
 }	t_plane;
@@ -161,11 +160,10 @@ typedef struct s_light
 
 typedef struct s_world
 {
-	t_obj		**object;
-	t_light		*light;
-	t_tuple		*a_color;
-	double		a_ratio;
-	t_camera	*c;
+	t_obj	**obj;
+	t_light	*light;
+	t_tuple	*a_color;
+	double	a_ratio;
 }	t_world;
 
 typedef struct s_comps
@@ -229,7 +227,7 @@ t_tuple		**rotate(int m_size, int axis_amnt, ...);
 
 // t_tuple		**shear(t_tuple **ori_matrix, int axis, ...);
 
-t_tuple		**get_obj_tf(t_obj *obj);
+t_tuple		**get_inv_tf(t_obj *obj);
 
 t_tuple		**view_transform(t_tuple *from, t_tuple *to, t_tuple *up);
 
@@ -261,7 +259,7 @@ t_tuple		*sphere_n(t_obj *ob, t_tuple *p);
 
 t_tuple		*reflect(t_tuple *in, t_tuple *normal);
 
-t_tuple		*get_obj_ori(t_obj *obj);
+// t_tuple		*get_obj_ori(t_obj *obj);
 
 t_tuple		*shade_hit(t_world *world, t_comps *comps);
 
@@ -281,8 +279,6 @@ t_obj		*cylinder(t_tuple **val_m, t_mat *mat, t_tuple *dim, int closed);
 
 t_light		*light(t_tuple *position, t_tuple *intensity);
 
-t_light		*copy_light(t_light *old);
-
 t_mat		*material(t_tuple *color, t_tuple *values);
 
 t_mat		*copy_mat(t_mat *old);
@@ -295,7 +291,7 @@ t_world		*world(t_data *data);
 
 t_comps		*prepare_computations(t_its *intersection, t_ray *ray);
 
-t_camera	*camera(int hsize, int vsize, double field_of_view);
+t_camera	*camera(t_tuple **tm, double fov, int hsize, int vsize);
 
 double		det(t_tuple **m, int size);
 
@@ -319,6 +315,20 @@ void		mult_m(t_tuple **m, double val);
 
 void		render_p(t_img *img, int x, int y, int color);
 
+void		free_cylinder(t_cylinder *sp);
+
+void		free_sphere(t_sphere *sp);
+
+void		free_plane(t_plane *pl);
+
+void		free_world(t_world * world);
+
+void		free_data(t_data *data);
+
+void		free_obj(t_obj *obj);
+
+void		free_light(t_light *light);
+
 void		free_m(t_tuple **matrix, int stop);
 
 void		free_mat(t_mat *material);
@@ -326,8 +336,6 @@ void		free_mat(t_mat *material);
 void		free_t(t_tuple *tuple);
 
 void		free_ray(t_ray *ray);
-
-void		free_its(t_its *its);
 
 void		free_its_s(t_its **its_s);
 
@@ -393,12 +401,10 @@ t_tuple		*normal_at(t_obj *obj, t_tuple *world_p);
 
 t_obj		*plane(t_tuple *origin, t_mat *mat);
 
+t_its		**cylinder_its(t_obj *obj, t_cylinder *cy, t_ray *r);
+
+t_its		**sphere_its(t_obj *obj, t_sphere *sp, t_ray *r);
+
 t_its		**plane_its(t_obj *obj, t_ray *ray);
-
-t_its		**test_its(t_obj *obj, t_ray *ray);
-
-t_obj		*test_shape(void);
-
-void		set_obj(t_world *w, t_data *data);
 
 #endif

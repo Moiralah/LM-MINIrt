@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:20 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/02 22:11:40 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/03 22:53:26 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,12 @@ void	set_cylinder(char *line, t_data *data)
 	new_cy = malloc(sizeof(t_cy));
 	new_cy->ori = tuple(4, ft_atof(temp[1]),
 			ft_atof(temp[2]), ft_atof(temp[3]), 1);
-	new_cy->normalv = tuple(4, ft_atof(temp[4]),
+	new_cy->n = tuple(4, ft_atof(temp[4]),
 			ft_atof(temp[5]), ft_atof(temp[6]), 0);
 	new_cy->rad = ft_atof(temp[7]) / 2;
-	new_cy->height = ft_atof(temp[8]);
+	new_cy->h = ft_atof(temp[8]);
+	new_cy->color = tuple(3, ft_atof(temp[9]),
+			ft_atof(temp[10]), ft_atof(temp[11]));
 	new_cy->color = tuple(3, ft_atof(temp[9]) / 255.0,
 			ft_atof(temp[10]) / 255.0, ft_atof(temp[11]) / 255.0);
 	new_cy->next = NULL;

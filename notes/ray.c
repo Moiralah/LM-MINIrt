@@ -36,8 +36,10 @@ t_ray	*copy_ray(t_ray *old)
 		return (NULL);
 	new_dir = copy_t(old->dir);
 	if (!new_dir)
-		return (NULL);
+		return (free_t(new_ori), NULL);
 	new = ray(new_ori, new_dir);
+	if (!new)
+		return (free_t(new_ori), free_t(new_dir), NULL);
 	return (new);
 }
 

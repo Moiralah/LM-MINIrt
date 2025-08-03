@@ -36,12 +36,27 @@ t_tuple	*shade_hit(t_world *world, t_comps *comps)
 #define DIFFUSE				7
 #define SPECULAR 			8
 
+void	diff_spclr(t_mat *mat, t_light *l, t_tuple **t, double light_dot_normal)
+{
+	double	reflect_dot_eye;
+	double	factor;
+
+	t[DIFFUSE] = mult(t[EFFECTIVE_COLOUR], (mat->diffuse * light_dot_normal));
+	t[REFLECTV] = reflect(mult(t[LIGHTV], -1), t[NORMALV]);
+	reflect_dot_eye = dot(t[REFLECTV], t[EYEV]);
+	if (reflect_dot_eye <= 0)
+		t[SPECULAR] = tuple(3, 0.0, 0.0, 0.0);
+	else
+	{
+		factor = pow(reflect_dot_eye, mat->shininess);
+		t[SPECULAR] = mult(l->intensity, (mat->specular * factor));
+	}
+}
+
 t_tuple	*lighting(t_mat *material, t_light *light, t_tuple **m, int shadowed)
 {
 	t_tuple	*t[8];
 	double	light_dot_normal;
-	double	reflect_dot_eye;
-	double	factor;
 
 	t[POINT] = m[0];
 	t[EYEV] = m[1];
@@ -58,17 +73,31 @@ t_tuple	*lighting(t_mat *material, t_light *light, t_tuple **m, int shadowed)
 		t[SPECULAR] = tuple(3, 0.0, 0.0, 0.0);
 	}
 	else
-	{
-		t[DIFFUSE] = mult(t[EFFECTIVE_COLOUR], (material->diffuse * light_dot_normal));
-		t[REFLECTV] = reflect(mult(t[LIGHTV], -1), t[NORMALV]);
-		reflect_dot_eye = dot(t[REFLECTV], t[EYEV]);
-		if (reflect_dot_eye <= 0)
-			t[SPECULAR] = tuple(3, 0.0, 0.0, 0.0);
-		else
-		{
-			factor = pow(reflect_dot_eye, material->shininess);
-			t[SPECULAR] = mult(light->intensity, (material->specular * factor));
-		}
-	}
+		diff_spclr(material, light, t, light_dot_normal);
 	return (add(add(t[AMBIENT], t[DIFFUSE]), t[SPECULAR]));
+}
+
+t_tuple	*color_at(t_world *world, t_ray *ray)
+{
+	t_its	**intersections;
+	t_its	*hit_its;
+	t_comps	*comps;
+	t_tuple	*color;
+
+	intersections = its_world(world, ray);
+	if (!intersections)
+		return (mult(world->a_color, world->a_ratio));
+	hit_its = hit(intersections);
+	if (!hit_its)
+	{
+		free_its_s(intersections);
+		return (mult(world->a_color, world->a_ratio));
+	}
+	free_its_s(intersections);
+	comps = prepare_computations(hit_its, ray);
+	if (comps)
+		return (NULL);
+	color = shade_hit(world, comps);
+	free_comps(comps);
+	return (color);
 }

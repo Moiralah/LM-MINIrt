@@ -16,7 +16,7 @@ t_mat	*material(t_tuple *color, t_tuple *values)
 {
 	t_mat	*material;
 
-	material = malloc(sizeof(t_mat));
+	material = ft_calloc(1, sizeof(t_mat));
 	if (!material)
 		return (NULL);
 	material->color = color;
@@ -31,7 +31,7 @@ t_mat	*copy_mat(t_mat *old)
 {
 	t_mat	*new;
 
-	new = malloc(sizeof(t_mat));
+	new = ft_calloc(1, sizeof(t_mat));
 	if (!new)
 		return (NULL);
 	new->color = copy_t(old->color);

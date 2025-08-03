@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:57 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/03 18:20:45 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/03 23:04:17 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,19 @@ void	set_obj(t_world *w, t_data *data)
 	int			i;
 
 	i = -1;
-	while (data->sp)
+	while (d->sp)
 	{
 		m = material(data->sp->color, tuple(4, data->a_ratio, SP, DF, SH));
 		w->object[++i] = sphere(data->sp->ori, m, data->sp->rad);
 		data->sp = data->sp->next;
 	}
-	while (data->pl)
+	while (d->pl)
 	{
 		m = material(data->pl->color, tuple(4, data->a_ratio, SP, DF, SH));
 		w->object[++i] = plane(data->pl->ori, m);
 		data->pl = data->pl->next;
 	}
-	while (data->cy)
+	while (d->cy)
 	{
 		m = material(data->cy->color, tuple(4, data->a_ratio, SP, DF, SH));
 		w->object[++i] = cylinder(matrix(3, data->cy->ori, data->cy->normalv),
@@ -71,9 +71,9 @@ t_its	**its_world(t_world *world, t_ray *ray)
 
 	i = -1;
 	merged_list = NULL;
-	while (world->object[++i])
+	while (world->obj[++i])
 	{
-		its_list = calculate_its(world->object[i], ray);
+		its_list = calculate_its(world->obj[i], ray);
 		if (!merged_list)
 			merged_list = its_list;
 		else if (its_list)
@@ -87,31 +87,36 @@ t_its	**its_world(t_world *world, t_ray *ray)
 	return (merge(merged_list, i));
 }
 
-t_its	**merge_its_s(t_its **list1, t_its **list2)
+t_tuple	*world_to_obj_point(t_tuple **t_matrix, t_tuple *world_point)
 {
-	t_its	**merged;
-	int		len1;
-	int		len2;
+	t_tuple	**point_m[2];
+	t_tuple	**obj_p[2];
+	t_tuple	*result;
 
-	len1 = 0;
-	len2 = 0;
-	if (!list1 && !list2)
-		return (NULL);
-	if (!list1)
-		return (list2);
-	else if (!list2)
-		return (list1);
-	while (list1[len1])
-		len1++;
-	while (list2[len2])
-		len2++;
-	merged = calloc(len1 + len2 + 1, sizeof(t_its *));
-	merged[len1 + len2] = NULL;
-	while (--len2 >= 0)
-		merged[len2 + len1] = list2[len2];
-	while (--len1 >= 0)
-		merged[len1] = list1[len1];
-	free(list1);
-	free(list2);
-	return (merged);
+	result = NULL;
+	point_m[0] = matrix(1, world_point);
+	point_m[1] = transpose(point_m[0]);
+	free(point_m[0]);
+	obj_p[0] = mxm(t_matrix, point_m[1]);
+	free_m(point_m[1], len_m(point_m[1]));
+	if (obj_p[0])
+	{
+		obj_p[1] = transpose(obj_p[0]);
+		result = obj_p[1][0];
+		free(obj_p[1]);
+	}
+	free_m(obj_p[0], len_m(obj_p[0]));
+	return (result);
+}
+
+void	free_world(t_world * world)
+{
+	int	i;
+
+	i = -1;
+	while (world->obj[++i])
+		free_obj(world->obj[i]);
+	free_light(world->light);
+	free_t(world->a_color);
+	free(world);
 }

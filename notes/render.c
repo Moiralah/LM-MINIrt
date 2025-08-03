@@ -12,27 +12,34 @@
 
 #include "minirt.h"
 
-t_tuple	*color_at(t_world *world, t_ray *ray)
+t_ray	*create_ray(t_tuple **inv_m, double world_x, double world_y)
 {
-	t_its	**intersections;
-	t_its	*hit_its;
-	t_comps	*comps;
-	t_tuple	*color;
+	t_tuple	*world[2];
+	t_tuple	*dir[2];
+	t_tuple	*obj_p[2];
 
-	intersections = its_world(world, ray);
-	if (!intersections)
-		return (mult(world->a_color, world->a_ratio));
-	hit_its = hit(intersections);
-	if (!hit_its)
-	{
-		free_its_s(intersections);
-		return (tuple(3, 0.0, 0.0, 0.0));
-	}
-	comps = prepare_computations(hit_its, ray);
-	color = shade_hit(world, comps);
-	free_its_s(intersections);
-	free_comps(comps);
-	return (color);
+	world[0] = tuple(4, world_x, world_y, -1.0, 1.0);
+	if (!world[0])
+		return (NULL);
+	obj_p[0] = world_to_obj_point(inv_m, world[0]);
+	free_t(world[0]);
+	if (!obj_p[0])
+		return (NULL);
+	world[1] = tuple(4, 0.0, 0.0, 0.0, 1.0);
+	if (!world[1])
+		return (free_t(obj_p[0]), NULL);
+	obj_p[1] = world_to_obj_point(inv_m, world[1]);
+	if (!obj_p[1])
+		return (free_t(obj_p[0]), free_t(world[1]), NULL);
+	dir[0] = sub(obj_p[0], obj_p[1]);
+	free_t(obj_p[0]);
+	free_t(obj_p[1]);
+	if (!dir[0])
+		return (NULL);
+	dir[1] = norm(dir[0]);
+	if (!dir[1])
+		return (free_t(dir[0]), free_t(world[1]), NULL);
+	return (ray(world[1], dir[1]));
 }
 
 #define XOFFSET 0
@@ -43,9 +50,6 @@ t_tuple	*color_at(t_world *world, t_ray *ray)
 t_ray	*ray_for_pixel(t_camera *cam, int px, int py)
 {
 	t_tuple	**inverse_transform;
-	t_tuple	**origin;
-	t_tuple	**pixel;
-	t_tuple	*direction;
 	double	c[4];
 
 	c[XOFFSET] = (px + 0.5) * cam->pixel_size;
@@ -53,14 +57,7 @@ t_ray	*ray_for_pixel(t_camera *cam, int px, int py)
 	c[WORLD_X] = cam->half_width - c[XOFFSET];
 	c[WORLD_Y] = cam->half_height - c[YOFFSET];
 	inverse_transform = cam->inverse_transform;
-	pixel = matrix(2, tuple(4, c[WORLD_X], c[WORLD_Y], -1.0, 1.0));
-	pixel = mxm(inverse_transform, transpose(pixel));
-	pixel = transpose(pixel);
-	origin = matrix(2, tuple(4, 0.0, 0.0, 0.0, 1.0));
-	origin = mxm(inverse_transform, transpose(origin));
-	origin = transpose(origin);
-	direction = norm(sub(pixel[0], origin[0]));
-	return (ray(origin[0], direction));
+	return (create_ray(inverse_transform, c[WORLD_X], c[WORLD_Y]));
 }
 
 // Converts RGB values (0.0 to 1.0) to a hexadecimal color representation.
@@ -101,6 +98,7 @@ void	render(t_img *canvas, t_camera *cam, t_world *world)
 			color = color_at(world, ray);
 			render_p(canvas, x, y, rgb_hex(color->val[0],
 					color->val[1], color->val[2]));
+			free_t(color);
 			free_ray(ray);
 		}
 	}
