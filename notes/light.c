@@ -67,3 +67,10 @@ int	shadowed(t_world *world, t_tuple *point)
 		return (1);
 	return (0);
 }
+
+void	free_light(t_light *light)
+{
+	free_t(light->position);
+	free_t(light->intensity);
+	free(light);
+}
