@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:13 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/04 00:41:38 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/04 00:52:13 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -322,7 +322,7 @@ void		free_sphere(t_sphere *sp);
 
 void		free_plane(t_plane *pl);
 
-void		free_world(t_world * world);
+void		free_world(t_world *world);
 
 void		free_data(t_data *data);
 

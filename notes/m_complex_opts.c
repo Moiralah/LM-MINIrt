@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:40:19 by huidris           #+#    #+#             */
-/*   Updated: 2025/07/31 21:49:59 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/04 00:51:50 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_tuple	**inverse(t_tuple **m)
 {
 	t_tuple	**trans;
 	t_tuple	**mnrs;
-	int	len;
+	int		len;
 
 	len = len_m(m);
 	if (!det(m, len))
@@ -82,7 +82,7 @@ t_tuple	**subm(t_tuple **m, int row, int col)
 			if (i[2] == col)
 				continue ;
 			new_m[i[1]]->val[++i[3]] = m[i[0]]->val[i[2]];
-			}
+		}
 	}
 	return (new_m);
 }

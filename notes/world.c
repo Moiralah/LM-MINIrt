@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:57 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/04 00:43:00 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/04 00:53:29 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ t_tuple	*world_to_obj_point(t_tuple **t_matrix, t_tuple *world_point)
 	return (result);
 }
 
-void	free_world(t_world * world)
+void	free_world(t_world *world)
 {
 	int	i;
 
