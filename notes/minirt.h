@@ -307,6 +307,20 @@ void		mult_m(t_tuple **m, double val);
 
 void		render_p(t_img *img, int x, int y, int color);
 
+void		free_cylinder(t_cylinder *sp);
+
+void		free_sphere(t_sphere *sp);
+
+void		free_plane(t_plane *pl);
+
+void		free_world(t_world * world);
+
+void		free_data(t_data *data);
+
+void		free_obj(t_obj *obj);
+
+void		free_light(t_light *light);
+
 void		free_m(t_tuple **matrix, int stop);
 
 void		free_mat(t_mat *material);
