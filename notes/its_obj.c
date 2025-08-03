@@ -31,6 +31,35 @@ t_its	**its_s(int size, ...)
 	return (merge(its_list, i));
 }
 
+t_its	**merge_its_s(t_its **list1, t_its **list2)
+{
+	t_its	**merged;
+	int		len1;
+	int		len2;
+
+	len1 = 0;
+	len2 = 0;
+	if (!list1 && !list2)
+		return (NULL);
+	if (!list1)
+		return (list2);
+	else if (!list2)
+		return (list1);
+	while (list1[len1])
+		len1++;
+	while (list2[len2])
+		len2++;
+	merged = ft_calloc(len1 + len2 + 1, sizeof(t_its *));
+	merged[len1 + len2] = NULL;
+	while (--len2 >= 0)
+		merged[len2 + len1] = list2[len2];
+	while (--len1 >= 0)
+		merged[len1] = list1[len1];
+	free(list1);
+	free(list2);
+	return (merged);
+}
+
 // Creates a new intersection object.
 t_its	*its(t_obj *obj, double len_from_ori)
 {
