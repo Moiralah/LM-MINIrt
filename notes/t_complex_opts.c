@@ -17,8 +17,6 @@ t_tuple	*cross(t_tuple *t1, t_tuple *t2)
 {
 	t_tuple	*new_v;
 
-	if ((t1->size != 4) && (t2->size != 4))
-		return (NULL);
 	new_v = tuple(0.0);
 	if (!new_v)
 		return (NULL);
@@ -29,6 +27,7 @@ t_tuple	*cross(t_tuple *t1, t_tuple *t2)
 	new_v->val[0] = (t1->val[1] * t2->val[2]) - (t2->val[1] * t1->val[2]);
 	new_v->val[1] = (t2->val[0] * t1->val[2]) - (t1->val[0] * t2->val[2]);
 	new_v->val[2] = (t1->val[0] * t2->val[1]) - (t2->val[0] * t1->val[1]);
+	new_v->val[3] = 0.0;
 	return (new_v);
 }
 

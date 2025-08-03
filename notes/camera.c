@@ -86,7 +86,7 @@ t_tuple	**get_orientation(t_tuple *from, t_tuple *to, t_tuple *up)
 	trueup = cross(left, forward_up[0]);
 	if (!trueup)
 		return (free_m(forward_up, len_m(forward_up)), free_t(left), NULL);
-	neg_forward = mult(forward_up[0], -1);
+	neg_forward = mult(forward_up[0], -1.0);
 	free_m(forward_up, len_m(forward_up));
 	if (!neg_forward)
 		return (free_t(left), free_t(trueup), NULL);

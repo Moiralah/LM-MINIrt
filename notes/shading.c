@@ -91,7 +91,7 @@ t_tuple	*color_at(t_world *world, t_ray *ray)
 	if (!hit_its)
 	{
 		free_its_s(intersections);
-		return (tuple(3, 0.0, 0.0, 0.0));
+		return (mult(world->a_color, world->a_ratio));
 	}
 	free_its_s(intersections);
 	comps = prepare_computations(hit_its, ray);

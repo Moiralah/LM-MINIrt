@@ -41,17 +41,19 @@ t_tuple	**inverse(t_tuple **m)
 {
 	t_tuple	**trans;
 	t_tuple	**mnrs;
+	int	len;
 
-	if (!det(m, len_m(m)))
+	len = len_m(m);
+	if (!det(m, len))
 		return (NULL);
-	mnrs = matrix(len_m(m));
+	mnrs = matrix(len);
 	if (!mnrs)
 		return (NULL);
 	split(m, mnrs);
 	trans = transpose(mnrs);
 	if (!trans)
 		return (free_m(mnrs, len_m(mnrs)), NULL);
-	mult_m(trans, 1 / det(m, len_m(m)));
+	mult_m(trans, 1 / det(m, len));
 	return (free_m(mnrs, len_m(mnrs)), trans);
 }
 
@@ -63,7 +65,7 @@ t_tuple	**subm(t_tuple **m, int row, int col)
 
 	i[0] = len_m(m);
 	i[1] = i[0] - 1;
-	new_m = matrix(i[0]);
+	new_m = matrix(i[0] - 1);
 	if (!new_m)
 		return (NULL);
 	while (--i[0] >= 0)
@@ -80,7 +82,7 @@ t_tuple	**subm(t_tuple **m, int row, int col)
 			if (i[2] == col)
 				continue ;
 			new_m[i[1]]->val[++i[3]] = m[i[0]]->val[i[2]];
-		}
+			}
 	}
 	return (new_m);
 }
@@ -95,7 +97,7 @@ t_tuple	**transpose(t_tuple **m)
 
 	w = m[0]->size;
 	len = len_m(m);
-	new_m = matrix(w + 1);
+	new_m = matrix(w);
 	if (!new_m)
 		return (NULL);
 	while (--w >= 0)

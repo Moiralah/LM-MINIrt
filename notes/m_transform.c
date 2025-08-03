@@ -31,9 +31,9 @@ t_tuple	**identity(int size)
 		q = -1;
 		while (++q < size)
 		{
-			id[i]->val[q] = 0;
+			id[i]->val[q] = 0.0;
 			if (i == q)
-				id[i]->val[q] = 1;
+				id[i]->val[q] = 1.0;
 		}
 	}
 	return (id);

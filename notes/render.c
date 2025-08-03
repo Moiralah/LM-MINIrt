@@ -23,13 +23,13 @@ t_ray	*create_ray(t_tuple **inv_m, double world_x, double world_y)
 		return (NULL);
 	obj_p[0] = world_to_obj_point(inv_m, world[0]);
 	free_t(world[0]);
-	if (obj_p[0])
+	if (!obj_p[0])
 		return (NULL);
 	world[1] = tuple(4, 0.0, 0.0, 0.0, 1.0);
 	if (!world[1])
 		return (free_t(obj_p[0]), NULL);
 	obj_p[1] = world_to_obj_point(inv_m, world[1]);
-	if (obj_p[1])
+	if (!obj_p[1])
 		return (free_t(obj_p[0]), free_t(world[1]), NULL);
 	dir[0] = sub(obj_p[0], obj_p[1]);
 	free_t(obj_p[0]);

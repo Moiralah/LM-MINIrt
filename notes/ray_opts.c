@@ -66,17 +66,17 @@ t_tuple	*transform_ori(t_tuple **t_matrix, t_tuple *ori)
 	if (!t_matrix)
 		return (free(temp_m), NULL);
 	trans = transpose(temp_m);
-	if (!trans)
-		return (free(temp_m), NULL);
-	result_m = mxm(t_matrix, trans);
-	if (!result_m)
-		return (free(temp_m), NULL);
 	free(temp_m);
+	if (!trans)
+		return (NULL);
+	result_m = mxm(t_matrix, trans);
+	free_m(trans, len_m(trans));
+	if (!result_m)
+		return (NULL);
 	temp_m = transpose(result_m);
+	free_m(result_m, len_m(result_m));
 	if (!temp_m)
 		return (NULL);
-	free_m(result_m, len_m(result_m));
-	free_m(trans, len_m(trans));
 	new_ori = temp_m[0];
 	return (free(temp_m), new_ori);
 }

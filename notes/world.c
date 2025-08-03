@@ -132,7 +132,7 @@ t_tuple	*world_to_obj_point(t_tuple **t_matrix, t_tuple *world_point)
 	{
 		obj_p[1] = transpose(obj_p[0]);
 		result = obj_p[1][0];
-		free_m(obj_p[1], len_m(obj_p[1]));
+		free(obj_p[1]);
 	}
 	free_m(obj_p[0], len_m(obj_p[0]));
 	return (result);

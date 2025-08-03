@@ -270,12 +270,10 @@ t_camera	*set_up_cam(t_data *data, int hsize, int vsize)
 {
 	t_camera	*cam;
 	t_tuple		**orient;
-	t_tuple		*cam_dir;
 	t_tuple		*up;
 
-	cam_dir = sub(data->c_dir, data->c_ori);
 	up = tuple(4, 0.0, 1.0, 0.0, 0.0);
-	orient = matrix(3, data->c_ori, add(data->c_ori, cam_dir), up);
+	orient = matrix(3, data->c_ori, add(data->c_ori, data->c_dir), up);
 	cam = camera(orient, data->c_fov, hsize, vsize);
 	return (cam);
 }
