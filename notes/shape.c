@@ -36,8 +36,8 @@ void	set_cy_transform(t_obj *obj, t_tuple **val_m, t_tuple *w_ori, t_tuple *dim)
 	deg[1] = val_m[1]->val[1] * 90;
 	deg[2] = val_m[1]->val[2] * 90;
 	move = sub(val_m[0], w_ori);
-	apply_tf(obj, rotate(4, 3, deg[0], deg[1], deg[2]));
 	apply_tf(obj, scale(4, dim->val[0], dim->val[1], dim->val[0]));
+	apply_tf(obj, rotate(4, 3, deg[0], deg[1], deg[2]));
 	apply_tf(obj, translate(4, move->val[0], move->val[1], move->val[2]));
 	free_t(move);
 }
@@ -69,7 +69,7 @@ t_obj	*cylinder(t_tuple **val_m, t_mat *mat, t_tuple *dim, int closed)
 	return (obj);
 }
 
-t_obj	*plane(t_tuple *origin, t_mat *mat)
+t_obj	*plane(t_tuple *origin, t_tuple *n, t_mat *mat)
 {
 	t_obj	*obj;
 	t_plane	*p;
@@ -86,6 +86,7 @@ t_obj	*plane(t_tuple *origin, t_mat *mat)
 	p->mat = mat;
 	p->inv_tf = NULL;
 	obj = object(p, 'P');
+	apply_tf(obj, rotate(4, 3, n->val[0] * 90, n->val[1] * 90, n->val[2] * 90));
 	apply_tf(obj, translate(4, move->val[0], move->val[1], move->val[2]));
 	free_t(move);
 	tf = p->inv_tf;
