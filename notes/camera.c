@@ -40,6 +40,7 @@ t_camera	*camera(t_tuple **tm, double fov, int hsize, int vsize)
 	transform = view_transform(tm[0], tm[1], tm[2]);
 	if (!transform)
 		return (free(cam), NULL);
+	print_m(transform);
 	cam->inverse_transform = inverse(transform);
 	free_m(transform, len_m(transform));
 	if (!cam->inverse_transform)

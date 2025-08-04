@@ -18,8 +18,8 @@ void	set_ambient(char *line, t_data *data)
 
 	temp = ft_split(line, ' ');
 	data->a_ratio = ft_atof(temp[1]);
-	data->a_color = tuple(3, ft_atof(temp[2]),
-			ft_atof(temp[3]), ft_atof(temp[4]));
+	data->a_color = tuple(3, ft_atof(temp[2]) / 255.0,
+			ft_atof(temp[3]) / 255.0, ft_atof(temp[4]) / 255.0);
 	free2d(temp);
 }
 
@@ -33,6 +33,7 @@ void	set_camera(char *line, t_data *data)
 	data->c_dir = tuple(4, ft_atof(temp[4]),
 			ft_atof(temp[5]), ft_atof(temp[6]), 0.0);
 	data->c_fov = ft_atof(temp[7]);
+	//data->c_fov = M_PI / 3.0;
 	free2d(temp);
 }
 
@@ -44,7 +45,7 @@ void	set_light(char *line, t_data *data)
 	data->l_pos = tuple(4, ft_atof(temp[1]),
 			ft_atof(temp[2]), ft_atof(temp[3]), 1.0);
 	data->l_ratio = ft_atof(temp[4]);
-	data->l_color = tuple(3, ft_atof(temp[5]),
-			ft_atof(temp[6]), ft_atof(temp[7]));
+	data->l_color = tuple(3, ft_atof(temp[5]) / 255.0,
+			ft_atof(temp[6]) / 255.0, ft_atof(temp[7]) / 255.0);
 	free2d(temp);
 }

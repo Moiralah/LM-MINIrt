@@ -23,6 +23,7 @@ void	add_objs(t_data *d, t_world *w, double *n)
 	while (d->sp)
 	{
 		m = material(d->sp->color, tuple(4, d->a_ratio, n[0], n[1], n[2]));
+		printf("%f\n", d->sp->rad);
 		w->obj[++i] = sphere(d->sp->ori, m, d->sp->rad);
 		d->sp = d->sp->next;
 	}

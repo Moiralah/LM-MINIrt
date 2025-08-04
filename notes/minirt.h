@@ -389,7 +389,7 @@ void		obj_amount(t_data *data);
 
 void		input_data(t_data *data);
 
-void		apply_transform(t_obj *obj, t_tuple **transform);
+void		apply_tf(t_obj *obj, t_tuple **transform);
 
 t_tuple		*normal_at(t_obj *obj, t_tuple *world_p);
 

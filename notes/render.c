@@ -88,6 +88,7 @@ void	render(t_img *canvas, t_camera *cam, t_world *world)
 	int		y;
 	int		x;
 
+	printf("Start rendering\n");
 	y = -1;
 	while (++y < (cam->vsize - 1))
 	{

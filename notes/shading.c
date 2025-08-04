@@ -18,7 +18,7 @@ t_tuple	*shade_hit(t_world *world, t_comps *comps)
 	t_tuple	*colour;
 	int		i;
 
-	temp = matrix(4, comps->over_point, comps->eyev, comps->normalv);
+	temp = matrix(3, comps->over_point, comps->eyev, comps->normalv);
 	if (!temp)
 		return (NULL);
 	i = shadowed(world, comps->over_point);
@@ -41,6 +41,7 @@ void	diff_spclr(t_mat *mat, t_light *l, t_tuple **t, double light_dot_normal)
 	double	reflect_dot_eye;
 	double	factor;
 
+	printf("%f | %f\n", mat->diffuse, light_dot_normal);
 	t[DIFFUSE] = mult(t[EFFECTIVE_COLOUR], (mat->diffuse * light_dot_normal));
 	t[REFLECTV] = reflect(mult(t[LIGHTV], -1), t[NORMALV]);
 	reflect_dot_eye = dot(t[REFLECTV], t[EYEV]);
@@ -93,9 +94,9 @@ t_tuple	*color_at(t_world *world, t_ray *ray)
 		free_its_s(intersections);
 		return (mult(world->a_color, world->a_ratio));
 	}
-	free_its_s(intersections);
 	comps = prepare_computations(hit_its, ray);
-	if (comps)
+	free_its_s(intersections);
+	if (!comps)
 		return (NULL);
 	color = shade_hit(world, comps);
 	free_comps(comps);

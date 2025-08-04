@@ -58,11 +58,12 @@ int	shadowed(t_world *world, t_tuple *point)
 	if (!to_light[1])
 		return (-1);
 	ray_to_light = ray(point, to_light[1]);
-	free_t(to_light[1]);
 	if (!ray_to_light)
 		return (-1);
 	hits = its_world(world, ray_to_light);
 	its = hit(hits);
+	free_t(to_light[1]);
+	free(ray_to_light);
 	if (its && (its->len < dist))
 		return (1);
 	return (0);
