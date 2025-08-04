@@ -201,8 +201,8 @@ int	main(int ac, char **av)
 
 	if (ac != 2)
 		return (perr("Invalid input. < ./miniRT xxx.rt >"), -1);
-	size[0] = 100;
-	size[1] = 100;
+	size[0] = 1000;
+	size[1] = 1000;
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (-1);

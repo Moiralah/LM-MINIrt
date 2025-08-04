@@ -30,7 +30,7 @@ void	add_objs(t_data *d, t_world *w, double *n)
 	while (d->pl)
 	{
 		m = material(d->pl->color, tuple(4, d->a_ratio, n[0], n[1], n[2]));
-		w->obj[++i] = plane(d->pl->ori, m);
+		w->obj[++i] = plane(d->pl->ori, d->pl->normalv, m);
 		d->pl = d->pl->next;
 	}
 	while (d->cy)
