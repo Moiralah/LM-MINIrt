@@ -85,7 +85,7 @@
 	t_tuple	*result;
 
 	m = material(tuple(3, 1.0, 1.0, 1.0), tuple(4, 0.1, 0.9, 0.9, 200.0));
-	l = light(tuple(4, 0.0, 0.0, 10.0, 1.0), tuple(3, 1.0, 1.0, 1.0));
+	l = light(tuple(4, 0.0, 0.0, -10.0, 1.0), tuple(3, 1.0, 1.0, 1.0));
 	position = tuple(4, 0.0, 0.0, 0.0, 1.0);
 	eyev = tuple(4, 0.0, 0.0, -1.0, 0.0);
 	normalv = tuple(4, 0.0, 0.0, -1.0, 0.0);

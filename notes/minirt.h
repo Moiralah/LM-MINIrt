@@ -146,8 +146,8 @@ typedef struct s_ray
 
 typedef struct s_light
 {
-	t_tuple	*intensity;
 	t_tuple	*position;
+	t_tuple	*intensity;
 }	t_light;
 
 typedef struct s_world
