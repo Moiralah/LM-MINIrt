@@ -41,7 +41,6 @@ void	diff_spclr(t_mat *mat, t_light *l, t_tuple **t, double light_dot_normal)
 	double	reflect_dot_eye;
 	double	factor;
 
-	printf("%f | %f\n", mat->diffuse, light_dot_normal);
 	t[DIFFUSE] = mult(t[EFFECTIVE_COLOUR], (mat->diffuse * light_dot_normal));
 	t[REFLECTV] = reflect(mult(t[LIGHTV], -1), t[NORMALV]);
 	reflect_dot_eye = dot(t[REFLECTV], t[EYEV]);
