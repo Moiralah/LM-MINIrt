@@ -29,8 +29,10 @@ void	free_pl_link(t_pl *pl_link)
 {
 	t_pl	*temp;
 
+	printf("Q\n");
 	while (pl_link)
 	{
+		printf("I\n");
 		free_t(pl_link->ori);
 		free_t(pl_link->normalv);
 		temp = pl_link;

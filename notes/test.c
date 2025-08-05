@@ -37,7 +37,11 @@ int	main(int ac, char **av)
 	if (ac != 2)
 		return (perr("Invalid input. < ./miniRT xxx.rt >"), -1);
 	world_data = input_data(av[1]);
+	if (!world_data->pl)
+		printf("NULL\n");
 	w = world(world_data);
+	if (!world_data->pl)
+		printf("NULL\n");
 	free_data(world_data);
 	data.mlx = mlx_init();
 	data.win = mlx_new_window(data.mlx, WIDTH, HEIGHT, "Render");
