@@ -18,10 +18,10 @@ void	free_sp_link(t_sp *sp_link)
 
 	while (sp_link)
 	{
-		temp = sp_link->next;
 		free_t(sp_link->ori);
-		free(sp_link);
-		sp_link = temp;
+		temp = sp_link;
+		sp_link = sp_link->next;
+		free(temp);
 	}
 }
 
@@ -33,8 +33,9 @@ void	free_pl_link(t_pl *pl_link)
 	{
 		free_t(pl_link->ori);
 		free_t(pl_link->normalv);
-		free(pl_link);
-		pl_link = temp;
+		temp = pl_link;
+		pl_link = pl_link->next;
+		free(temp);
 	}
 }
 

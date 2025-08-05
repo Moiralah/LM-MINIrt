@@ -16,7 +16,7 @@ int	exiting(t_mlx_data *data)
 {
 	mlx_destroy_window(data->mlx, data->win);
 	free(data->mlx);
-	exit(0);
+	// exit(0);
 	return (0);
 }
 

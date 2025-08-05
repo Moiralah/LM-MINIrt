@@ -44,13 +44,13 @@ t_its	**sphere_its(t_obj *obj, t_sphere *sp, t_ray *r)
 
 	rto = sub(r->ori, sp->ori);
 	if (!rto)
-		return (NULL);
+		return (free_ray(r), NULL);
 	values[0] = dot(r->dir, r->dir);
 	values[1] = 2 * dot(r->dir, rto);
 	values[2] = dot(rto, rto) - 1;
 	values[3] = pow(values[1], 2) - (4 * values[0] * values[2]);
 	if (values[3] < 0)
-		return (free_t(rto), NULL);
+		return (free_ray(r), free_t(rto), NULL);
 	len[0] = (-values[1] - sqrt(values[3])) / (2 * values[0]);
 	len[1] = (-values[1] + sqrt(values[3])) / (2 * values[0]);
 	free_ray(r);
