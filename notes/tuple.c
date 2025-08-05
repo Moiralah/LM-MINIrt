@@ -25,7 +25,7 @@ float	ft_atof(const char *str)
 	i = 0;
 	fraction = 1.0f;
 	if (numint[1] == NULL)
-		return (num);
+		return (free2d(numint), num);
 	while (numint[1][i] >= '0' && numint[1][i] <= '9')
 	{
 		fraction /= 10.0f;

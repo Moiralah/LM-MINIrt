@@ -27,7 +27,7 @@ int	key__hook(int keycode, t_mlx_data *data)
 	return (0);
 }
 
-/* int	main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	t_data		*world_data;
 	t_world		*w;
@@ -50,9 +50,9 @@ int	key__hook(int keycode, t_mlx_data *data)
 	mlx_loop(data.mlx);
 	free_world(w);
 	return (0);
-} */
+}
 
-int	main(void)
+/* int	main(void)
 {
 	t_its	**l1;
 	t_its	**l2;
@@ -65,4 +65,5 @@ int	main(void)
 	free_its_s(l2);
 	f = ft_atof("7.11");
 	printf("%f\n", f);
-}
+	free2d(ft_split("a b c d  f pl kw 203qh \n dj l", ' '));
+} */

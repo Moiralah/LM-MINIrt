@@ -99,7 +99,7 @@ t_data	*input_data(char *av)
 	int		i;
 	t_data	*data;
 
-	data = malloc(sizeof(t_data));
+	data = ft_calloc(1, sizeof(t_data));
 	if (!data)
 		return (NULL);
 	validate_data(av, data);
