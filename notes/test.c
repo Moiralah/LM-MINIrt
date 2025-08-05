@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:55 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/05 23:01:03 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/05 23:45:58 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,19 @@ int	key__hook(int keycode, t_mlx_data *data)
 int	main(int ac, char **av)
 {
 	t_data		*world_data;
-	t_world		*w;
 	t_mlx_data	data;
 	t_img		img;
 
 	if (ac != 2)
 		return (perr("Invalid input. < ./miniRT xxx.rt >"), -1);
 	world_data = input_data(av[1]);
-	w = world(world_data);
+	data.w = world(world_data);
 	free_data(world_data);
 	data.mlx = mlx_init();
 	data.win = mlx_new_window(data.mlx, WIDTH, HEIGHT, "Render");
 	img.img = mlx_new_image(data.mlx, WIDTH, HEIGHT);
 	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.len, &img.endian);
-	render(&img, w->c, w);
+	render(&img, data.w->c, data.w);
 	mlx_put_image_to_window(data.mlx, data.win, img.img, 0, 0);
 	mlx_key_hook(data.win, key__hook, &data);
 	mlx_hook(data.win, 17, 1L << 0, exiting, &data);

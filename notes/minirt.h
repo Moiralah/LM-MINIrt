@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:13 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/05 17:55:10 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/05 23:30:35 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,6 @@
 # include "../minilibx-linux/mlx.h"
 # include "../libft/libft.h"
 
-typedef struct s_mlx_data
-{
-	void	*mlx;
-	void	*win;
-}	t_mlx_data;
 
 typedef struct s_tuple
 {
@@ -166,6 +161,13 @@ typedef struct s_world
 	double		a_ratio;
 	t_camera	*c;
 }	t_world;
+
+typedef struct s_mlx_data
+{
+	void	*mlx;
+	void	*win;
+	t_world *w;
+}	t_mlx_data;
 
 typedef struct s_comps
 {
