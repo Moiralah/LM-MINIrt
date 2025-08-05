@@ -32,6 +32,7 @@ void	free_pl_link(t_pl *pl_link)
 	while (pl_link)
 	{
 		free_t(pl_link->ori);
+		free_t(pl_link->normalv);
 		temp = pl_link;
 		pl_link = pl_link->next;
 		free(temp);
@@ -45,6 +46,7 @@ void	free_cy_link(t_cy *cy_link)
 	while (cy_link)
 	{
 		free_t(cy_link->ori);
+		free_t(cy_link->n);
 		temp = cy_link;
 		cy_link = cy_link->next;
 		free(temp);
@@ -57,5 +59,8 @@ void	free_data(t_data *data)
 	free_pl_link(data->pl);
 	free_cy_link(data->cy);
 	free2d(data->data);
+	free_t(data->l_color);
+	free_t(data->a_color);
+	free_t(data->c_dir);
 	free(data);
 }

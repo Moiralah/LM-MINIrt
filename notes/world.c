@@ -30,6 +30,7 @@ t_world	*world(t_data *data)
 	up = tuple(4, 0.0, 1.0, 0.0, 0.0);
 	orient = matrix(3, data->c_ori, add(data->c_ori, data->c_dir), up);
 	w->c = camera(orient, data->c_fov, WIDTH, HEIGHT);
+	free_m(orient, len_m(orient));
 	return (w);
 }
 
@@ -40,26 +41,38 @@ t_world	*world(t_data *data)
 void	set_obj(t_world *w, t_data *data)
 {
 	t_mat		*m;
+	t_tuple		**cy_val;
+	t_tuple		*cy_dim;
+	t_tuple		*mat_val;
 	int			i;
 
 	i = -1;
 	while (data->sp)
 	{
-		m = material(data->sp->color, tuple(4, data->a_ratio, SP, DF, SH));
+		mat_val = tuple(4, data->a_ratio, SP, DF, SH);
+		m = material(data->sp->color, mat_val);
+		free_t(mat_val);
 		w->obj[++i] = sphere(data->sp->ori, m, data->sp->rad);
 		data->sp = data->sp->next;
 	}
 	while (data->pl)
 	{
-		m = material(data->pl->color, tuple(4, data->a_ratio, SP, DF, SH));
+		mat_val = tuple(4, data->a_ratio, SP, DF, SH);
+		m = material(data->pl->color, mat_val);
+		free_t(mat_val);
 		w->obj[++i] = plane(data->pl->ori, data->pl->normalv, m);
 		data->pl = data->pl->next;
 	}
 	while (data->cy)
 	{
-		m = material(data->cy->color, tuple(4, data->a_ratio, SP, DF, SH));
-		w->obj[++i] = cylinder(matrix(2, data->cy->ori, data->cy->n),
-				m, tuple(4, data->cy->rad, data->cy->h, 1.0, -1.0), 1);
+		mat_val = tuple(4, data->a_ratio, SP, DF, SH);
+		m = material(data->cy->color, mat_val);
+		free_t(mat_val);
+		cy_val = matrix(2, data->cy->ori, data->cy->n);
+		cy_dim = tuple(4, data->cy->rad, data->cy->h, 1.0, -1.0);
+		w->obj[++i] = cylinder(cy_val, m, cy_dim, 1);
+		free_m(cy_val, len_m(cy_val));
+		free_t(cy_dim);
 		data->cy = data->cy->next;
 	}
 }
@@ -117,6 +130,8 @@ void	free_world(t_world *world)
 	i = -1;
 	while (world->obj[++i])
 		free_obj(world->obj[i]);
+	free_m(world->c->inverse_transform, len_m(world->c->inverse_transform));
+	free(world->c);
 	free_light(world->light);
 	free_t(world->a_color);
 	free(world);

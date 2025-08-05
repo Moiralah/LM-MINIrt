@@ -17,7 +17,7 @@ t_ray	*ray(t_tuple *origin, t_tuple *direction)
 {
 	t_ray	*new_ray;
 
-	new_ray = calloc(1, sizeof(t_ray));
+	new_ray = ft_calloc(1, sizeof(t_ray));
 	if (!new_ray)
 		return (NULL);
 	new_ray->ori = origin;

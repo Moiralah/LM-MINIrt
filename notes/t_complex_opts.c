@@ -17,7 +17,7 @@ t_tuple	*cross(t_tuple *t1, t_tuple *t2)
 {
 	t_tuple	*new_v;
 
-	new_v = tuple(0.0);
+	new_v = tuple(0);
 	if (!new_v)
 		return (NULL);
 	new_v->val = malloc(t1->size * sizeof(double));
@@ -27,7 +27,7 @@ t_tuple	*cross(t_tuple *t1, t_tuple *t2)
 	new_v->val[0] = (t1->val[1] * t2->val[2]) - (t2->val[1] * t1->val[2]);
 	new_v->val[1] = (t2->val[0] * t1->val[2]) - (t1->val[0] * t2->val[2]);
 	new_v->val[2] = (t1->val[0] * t2->val[1]) - (t2->val[0] * t1->val[1]);
-	new_v->val[3] = 0.0;
+	new_v->val[3] = 0;
 	return (new_v);
 }
 
@@ -40,7 +40,7 @@ t_tuple	*schur(t_tuple *tuple1, t_tuple *tuple2)
 	i = -1;
 	if (tuple1->size != tuple2->size)
 		return (NULL);
-	new_v = tuple(0.0);
+	new_v = tuple(0);
 	if (!new_v)
 		return (NULL);
 	new_v->val = malloc(tuple1->size * sizeof(double));
@@ -61,7 +61,7 @@ t_tuple	*norm(t_tuple *t)
 
 	i = -1;
 	magnitude = mag(t);
-	new_v = tuple(0.0);
+	new_v = tuple(0);
 	if (!new_v)
 		return (NULL);
 	new_v->val = malloc(t->size * sizeof(double));
@@ -79,7 +79,7 @@ double	mag(t_tuple *tuple)
 	double	mag;
 	int		i;
 
-	mag = 0.0;
+	mag = 0;
 	i = -1;
 	while (++i < tuple->size)
 		mag += (tuple->val[i] * tuple->val[i]);

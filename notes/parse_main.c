@@ -77,6 +77,7 @@ void	content(char *file, t_data *data)
 	temp = ft_strnormalize_spaces(file);
 	free(file);
 	data->data = ft_split(temp, '\n');
+	free(temp);
 }
 
 void	validate_data(char *file, t_data *data)

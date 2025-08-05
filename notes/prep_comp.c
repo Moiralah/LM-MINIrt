@@ -14,6 +14,8 @@
 
 int	initialise_tuples(t_comps *comps, t_ray *ray)
 {
+	t_tuple	*shift;
+
 	comps->point = travel(ray, comps->t);
 	if (!comps->point)
 		return (0);
@@ -23,7 +25,9 @@ int	initialise_tuples(t_comps *comps, t_ray *ray)
 	comps->normalv = normal_at(comps->obj, comps->point);
 	if (!comps->normalv)
 		return (free_t(comps->point), free_t(comps->eyev), 0);
-	comps->over_point = add(comps->point, mult(comps->normalv, EPSILON));
+	shift = mult(comps->normalv, EPSILON);
+	comps->over_point = add(comps->point, shift);
+	free_t(shift);
 	if (!comps->over_point)
 	{
 		free_t(comps->point);
@@ -41,7 +45,10 @@ t_comps	*prepare_computations(t_its *intersection, t_ray *ray)
 
 	comps = malloc(sizeof(t_comps));
 	if (!comps)
+	{
+		printf("Comp needs free!\n");
 		return (NULL);
+	}
 	comps->t = intersection->len;
 	comps->obj = intersection->obj;
 	comps->inside = false;

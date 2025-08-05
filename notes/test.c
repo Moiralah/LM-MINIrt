@@ -27,15 +27,18 @@ int	key__hook(int keycode, t_mlx_data *data)
 	return (0);
 }
 
-int	main(int ac, char **av)
+/* int	main(int ac, char **av)
 {
+	t_data		*world_data;
 	t_world		*w;
 	t_mlx_data	data;
 	t_img		img;
 
 	if (ac != 2)
 		return (perr("Invalid input. < ./miniRT xxx.rt >"), -1);
-	w = world(input_data(av[1]));
+	world_data = input_data(av[1]);
+	w = world(world_data);
+	free_data(world_data);
 	data.mlx = mlx_init();
 	data.win = mlx_new_window(data.mlx, WIDTH, HEIGHT, "Render");
 	img.img = mlx_new_image(data.mlx, WIDTH, HEIGHT);
@@ -46,7 +49,20 @@ int	main(int ac, char **av)
 	mlx_hook(data.win, 17, 1L << 0, exiting, &data);
 	mlx_loop(data.mlx);
 	free_world(w);
-	free(w->c->inverse_transform);
-	free(w->c);
 	return (0);
+} */
+
+int	main(void)
+{
+	t_its	**l1;
+	t_its	**l2;
+	double	f;
+
+	l1 = its_s(3, its(NULL, 'S'), its(NULL, 'S'), its(NULL, 'S'));
+	l2 = its_s(3, its(NULL, 'S'), its(NULL, 'S'), its(NULL, 'S'));
+	l2 = merge_its_s(l1, l2);
+	l2 = merge(l2, 6);
+	free_its_s(l2);
+	f = ft_atof("7.11");
+	printf("%f\n", f);
 }

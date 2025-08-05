@@ -95,6 +95,7 @@ void	render(t_img *canvas, t_camera *cam, t_world *world)
 		x = -1;
 		while (++x < (cam->hsize))
 		{
+			printf("X: %d | Y: %d\n", x, y);
 			ray = ray_for_pixel(cam, x, y);
 			color = color_at(world, ray);
 			clamp(color, 0.0, 1.0);

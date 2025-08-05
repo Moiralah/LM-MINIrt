@@ -19,7 +19,7 @@ void	set_sphere(char *line, t_data *data)
 	t_sp	*cur_sp;
 
 	t = ft_split(line, ' ');
-	new_sp = malloc(sizeof(t_sp));
+	new_sp = ft_calloc(1, sizeof(t_sp));
 	new_sp->ori = tuple(4, ft_atof(t[1]), ft_atof(t[2]), ft_atof(t[3]), 1);
 	new_sp->rad = ft_atof(t[4]) / 2;
 	new_sp->color = tuple(3, ft_atof(t[5]) / 255.0,
@@ -44,7 +44,7 @@ void	set_plane(char *line, t_data *data)
 	t_pl	*cur_pl;
 
 	t = ft_split(line, ' ');
-	new_pl = malloc(sizeof(t_pl));
+	new_pl = ft_calloc(1, sizeof(t_pl));
 	new_pl->ori = tuple(4, ft_atof(t[1]), ft_atof(t[2]), ft_atof(t[3]), 1);
 	new_pl->normalv = tuple(4, ft_atof(t[4]), ft_atof(t[5]), ft_atof(t[6]), 0);
 	new_pl->color = tuple(3, ft_atof(t[7]) / 255.0,
@@ -69,13 +69,12 @@ void	set_cylinder(char *line, t_data *data)
 	t_cy	*cur_cy;
 
 	t = ft_split(line, ' ');
-	new_cy = malloc(sizeof(t_cy));
+	new_cy = ft_calloc(1, sizeof(t_cy));
 	new_cy->ori = tuple(4, ft_atof(t[1]),
 			ft_atof(t[2]), ft_atof(t[3]), 1);
 	new_cy->n = tuple(4, ft_atof(t[4]), ft_atof(t[5]), ft_atof(t[6]), 0);
 	new_cy->rad = ft_atof(t[7]) / 2;
 	new_cy->h = ft_atof(t[8]);
-	new_cy->color = tuple(3, ft_atof(t[9]), ft_atof(t[10]), ft_atof(t[11]));
 	new_cy->color = tuple(3, ft_atof(t[9]) / 255.0,
 			ft_atof(t[10]) / 255.0, ft_atof(t[11]) / 255.0);
 	new_cy->next = NULL;

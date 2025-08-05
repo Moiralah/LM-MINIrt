@@ -31,6 +31,7 @@ float	ft_atof(const char *str)
 		fraction /= 10.0f;
 		num += (numint[1][i++] - '0') * fraction;
 	}
+	free2d(numint);
 	return (num);
 }
 

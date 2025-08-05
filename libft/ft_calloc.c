@@ -15,12 +15,12 @@
 
 void	*ft_calloc(size_t count, size_t size)
 {
-	char	*m;
+	void	*m;
 	size_t	i;
 
 	if (count && size && count > (UINT_MAX / size))
 		return (NULL);
-	m = malloc(count * size);
+	m = (void *)malloc(count * size);
 	if (!m)
 		return (0);
 	i = -1;
