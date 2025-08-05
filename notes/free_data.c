@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 00:53:03 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/05 22:58:07 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/05 23:14:20 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ void	free_pl_link(t_pl *pl_link)
 
 	while (pl_link)
 	{
+		temp = pl_link;
 		free_t(pl_link->ori);
 		free_t(pl_link->normalv);
-		free(pl_link);
-		pl_link = temp;
+		pl_link = pl_link->next;
+		free(temp);
 	}
 }
 
