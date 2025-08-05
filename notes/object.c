@@ -65,6 +65,7 @@ void	free_obj(t_obj *obj)
 		free_plane((t_plane *)(obj->data));
 	if (obj->type == 'C')
 		free_cylinder((t_cylinder *)(obj->data));
+	free(obj);
 }
 
 void	apply_tf(t_obj *obj, t_tuple **transform)

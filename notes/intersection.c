@@ -15,19 +15,7 @@
 t_its	**plane_its(t_obj *obj, t_ray *ray)
 {
 	double	t;
-	/* t_tuple	**inv;
-	t_tuple	*origin;
-	t_tuple	*dir; */
-	/* inv = get_inv_tf(obj);
-	origin = transform_ori(inv, ray->ori);
-	if (!origin)
-		return (free_ray(ray), NULL);
-	dir = transform_dir(inv, ray->dir);
-	if (!dir)
-		return (free_t(ori), NULL);
-	if (fabs(dir->val[1]) < __DBL_EPSILON__)
-		return (NULL);
-	t = -origin->val[1] / dir->val[1]; */
+
 	if (fabs(ray->dir->val[1]) < __DBL_EPSILON__)
 		return (free_ray(ray), NULL);
 	t = -ray->ori->val[1] / ray->dir->val[1];

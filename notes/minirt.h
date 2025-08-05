@@ -12,8 +12,8 @@
 
 #ifndef MINIRT_H
 # define MINIRT_H
-# define WIDTH	500
-# define HEIGHT	500
+# define WIDTH	100
+# define HEIGHT	100
 # define EPSILON	0.00001
 # include <stdio.h>
 # include <stdbool.h>

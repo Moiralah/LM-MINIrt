@@ -45,10 +45,7 @@ t_comps	*prepare_computations(t_its *intersection, t_ray *ray)
 
 	comps = ft_calloc(1, sizeof(t_comps));
 	if (!comps)
-	{
-		printf("Comp needs free!\n");
 		return (NULL);
-	}
 	comps->t = intersection->len;
 	comps->obj = intersection->obj;
 	comps->inside = false;

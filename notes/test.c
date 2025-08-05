@@ -14,9 +14,7 @@
 
 int	exiting(t_mlx_data *data)
 {
-	mlx_destroy_window(data->mlx, data->win);
-	free(data->mlx);
-	// exit(0);
+	mlx_loop_end(data->mlx);
 	return (0);
 }
 
@@ -48,6 +46,10 @@ int	main(int ac, char **av)
 	mlx_key_hook(data.win, key__hook, &data);
 	mlx_hook(data.win, 17, 1L << 0, exiting, &data);
 	mlx_loop(data.mlx);
+	mlx_destroy_window(data.mlx, data.win);
+	mlx_destroy_display(data.mlx);
+	free(data.mlx);
+	printf("Freeing\n");
 	free_world(w);
 	return (0);
 }
