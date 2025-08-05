@@ -40,6 +40,9 @@ t_world	*world(t_data *data)
 
 void	set_obj(t_world *w, t_data *data)
 {
+	t_sp		*sp_link;
+	t_pl		*pl_link;
+	t_cy		*cy_link;
 	t_mat		*m;
 	t_tuple		**cy_val;
 	t_tuple		*cy_dim;
@@ -47,33 +50,36 @@ void	set_obj(t_world *w, t_data *data)
 	int			i;
 
 	i = -1;
-	while (data->sp)
+	sp_link = data->sp;
+	while (sp_link)
 	{
 		mat_val = tuple(4, data->a_ratio, SP, DF, SH);
-		m = material(data->sp->color, mat_val);
+		m = material(sp_link->color, mat_val);
 		free_t(mat_val);
-		w->obj[++i] = sphere(data->sp->ori, m, data->sp->rad);
-		data->sp = data->sp->next;
+		w->obj[++i] = sphere(sp_link->ori, m, sp_link->rad);
+		sp_link = sp_link->next;
 	}
-	while (data->pl)
+	pl_link = data->pl;
+	while (pl_link)
 	{
 		mat_val = tuple(4, data->a_ratio, SP, DF, SH);
-		m = material(data->pl->color, mat_val);
+		m = material(pl_link->color, mat_val);
 		free_t(mat_val);
-		w->obj[++i] = plane(data->pl->ori, data->pl->normalv, m);
-		data->pl = data->pl->next;
+		w->obj[++i] = plane(pl_link->ori, pl_link->normalv, m);
+		pl_link = pl_link->next;
 	}
-	while (data->cy)
+	cy_link = data->cy;
+	while (cy_link)
 	{
 		mat_val = tuple(4, data->a_ratio, SP, DF, SH);
-		m = material(data->cy->color, mat_val);
+		m = material(cy_link->color, mat_val);
 		free_t(mat_val);
-		cy_val = matrix(2, data->cy->ori, data->cy->n);
-		cy_dim = tuple(4, data->cy->rad, data->cy->h, 1.0, -1.0);
+		cy_val = matrix(2, cy_link->ori, cy_link->n);
+		cy_dim = tuple(4, cy_link->rad, cy_link->h, 1.0, -1.0);
 		w->obj[++i] = cylinder(cy_val, m, cy_dim, 1);
 		free_m(cy_val, len_m(cy_val));
 		free_t(cy_dim);
-		data->cy = data->cy->next;
+		cy_link = cy_link->next;
 	}
 }
 

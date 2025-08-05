@@ -25,6 +25,6 @@ void	*ft_calloc(size_t count, size_t size)
 		return (0);
 	i = -1;
 	while (++i < size * count)
-		((char *)m)[i] = 0;
+		*(char *)(m + i) = 0;
 	return (m);
 }
