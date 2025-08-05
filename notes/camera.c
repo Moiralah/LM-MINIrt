@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:38:47 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/03 22:33:06 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/05 22:17:48 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_camera	*camera(t_tuple **tm, double fov, int hsize, int vsize)
 	t_camera	*cam;
 	t_tuple		**transform;
 
-	cam = malloc(sizeof(t_camera));
+	cam = ft_calloc(1, sizeof(t_camera));
 	if (!cam)
 		return (NULL);
 	transform = view_transform(tm[0], tm[1], tm[2]);

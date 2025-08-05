@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:50 by huidris           #+#    #+#             */
-/*   Updated: 2025/07/31 01:41:51 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/05 22:23:04 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_tuple	*cross(t_tuple *t1, t_tuple *t2)
 	new_v = tuple(0);
 	if (!new_v)
 		return (NULL);
-	new_v->val = malloc(t1->size * sizeof(double));
+	new_v->val = ft_calloc(1, t1->size * sizeof(double));
 	if (!new_v->val)
 		return (NULL);
 	new_v->size = t1->size;
@@ -43,7 +43,7 @@ t_tuple	*schur(t_tuple *tuple1, t_tuple *tuple2)
 	new_v = tuple(0);
 	if (!new_v)
 		return (NULL);
-	new_v->val = malloc(tuple1->size * sizeof(double));
+	new_v->val = ft_calloc(1, tuple1->size * sizeof(double));
 	if (!new_v->val)
 		return (NULL);
 	new_v->size = tuple1->size;
@@ -64,7 +64,7 @@ t_tuple	*norm(t_tuple *t)
 	new_v = tuple(0);
 	if (!new_v)
 		return (NULL);
-	new_v->val = malloc(t->size * sizeof(double));
+	new_v->val = ft_calloc(1, t->size * sizeof(double));
 	if (!new_v->val)
 		return (NULL);
 	new_v->size = t->size;

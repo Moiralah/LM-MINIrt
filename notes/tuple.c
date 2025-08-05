@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:42:02 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/01 23:53:15 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/05 23:01:30 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_tuple	*copy_t(t_tuple *old)
 	new = tuple(0);
 	if (!new)
 		return (NULL);
-	new->val = malloc(size * sizeof(double));
+	new->val = ft_calloc(1, size * sizeof(double));
 	if (!new->val)
 		return (free(new), NULL);
 	while (--size >= 0)

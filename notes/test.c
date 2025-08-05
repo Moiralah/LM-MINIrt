@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:55 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/05 17:02:18 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/05 23:01:03 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,7 @@ int	main(int ac, char **av)
 	if (ac != 2)
 		return (perr("Invalid input. < ./miniRT xxx.rt >"), -1);
 	world_data = input_data(av[1]);
-	if (!world_data->pl)
-		printf("NULL\n");
 	w = world(world_data);
-	if (!world_data->pl)
-		printf("NULL\n");
 	free_data(world_data);
 	data.mlx = mlx_init();
 	data.win = mlx_new_window(data.mlx, WIDTH, HEIGHT, "Render");
@@ -56,18 +52,17 @@ int	main(int ac, char **av)
 	return (0);
 }
 
-/* int	main(void)
-{
-	t_its	**l1;
-	t_its	**l2;
-	double	f;
+// int	main(void)
+// {
+// 	t_its	**l1;
+// 	t_its	**l2;
+// 	double	f;
 
-	l1 = its_s(3, its(NULL, 'S'), its(NULL, 'S'), its(NULL, 'S'));
-	l2 = its_s(3, its(NULL, 'S'), its(NULL, 'S'), its(NULL, 'S'));
-	l2 = merge_its_s(l1, l2);
-	l2 = merge(l2, 6);
-	free_its_s(l2);
-	f = ft_atof("7.11");
-	printf("%f\n", f);
-	free2d(ft_split("a b c d  f pl kw 203qh \n dj l", ' '));
-} */
+// 	l1 = its_s(3, its(NULL, 'S'), its(NULL, 'S'), its(NULL, 'S'));
+// 	l2 = its_s(3, its(NULL, 'S'), its(NULL, 'S'), its(NULL, 'S'));
+// 	l2 = merge_its_s(l1, l2);
+// 	l2 = merge(l2, 6);
+// 	free_its_s(l2);
+// 	f = ft_atof("7.11");
+// 	printf("%f\n", f);
+// }

@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:20 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/05 15:56:39 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/05 22:17:07 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	set_plane(char *line, t_data *data)
 	else
 	{
 		cur_pl = data->pl;
-		while (cur_pl->next)
+		while (cur_pl && (cur_pl->next != NULL))
 			cur_pl = cur_pl->next;
 		cur_pl->next = new_pl;
 	}
