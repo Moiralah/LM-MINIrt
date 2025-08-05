@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 00:53:03 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/05 23:14:20 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/05 23:45:43 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	free_sp_link(t_sp *sp_link)
 
 	while (sp_link)
 	{
-		temp = sp_link->next;
 		free_t(sp_link->ori);
-		free(sp_link);
-		sp_link = temp;
+		temp = sp_link;
+		sp_link = sp_link->next;
+		free(temp);
 	}
 }
 
@@ -34,6 +34,7 @@ void	free_pl_link(t_pl *pl_link)
 		temp = pl_link;
 		free_t(pl_link->ori);
 		free_t(pl_link->normalv);
+		temp = pl_link;
 		pl_link = pl_link->next;
 		free(temp);
 	}
