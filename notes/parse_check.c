@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:09 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/05 17:06:16 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/06 04:13:33 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,14 @@ int	check_char(char *line, char *s)
 
 void	check_name(char *av)
 {
-	int	i;
+	int		i;
+	char	*error_message;
 
+	error_message = "Error: Invalid file format. File need '.rt' format.";
 	i = ft_strlen(av);
 	if ((av[i - 3] == '.') && (av[i - 2] == 'r') && (av[i - 1] == 't'))
 		return ;
-	return (perr("Invalid file format. File need '.rt' format."), exit(1));
+	return (perr(error_message), exit(1));
 }
 
 void	check_range(float min, float max, float value)

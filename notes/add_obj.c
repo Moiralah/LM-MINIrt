@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   add_obj.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/06 01:09:41 by huidris           #+#    #+#             */
+/*   Updated: 2025/08/06 01:17:23 by huidris          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 #define SP	0.9
@@ -9,9 +21,9 @@ int	add_sphere(t_world *w, t_data *data, t_sp *sp_link, int i)
 	t_mat	*m;
 	t_tuple	*mat_val;
 
-	mat_val = tuple(4, data->a_ratio, SP, DF, SH);
 	while (sp_link)
 	{
+		mat_val = tuple(4, data->a_ratio, SP, DF, SH);
 		m = material(sp_link->color, mat_val);
 		free_t(mat_val);
 		w->obj[++i] = sphere(sp_link->ori, m, sp_link->rad);
@@ -25,7 +37,6 @@ int	add_plane(t_world *w, t_data *data, t_pl *pl_link, int i)
 	t_mat	*m;
 	t_tuple	*mat_val;
 
-	mat_val = tuple(4, data->a_ratio, SP, DF, SH);
 	while (pl_link)
 	{
 		mat_val = tuple(4, data->a_ratio, SP, DF, SH);
@@ -44,7 +55,6 @@ int	add_cylinder(t_world *w, t_data *data, t_cy *cy_link, int i)
 	t_tuple	**cy_val;
 	t_tuple	*cy_dim;
 
-	mat_val = tuple(4, data->a_ratio, SP, DF, SH);
 	while (cy_link)
 	{
 		mat_val = tuple(4, data->a_ratio, SP, DF, SH);

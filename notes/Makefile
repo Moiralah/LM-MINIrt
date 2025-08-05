@@ -6,11 +6,11 @@
 #    By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/28 15:46:22 by huidris           #+#    #+#              #
-#    Updated: 2025/08/05 22:59:26 by huidris          ###   ########.fr        #
+#    Updated: 2025/08/06 01:32:58 by huidris          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	= 3d
+NAME	= minirt
 FLAGS	= -Wall -Wextra -Werror #-g3 -fsanitize=address
 
 CC	= gcc

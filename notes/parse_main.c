@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:12 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/05 22:14:10 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/06 04:10:16 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	content(char *file, t_data *data)
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		return (perr("Invalid file."), exit(1));
+		return (perr("Error: Invalid file."), exit(1));
 	file = get_next_line(fd);
 	while (file)
 	{

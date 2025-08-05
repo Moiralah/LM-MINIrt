@@ -6,21 +6,20 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:13 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/05 23:30:35 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/06 04:01:43 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
-# define WIDTH	100
-# define HEIGHT	100
+# define WIDTH	1000
+# define HEIGHT	1000
 # define EPSILON	0.00001
 # include <stdio.h>
 # include <stdbool.h>
 # include <math.h>
 # include "../minilibx-linux/mlx.h"
 # include "../libft/libft.h"
-
 
 typedef struct s_tuple
 {
@@ -166,7 +165,6 @@ typedef struct s_mlx_data
 {
 	void	*mlx;
 	void	*win;
-	t_world *w;
 }	t_mlx_data;
 
 typedef struct s_comps
@@ -192,13 +190,7 @@ t_its		*its(t_obj *obj, double len_from_ori);
 
 t_its		*hit(t_its **its_s);
 
-t_its		**intersect(t_ray *ray, t_obj *obj);
-
 t_its		**its_world(t_world *world, t_ray *ray);
-
-t_its		**add_its(t_its **intersections, t_its *obj_its, int *total_its);
-
-t_its		**intsect_world(t_world *world, t_ray *ray);
 
 t_ray		*ray(t_tuple *origin, t_tuple *direction);
 
@@ -228,8 +220,6 @@ t_tuple		**rotate_axis(int m_size, int axis, double degree);
 
 t_tuple		**rotate(int m_size, int axis_amnt, ...);
 
-// t_tuple		**shear(t_tuple **ori_matrix, int axis, ...);
-
 t_tuple		**get_inv_tf(t_obj *obj);
 
 t_tuple		**view_transform(t_tuple *from, t_tuple *to, t_tuple *up);
@@ -256,13 +246,9 @@ t_tuple		*world_to_obj_point(t_tuple **t_matrix, t_tuple *world_point);
 
 t_tuple		*cylinder_n(t_obj *obj, t_tuple *point);
 
-// t_tuple		*sphere_n(t_tuple **t_m, t_tuple *world_p, t_tuple *ori);
-
 t_tuple		*sphere_n(t_obj *ob, t_tuple *p);
 
 t_tuple		*reflect(t_tuple *in, t_tuple *normal);
-
-// t_tuple		*get_obj_ori(t_obj *obj);
 
 t_tuple		*shade_hit(t_world *world, t_comps *comps);
 
@@ -290,8 +276,6 @@ t_mat		*get_obj_mat(t_obj *obj);
 
 t_world		*world(t_data *data);
 
-//t_world		*def_world(void);
-
 t_comps		*prepare_computations(t_its *intersection, t_ray *ray);
 
 t_camera	*camera(t_tuple **tm, double fov, int hsize, int vsize);
@@ -302,15 +286,11 @@ double		mag(t_tuple *tuple);
 
 double		dot(t_tuple *tuple1, t_tuple *tuple2);
 
-double		spclr(t_tuple *r, t_tuple *eye, t_mat *mat, t_light *light);
-
 int			shadowed(t_world *w, t_tuple *point);
 
 int			rgb_hex(double red, double green, double blue);
 
 int			len_m(t_tuple **m);
-
-// int			equal_m(t_tuple **m1, t_tuple **m2);
 
 void		render(t_img *canvas, t_camera *cam, t_world *world);
 
@@ -347,8 +327,6 @@ void		free_its_s(t_its **its_s);
 void		print_m(t_tuple **matrix);
 
 void		print_t(t_tuple *tuple);
-
-void		test_intersect_world(void);
 
 void		free_comps(t_comps *comps);
 
