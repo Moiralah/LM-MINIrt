@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:57 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/05 16:00:36 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/05 17:13:10 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void	set_obj(t_world *w, t_data *data)
 	while (data->cy)
 	{
 		m = material(data->cy->color, tuple(4, data->a_ratio, SP, DF, SH));
-		w->obj[++i] = cylinder(matrix(3, data->cy->ori, data->cy->n),
-				m, tuple(2, data->cy->rad, data->cy->h, 1.0, -1.0), 1);
+		w->obj[++i] = cylinder(matrix(2, data->cy->ori, data->cy->n),
+				m, tuple(4, data->cy->rad, data->cy->h, 1.0, -1.0), 1);
 		data->cy = data->cy->next;
 	}
 }

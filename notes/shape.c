@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 22:12:39 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/02 22:12:40 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/05 17:03:13 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_obj	*sphere(t_tuple *origin, t_mat *mat, double radius)
 	return (obj);
 }
 
-void	set_cy_transform(t_obj *obj, t_tuple **val_m, t_tuple *w_ori, t_tuple *dim)
+void	set_cy_tf(t_obj *obj, t_tuple **val_m, t_tuple *w_ori, t_tuple *dim)
 {
 	t_tuple		*move;
 	double		deg[3];
@@ -74,7 +74,7 @@ t_obj	*cylinder(t_tuple **val_m, t_mat *mat, t_tuple *dim, int closed)
 	new_cy->closed = closed;
 	new_cy->inv_tf = NULL;
 	obj = object(new_cy, 'C');
-	set_cy_transform(obj, val_m, w_ori, dim);
+	set_cy_tf(obj, val_m, w_ori, dim);
 	tf = new_cy->inv_tf;
 	new_cy->inv_tf = inverse(new_cy->inv_tf);
 	free_m(tf, len_m(tf));

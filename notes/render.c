@@ -6,12 +6,12 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:40 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/04 00:59:20 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/05 17:51:11 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
+/*
 t_ray	*create_ray(t_tuple **inv_m, double world_x, double world_y)
 {
 	t_tuple	*world[2];
@@ -40,7 +40,7 @@ t_ray	*create_ray(t_tuple **inv_m, double world_x, double world_y)
 	if (!dir[1])
 		return (free_t(dir[0]), free_t(world[1]), NULL);
 	return (ray(obj_p[1], dir[1]));
-}
+}*/
 
 #define XOFFSET 0
 #define YOFFSET 1

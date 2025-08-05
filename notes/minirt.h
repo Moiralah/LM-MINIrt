@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:13 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/05 16:29:27 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/05 17:55:10 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -412,6 +412,6 @@ t_its		**plane_its(t_obj *obj, t_ray *ray);
 
 void		set_obj(t_world *world, t_data *data);
 
-void		print_content(t_data *data);
+t_ray		*create_ray(t_tuple **inv_m, double world_x, double world_y);
 
 #endif

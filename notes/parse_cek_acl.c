@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:01 by huidris           #+#    #+#             */
-/*   Updated: 2025/07/31 01:41:02 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/05 16:45:18 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	check_ambient(t_data *data)
 	if (ft_arraylen(temp) != 5)
 	{
 		free2d(temp);
-		error_msg = "Error: Ambient light format. Only one 'A' line.";
+		error_msg = "Error: Format: 'A <R,G,B>'.";
 		return (perr(error_msg), exit(1));
 	}
 	check_range(0.0, 1.0, ft_atof(temp[1]));
