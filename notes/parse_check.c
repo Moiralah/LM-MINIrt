@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:09 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/02 21:06:10 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/05 16:33:46 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ void	check_range(float min, float max, float value)
 {
 	if ((value >= min) && (value <= max))
 		return ;
-	perr("Value out of range: %f", value);
-	perr("Expected range: [%f, %f].", min, max);
+	printf("Error: Value out of range: %f", value);
+	printf(" Expected range: [%f - %f].", min, max);
 	exit(1);
 }
 
@@ -71,11 +71,11 @@ void	check_format(char **data)
 			continue ;
 		else if (ft_strncmp(data[i], "L ", 2) == 0)
 			continue ;
-		else if (ft_strncmp(data[i], "sp ", 3) != 0)
+		else if (ft_strncmp(data[i], "sp ", 3) == 0)
 			continue ;
-		else if (ft_strncmp(data[i], "pl ", 3) != 0)
+		else if (ft_strncmp(data[i], "pl ", 3) == 0)
 			continue ;
-		else if (ft_strncmp(data[i], "cy ", 3) != 0)
+		else if (ft_strncmp(data[i], "cy ", 3) == 0)
 			continue ;
 		perr("Error: 'A', 'C', 'L', 'sp', 'pl', or 'cy' only.");
 		exit(1);

@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:12 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/03 22:54:18 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/05 16:29:57 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,40 @@ void	check_number(t_data *data)
 	int	i;
 	int	j;
 
+	print_content(data);
 	i = 0;
 	while (data->data[i])
 	{
-		j = 1;
+		if ((ft_strncmp(data->data[i], "A ", 2) == 0)
+			|| (ft_strncmp(data->data[i], "C ", 2) == 0)
+			|| (ft_strncmp(data->data[i], "L ", 2) == 0))
+			j = 3;
+		else if (((ft_strncmp(data->data[i], "sp ", 3) == 0)
+			|| (ft_strncmp(data->data[i], "pl ", 3) == 0)
+			|| (ft_strncmp(data->data[i], "cy ", 3) == 0)))
+			j = 4;
 		while (data->data[i][j])
 		{
-			if (j == 1 && (data->data[i][j] == 'p' || data->data[i][j] == 'l'
-				|| data->data[i][j] == 'y' || data->data[i][j] == ' '))
-				j++;
 			if (data->data[i][j] == '.' || data->data[i][j] == ' '
-				|| data->data[i][j] == '-')
+				|| data->data[i][j] == '-'
+				|| (data->data[i][j] >= '0' && data->data[i][j] <= '9'))
 				j++;
-			if (data->data[i][j] < '0' || data->data[i][j] > '9')
+			else
 				return (perr("Error: Invalid number format."), exit(1));
-			j++;
 		}
 		i++;
 	}
+}
+
+void	print_content(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	if (!data || !data->data)
+		return ;
+	while (data->data[++i])
+		printf("%s\n", data->data[i]);
 }
 
 void	content(char *file, t_data *data)

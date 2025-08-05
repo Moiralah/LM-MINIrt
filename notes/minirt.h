@@ -6,14 +6,14 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:13 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/04 00:52:13 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/05 16:29:27 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
-# define WIDTH	300
-# define HEIGHT	300
+# define WIDTH	500
+# define HEIGHT	500
 # define EPSILON	0.00001
 # include <stdio.h>
 # include <stdbool.h>
@@ -411,5 +411,7 @@ t_its		**sphere_its(t_obj *obj, t_sphere *sp, t_ray *r);
 t_its		**plane_its(t_obj *obj, t_ray *ray);
 
 void		set_obj(t_world *world, t_data *data);
+
+void		print_content(t_data *data);
 
 #endif
