@@ -87,7 +87,7 @@ t_tuple	*lighting(t_mat *material, t_light *light, t_tuple **m, int shadowed)
 	free_t(l_to_p);
 	t[AMBIENT] = mult(t[EFFECTIVE_COLOUR], material->ambient);
 	if (shadowed)
-		return (free_t(t[LIGHTV]), t[AMBIENT]);
+		return (free_t(t[EFFECTIVE_COLOUR]), free_t(t[LIGHTV]), t[AMBIENT]);
 	light_dot_normal = dot(t[LIGHTV], t[NORMALV]);
 	if (light_dot_normal < 0)
 	{
