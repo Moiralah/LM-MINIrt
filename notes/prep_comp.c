@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:24 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/02 18:04:35 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/05 22:18:08 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_comps	*prepare_computations(t_its *intersection, t_ray *ray)
 	t_comps	*comps;
 	t_tuple	*temp;
 
-	comps = malloc(sizeof(t_comps));
+	comps = ft_calloc(1, sizeof(t_comps));
 	if (!comps)
 	{
 		printf("Comp needs free!\n");

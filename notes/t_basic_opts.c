@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:47 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/03 22:48:29 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/05 22:19:33 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_tuple	*mult(t_tuple *t, double value)
 	new_v = tuple(0.0);
 	if (!new_v)
 		return (NULL);
-	new_v->val = malloc(t->size * sizeof(double));
+	new_v->val = ft_calloc(1, t->size * sizeof(double));
 	if (!new_v->val)
 		return (NULL);
 	new_v->size = t->size;
@@ -47,7 +47,7 @@ t_tuple	*sub(t_tuple *tuple1, t_tuple *tuple2)
 	new_v = tuple(0.0);
 	if (!new_v)
 		return (NULL);
-	new_v->val = malloc(tuple1->size * sizeof(double));
+	new_v->val = ft_calloc(1, tuple1->size * sizeof(double));
 	if (!new_v->val)
 		return (NULL);
 	new_v->size = tuple1->size;
@@ -68,7 +68,7 @@ t_tuple	*add(t_tuple *tuple1, t_tuple *tuple2)
 	new_v = tuple(0.0);
 	if (!new_v)
 		return (NULL);
-	new_v->val = malloc(tuple1->size * sizeof(double));
+	new_v->val = ft_calloc(1, tuple1->size * sizeof(double));
 	if (!new_v->val)
 		return (NULL);
 	new_v->size = tuple1->size;

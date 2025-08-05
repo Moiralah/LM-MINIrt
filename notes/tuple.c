@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:42:02 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/01 23:53:15 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/05 22:32:06 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ float	ft_atof(const char *str)
 	i = 0;
 	fraction = 1.0f;
 	if (numint[1] == NULL)
+	{
+		free2d(numint);
 		return (num);
+	}
 	while (numint[1][i] >= '0' && numint[1][i] <= '9')
 	{
 		fraction /= 10.0f;
@@ -70,7 +73,7 @@ t_tuple	*copy_t(t_tuple *old)
 	new = tuple(0);
 	if (!new)
 		return (NULL);
-	new->val = malloc(size * sizeof(double));
+	new->val = ft_calloc(1, size * sizeof(double));
 	if (!new->val)
 		return (free(new), NULL);
 	while (--size >= 0)

@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:38:29 by huidris           #+#    #+#             */
-/*   Updated: 2025/07/31 01:39:00 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/05 22:18:45 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_light	*light(t_tuple *position, t_tuple *intensity)
 {
 	t_light	*light;
 
-	light = malloc(sizeof(t_light));
+	light = ft_calloc(1, sizeof(t_light));
 	if (!light)
 		return (NULL);
 	light->position = position;

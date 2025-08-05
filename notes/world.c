@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:57 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/05 17:13:10 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/05 22:22:51 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ t_world	*world(t_data *data)
 	t_tuple	*up;
 	t_tuple	**orient;
 
-	w = malloc(sizeof(t_world));
+	w = ft_calloc(1, sizeof(t_world));
 	if (!w)
 		return (NULL);
 	w->a_ratio = data->a_ratio;
 	w->a_color = copy_t(data->a_color);
 	w->light = light(data->l_pos, mult(data->l_color, data->l_ratio));
-	w->obj = malloc((data->obj_amt + 1) * sizeof(t_obj *));
+	w->obj = ft_calloc(1, (data->obj_amt + 1) * sizeof(t_obj *));
 	w->obj[data->obj_amt] = NULL;
 	set_obj(w, data);
 	up = tuple(4, 0.0, 1.0, 0.0, 0.0);

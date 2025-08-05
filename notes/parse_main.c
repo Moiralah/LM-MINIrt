@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:12 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/05 17:01:43 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/05 22:14:10 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ t_data	*input_data(char *av)
 	int		i;
 	t_data	*data;
 
-	data = malloc(sizeof(t_data));
+	data = ft_calloc(1, sizeof(t_data));
 	if (!data)
 		return (NULL);
 	validate_data(av, data);

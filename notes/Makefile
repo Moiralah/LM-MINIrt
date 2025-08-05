@@ -6,12 +6,12 @@
 #    By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/28 15:46:22 by huidris           #+#    #+#              #
-#    Updated: 2025/07/31 01:40:33 by huidris          ###   ########.fr        #
+#    Updated: 2025/08/05 21:54:28 by huidris          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= 3d
-FLAGS	= -Wall -Wextra -Werror -g #-fsanitize=address -g3
+FLAGS	= -Wall -Wextra -Werror -g -fsanitize=address -g3
 
 CC	= gcc
 
