@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:55 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/04 00:42:12 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/05 15:58:29 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,4 @@ int	main(int ac, char **av)
 	free(w->c->inverse_transform);
 	free(w->c);
 	return (0);
-}
+ }

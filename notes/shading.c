@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:44 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/04 01:00:50 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/05 15:57:38 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_tuple	*shade_hit(t_world *world, t_comps *comps)
 	t_tuple	*colour;
 	int		i;
 
-	temp = matrix(4, comps->over_point, comps->eyev, comps->normalv);
+	temp = matrix(3, comps->over_point, comps->eyev, comps->normalv);
 	if (!temp)
 		return (NULL);
 	i = shadowed(world, comps->over_point);
@@ -93,10 +93,10 @@ t_tuple	*color_at(t_world *world, t_ray *ray)
 		free_its_s(intersections);
 		return (mult(world->a_color, world->a_ratio));
 	}
-	free_its_s(intersections);
 	comps = prepare_computations(hit_its, ray);
+	free_its_s(intersections);
 	if (!comps)
-		return (mult(world->a_color, world->a_ratio));
+		return (NULL);
 	color = shade_hit(world, comps);
 	free_comps(comps);
 	return (color);

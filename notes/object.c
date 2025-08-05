@@ -67,7 +67,7 @@ void	free_obj(t_obj *obj)
 		free_cylinder((t_cylinder *)(obj->data));
 }
 
-void	apply_transform(t_obj *obj, t_tuple **transform)
+void	apply_tf(t_obj *obj, t_tuple **transform)
 {
 	t_tuple	**final_tf;
 	t_tuple	**inv_tf;

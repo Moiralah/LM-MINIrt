@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:57 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/04 00:53:29 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/05 16:00:36 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	set_obj(t_world *w, t_data *data)
 	while (data->pl)
 	{
 		m = material(data->pl->color, tuple(4, data->a_ratio, SP, DF, SH));
-		w->obj[++i] = plane(data->pl->ori, m);
+		w->obj[++i] = plane(data->pl->ori, data->pl->normalv, m);
 		data->pl = data->pl->next;
 	}
 	while (data->cy)

@@ -29,17 +29,17 @@ t_ray	*create_ray(t_tuple **inv_m, double world_x, double world_y)
 	if (!world[1])
 		return (free_t(obj_p[0]), NULL);
 	obj_p[1] = world_to_obj_point(inv_m, world[1]);
+	free_t(world[1]);
 	if (!obj_p[1])
 		return (free_t(obj_p[0]), free_t(world[1]), NULL);
 	dir[0] = sub(obj_p[0], obj_p[1]);
 	free_t(obj_p[0]);
-	free_t(obj_p[1]);
 	if (!dir[0])
 		return (NULL);
 	dir[1] = norm(dir[0]);
 	if (!dir[1])
 		return (free_t(dir[0]), free_t(world[1]), NULL);
-	return (ray(world[1], dir[1]));
+	return (ray(obj_p[1], dir[1]));
 }
 
 #define XOFFSET 0
@@ -88,6 +88,7 @@ void	render(t_img *canvas, t_camera *cam, t_world *world)
 	int		y;
 	int		x;
 
+	printf("Start rendering\n");
 	y = -1;
 	while (++y < (cam->vsize))
 	{
@@ -96,6 +97,7 @@ void	render(t_img *canvas, t_camera *cam, t_world *world)
 		{
 			ray = ray_for_pixel(cam, x, y);
 			color = color_at(world, ray);
+			clamp(color, 0.0, 1.0);
 			render_p(canvas, x, y, rgb_hex(color->val[0],
 					color->val[1], color->val[2]));
 			free_t(color);

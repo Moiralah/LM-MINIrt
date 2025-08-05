@@ -32,7 +32,7 @@ void	set_camera(char *line, t_data *data)
 			ft_atof(temp[2]), ft_atof(temp[3]), 1.0);
 	data->c_dir = tuple(4, ft_atof(temp[4]),
 			ft_atof(temp[5]), ft_atof(temp[6]), 0.0);
-	data->c_fov = ft_atof(temp[7]);
+	data->c_fov = ft_atof(temp[7]) / 180.0 * M_PI;
 	free2d(temp);
 }
 

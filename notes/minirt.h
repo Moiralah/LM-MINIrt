@@ -154,8 +154,8 @@ typedef struct s_ray
 
 typedef struct s_light
 {
-	t_tuple	*intensity;
 	t_tuple	*position;
+	t_tuple	*intensity;
 }	t_light;
 
 typedef struct s_world
@@ -314,6 +314,8 @@ void		render(t_img *canvas, t_camera *cam, t_world *world);
 
 void		mult_m(t_tuple **m, double val);
 
+void		clamp(t_tuple *tuple, double min, double max);
+
 void		render_p(t_img *img, int x, int y, int color);
 
 void		free_cylinder(t_cylinder *sp);
@@ -396,11 +398,11 @@ void		obj_amount(t_data *data);
 
 t_data		*input_data(char *av);
 
-void		apply_transform(t_obj *obj, t_tuple **transform);
+void		apply_tf(t_obj *obj, t_tuple **transform);
 
 t_tuple		*normal_at(t_obj *obj, t_tuple *world_p);
 
-t_obj		*plane(t_tuple *origin, t_mat *mat);
+t_obj		*plane(t_tuple *origin, t_tuple *normal, t_mat *mat);
 
 t_its		**cylinder_its(t_obj *obj, t_cylinder *cy, t_ray *r);
 

@@ -49,7 +49,7 @@ t_tuple	**get_obj_n(t_obj *obj, t_tuple *world_p)
 	t_tuple	*obj_p;
 	t_tuple	*obj_n;
 
-	obj_p = world_to_obj_point(inverse(get_inv_tf(obj)), world_p);
+	obj_p = world_to_obj_point(get_inv_tf(obj), world_p);
 	if (!obj_p)
 		return (NULL);
 	if (obj->type == 'S')
@@ -61,8 +61,7 @@ t_tuple	**get_obj_n(t_obj *obj, t_tuple *world_p)
 	free_t(obj_p);
 	if (!obj_n)
 		return (NULL);
-	obj_m = matrix(2, obj_n);
-	free_t(obj_n);
+	obj_m = matrix(1, obj_n);
 	if (!obj_m)
 		return (NULL);
 	obj_trans = transpose(obj_m);
@@ -94,8 +93,8 @@ t_tuple	*normal_at(t_obj *obj, t_tuple *world_p)
 	if (!world_trans)
 		return (NULL);
 	world_n[0] = world_trans[0];
-	free_m(world_trans, len_m(world_trans));
 	world_n[0]->val[3] = 0;
 	world_n[1] = norm(world_n[0]);
-	return (free_t(world_n[1]), world_n[1]);
+	free_m(world_trans, len_m(world_trans));
+	return (world_n[1]);
 }

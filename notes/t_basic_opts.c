@@ -76,3 +76,17 @@ t_tuple	*add(t_tuple *tuple1, t_tuple *tuple2)
 		new_v->val[i] = tuple1->val[i] + tuple2->val[i];
 	return (new_v);
 }
+
+void	clamp(t_tuple *tuple, double min, double max)
+{
+	int	i;
+
+	i = -1;
+	while (++i < tuple->size)
+	{
+		if (tuple->val[i] > max)
+			tuple->val[i] = max;
+		else if (tuple->val[i] < min)
+			tuple->val[i] = min;
+	}
+}
