@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:57 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/05 22:22:51 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/07 05:45:29 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_world	*world(t_data *data)
 
 	w = ft_calloc(1, sizeof(t_world));
 	if (!w)
-		return (NULL);
+		return (free_data(data), NULL);
 	w->a_ratio = data->a_ratio;
 	w->a_color = copy_t(data->a_color);
 	w->light = light(data->l_pos, mult(data->l_color, data->l_ratio));
@@ -31,6 +31,7 @@ t_world	*world(t_data *data)
 	orient = matrix(3, data->c_ori, add(data->c_ori, data->c_dir), up);
 	w->c = camera(orient, data->c_fov, WIDTH, HEIGHT);
 	free_m(orient, len_m(orient));
+	free_data(data);
 	return (w);
 }
 
@@ -88,9 +89,12 @@ void	free_world(t_world *world)
 	while (world->obj[++i])
 		free_obj(world->obj[i]);
 	free(world->obj);
-	free_m(world->c->inverse_transform, len_m(world->c->inverse_transform));
-	free(world->c);
 	free_light(world->light);
 	free_t(world->a_color);
+	if (world->c)
+	{
+		free_m(world->c->inverse_transform, len_m(world->c->inverse_transform));
+		free(world->c);
+	}
 	free(world);
 }

@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:42:02 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/07 04:10:58 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/07 04:46:55 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,12 @@ float	ft_atof(const char *str)
 	char	**numint;
 	float	num;
 	float	fraction;
-	int		i;
 	int		sign;
 	int		len;
-	int		frac;
 
-	i = 0;
 	sign = 1;
 	if (str[0] == '-')
-	{
 		sign = -1;
-		i++;
-	}
 	numint = ft_split(str, '.');
 	if (!numint || !numint[0])
 		return (0.0f);
@@ -38,11 +32,9 @@ float	ft_atof(const char *str)
 	if (numint[1])
 	{
 		len = 0;
-		frac = ft_atoi(numint[1]);
 		while (numint[1][len] >= '0' && numint[1][len] <= '9')
 			len++;
-		fraction = frac / powf(10, len);
-
+		fraction = ft_atoi(numint[1]) / powf(10, len);
 	}
 	free2d(numint);
 	return (sign * (num + fraction));

@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:01 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/05 16:45:18 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/07 04:40:50 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	check_ambient(t_data *data)
 	char	*error_msg;
 	int		i;
 
-	error_msg = "Error: Ambient light format. Only one 'A' line.";
+	error_msg = "Error: There should be exactly one 'A' line.";
 	if (check_freq(data->data, "A ", &i) != 1)
 		return (perr(error_msg), exit(1));
 	temp = ft_split(data->data[i], ' ');
@@ -68,7 +68,7 @@ void	check_light(t_data *data)
 	char	*error_msg;
 	int		i;
 
-	error_msg = "Error: There should be exactly one 'C' line.";
+	error_msg = "Error: There should be exactly one 'L' line.";
 	if (check_freq(data->data, "L ", &i) != 1)
 		return (perr(error_msg), exit(1));
 	temp = ft_split(data->data[i], ' ');

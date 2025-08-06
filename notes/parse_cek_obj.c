@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:05 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/06 04:08:31 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/07 04:38:15 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	check_sphere(t_data *data)
 			free2d(temp);
 			return (perr(error_msg), exit(1));
 		}
+		check_range(0.1, 1000, ft_atof(temp[4]));
 		check_range(0, 255, ft_atof(temp[5]));
 		check_range(0, 255, ft_atof(temp[6]));
 		check_range(0, 255, ft_atof(temp[7]));
@@ -86,6 +87,8 @@ void	check_cylinder(t_data *data)
 		check_range(-1, 1, ft_atof(temp[4]));
 		check_range(-1, 1, ft_atof(temp[5]));
 		check_range(-1, 1, ft_atof(temp[6]));
+		check_range(0.1, 1000, ft_atof(temp[7]));
+		check_range(0.1, 1000, ft_atof(temp[8]));
 		check_range(0, 255, ft_atof(temp[9]));
 		check_range(0, 255, ft_atof(temp[10]));
 		check_range(0, 255, ft_atof(temp[11]));

@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:12 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/06 04:10:16 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/07 04:54:46 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ void	content(char *file, t_data *data)
 		file = ft_strjoin(temp, content);
 	}
 	close(fd);
+	if (file == NULL || *file == '\0')
+		return (perr("Error: Invalid file."), exit(1));
 	remove_commas(file);
 	temp = ft_strnormalize_spaces(file);
 	free(file);

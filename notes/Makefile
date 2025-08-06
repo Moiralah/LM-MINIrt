@@ -6,12 +6,12 @@
 #    By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/28 15:46:22 by huidris           #+#    #+#              #
-#    Updated: 2025/08/07 02:00:18 by huidris          ###   ########.fr        #
+#    Updated: 2025/08/07 06:00:08 by huidris          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= minirt
-FLAGS	= -Wall -Wextra -Werror #-g3 -fsanitize=address
+FLAGS	= -Wall -Wextra -Werror -g3 #-fsanitize=address
 
 RTFILE = NULL
 CC	= gcc
