@@ -6,14 +6,14 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:13 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/06 04:01:43 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/07 02:02:10 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
-# define WIDTH	1000
-# define HEIGHT	1000
+# define WIDTH	500
+# define HEIGHT	500
 # define EPSILON	0.00001
 # include <stdio.h>
 # include <stdbool.h>

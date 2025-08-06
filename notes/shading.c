@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:44 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/05 15:57:38 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/07 00:36:04 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_tuple	*shade_hit(t_world *world, t_comps *comps)
 #define EYEV				2
 #define NORMALV				3
 #define REFLECTV			4
-#define EFFECTIVE_COLOUR		5
+#define EFFECTIVE_COLOUR	5
 #define AMBIENT				6
 #define DIFFUSE				7
 #define SPECULAR 			8

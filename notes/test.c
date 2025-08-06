@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:55 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/06 04:11:13 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/07 02:34:34 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,3 +53,10 @@ int	main(int ac, char **av)
 	free_world(w);
 	return (0);
 }
+
+
+// int	main()
+// {
+// 	ft_atof("-0.1");
+// 	return 0;
+// }

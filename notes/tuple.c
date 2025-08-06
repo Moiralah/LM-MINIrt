@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:42:02 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/05 23:01:30 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/07 04:10:58 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,33 @@ float	ft_atof(const char *str)
 	float	num;
 	float	fraction;
 	int		i;
+	int		sign;
+	int		len;
+	int		frac;
 
-	numint = ft_split(str, '.');
-	num = 0.0f + ft_atoi(numint[0]);
 	i = 0;
-	fraction = 1.0f;
-	if (numint[1] == NULL)
-		return (free2d(numint), num);
-	while (numint[1][i] >= '0' && numint[1][i] <= '9')
+	sign = 1;
+	if (str[0] == '-')
 	{
-		fraction /= 10.0f;
-		num += (numint[1][i++] - '0') * fraction;
+		sign = -1;
+		i++;
+	}
+	numint = ft_split(str, '.');
+	if (!numint || !numint[0])
+		return (0.0f);
+	num = fabs((float)ft_atoi(numint[0]));
+	fraction = 0.0f;
+	if (numint[1])
+	{
+		len = 0;
+		frac = ft_atoi(numint[1]);
+		while (numint[1][len] >= '0' && numint[1][len] <= '9')
+			len++;
+		fraction = frac / powf(10, len);
+
 	}
 	free2d(numint);
-	return (num);
+	return (sign * (num + fraction));
 }
 
 // Creates a tuple with a specified size and values.

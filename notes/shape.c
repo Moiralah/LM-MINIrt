@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 22:12:39 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/05 17:03:13 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/07 03:36:02 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,12 @@ void	set_cy_tf(t_obj *obj, t_tuple **val_m, t_tuple *w_ori, t_tuple *dim)
 	t_tuple		*move;
 	double		deg[3];
 
-	deg[0] = val_m[1]->val[0] * 90;
-	deg[1] = val_m[1]->val[1] * 90;
-	deg[2] = val_m[1]->val[2] * 90;
+	deg[0] = val_m[1]->val[0] * M_PI;
+	deg[1] = val_m[1]->val[1] * M_PI;
+	deg[2] = val_m[1]->val[2] * M_PI;
 	move = sub(val_m[0], w_ori);
 	apply_tf(obj, scale(4, dim->val[0], dim->val[1], dim->val[0]));
+	// apply_tf(obj, rotate(4, 3, deg[0], deg[1], deg[2]));
 	apply_tf(obj, rotate(4, 3, deg[0], deg[1], deg[2]));
 	apply_tf(obj, translate(4, move->val[0], move->val[1], move->val[2]));
 	free_t(move);
@@ -98,7 +99,7 @@ t_obj	*plane(t_tuple *origin, t_tuple *n, t_mat *mat)
 	p->mat = mat;
 	p->inv_tf = NULL;
 	obj = object(p, 'P');
-	apply_tf(obj, rotate(4, 3, n->val[0] * 90, n->val[1] * 90, n->val[2] * 90));
+	apply_tf(obj, rotate(4, 3, n->val[0] * M_PI, n->val[1] * M_PI, n->val[2] * M_PI));
 	apply_tf(obj, translate(4, move->val[0], move->val[1], move->val[2]));
 	free_t(move);
 	tf = p->inv_tf;

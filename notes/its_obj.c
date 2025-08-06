@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:40:04 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/03 22:39:21 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/07 00:50:23 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,11 @@ void	free_its_s(t_its **its_s)
 {
 	int	i;
 
-	i = -1;
-	while (its_s[++i])
+	i = 0;
+	while (its_s && its_s[i])
+	{
 		free(its_s[i]);
+		i++;
+	}
 	free(its_s);
 }
