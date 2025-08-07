@@ -6,17 +6,19 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:39:13 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/07 02:02:10 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/07 23:09:52 by huidris          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
-# define WIDTH	500
-# define HEIGHT	500
+# define WIDTH	50
+# define HEIGHT	50
 # define EPSILON	0.00001
 # include <stdio.h>
 # include <stdbool.h>
+# include <X11/X.h>
+# include <X11/keysym.h>
 # include <math.h>
 # include "../minilibx-linux/mlx.h"
 # include "../libft/libft.h"
@@ -165,6 +167,9 @@ typedef struct s_mlx_data
 {
 	void	*mlx;
 	void	*win;
+	t_world	*w;
+	t_img	img;
+	char	*fname;
 }	t_mlx_data;
 
 typedef struct s_comps

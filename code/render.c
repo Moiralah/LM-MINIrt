@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:41:40 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/07 05:32:11 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/07 21:17:24 by jianliew         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,13 +88,15 @@ void	render(t_img *canvas, t_camera *cam, t_world *world)
 	int		y;
 	int		x;
 
-	printf("Start rendering\n");
+	printf("=========Start Rendering=========\n");
 	y = -1;
 	while (++y < (cam->vsize))
 	{
 		x = -1;
 		while (++x < (cam->hsize))
 		{
+			printf("\rWriting to X:%d | Y:%d", x, y);
+			fflush(stdout);
 			ray = ray_for_pixel(cam, x, y);
 			color = color_at(world, ray);
 			clamp(color, 0.0, 1.0);
@@ -104,5 +106,5 @@ void	render(t_img *canvas, t_camera *cam, t_world *world)
 			free_ray(ray);
 		}
 	}
-	printf("Rendered\n");
+	printf("\n=========Rendered=========\n");
 }

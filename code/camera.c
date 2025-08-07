@@ -6,7 +6,7 @@
 /*   By: huidris <huidris@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 01:38:47 by huidris           #+#    #+#             */
-/*   Updated: 2025/08/07 05:27:38 by huidris          ###   ########.fr       */
+/*   Updated: 2025/08/07 18:17:03 by jianliew         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,11 @@ t_tuple	**get_orientation(t_tuple *from, t_tuple *to, t_tuple *up)
 	forward_up = get_forward_up(from, to, up);
 	if (!forward_up)
 		return (NULL);
+	if ((1 - dot(forward_up[0], forward_up[1])) <= EPSILON)
+	{
+		free_t(forward_up[1]);
+		forward_up[1] = tuple(4, 1.0, 0.0, 0.0, 0.0);
+	}
 	left = cross(forward_up[0], forward_up[1]);
 	if (!left)
 		return (free_m(forward_up, len_m(forward_up)), NULL);
